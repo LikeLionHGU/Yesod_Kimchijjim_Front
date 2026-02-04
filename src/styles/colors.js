@@ -13,5 +13,6 @@ export const Colors = {
     footerColor: "#3E3E4A",
     fixGray: "#7E7E7E", //화목한 302호, 2명 등
     fixWhite: "#F9F9F9", // fixGray배경색
-
+    font: "Noto Sans KR", //글씨체 
+    errorColor: "#FF1E1E",
 };
