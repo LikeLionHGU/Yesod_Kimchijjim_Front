@@ -1,4 +1,6 @@
+
 import styled from "styled-components";
+import { Colors } from "../../styles/colors";
 
 function Button({ children, onClick, disabled }) {
   return (
@@ -19,11 +21,11 @@ const StyledButton = styled.button`
   cursor: pointer;
 
   background-color: ${({ disabled }) =>
-    disabled ? "#c7c3f3" : "#6c63ff"};
-  color: #ffffff;
+    disabled ? Colors.borderLine : Colors.mainPurple};
+  color: ${Colors.white};
 
   &:hover {
     background-color: ${({ disabled }) =>
-      disabled ? "#c7c3f3" : "#5a52e0"};
+      disabled ? Colors.borderLine : Colors.secondPurple};
   }
 `;

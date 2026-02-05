@@ -68,6 +68,7 @@ const SubTitle = styled.p`
     font-style: normal;
     font-weight: 400;
     margin-bottom: 0;
+    margin-top: 0;
 `;
 
 const RowWrapper = styled.div`
