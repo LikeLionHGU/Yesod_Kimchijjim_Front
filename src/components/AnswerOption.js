@@ -1,9 +1,11 @@
+
 import styled from "styled-components";
+import { Colors } from "../styles/colors";
 
 function AnswerOption({ text, selected, onClick }) {
   return (
-    <Option selected={selected} onClick={onClick}>
-      <Circle selected={selected} />
+    <Option $selected={selected} onClick={onClick}>
+      <Circle $selected={selected} />
       {text}
     </Option>
   );
@@ -19,10 +21,12 @@ const Option = styled.div`
   border-radius: 12px;
   cursor: pointer;
 
-  background: ${({ selected }) =>
-    selected ? "#f0efff" : "#f7f7f7"};
-  border: ${({ selected }) =>
-    selected ? "2px solid #6c63ff" : "2px solid transparent"};
+  background: ${({ $selected }) =>
+    $selected ? Colors.fixWhite : Colors.detailWhite};
+  border: ${({ $selected }) =>
+    $selected
+      ? `2px solid ${Colors.mainPurple}`
+      : "2px solid transparent"};
 `;
 
 const Circle = styled.div`
@@ -30,7 +34,8 @@ const Circle = styled.div`
   height: 18px;
   border-radius: 50%;
   border: 2px solid
-    ${({ selected }) => (selected ? "#6c63ff" : "#999")};
-  background: ${({ selected }) =>
-    selected ? "#6c63ff" : "transparent"};
+    ${({ $selected }) =>
+      $selected ? Colors.mainPurple : Colors.borderLine};
+  background: ${({ $selected }) =>
+    $selected ? Colors.mainPurple : "transparent"};
 `;
