@@ -1,5 +1,6 @@
 
 import styled from "styled-components";
+import { Colors } from "../styles/colors";
 import AnswerOption from "./AnswerOption";
 
 function QuestionCard({
@@ -12,12 +13,13 @@ function QuestionCard({
 }) {
   return (
     <Card>
-      <Category>{category}</Category>
+      <TopRow>
+        <CategoryPill>{category}</CategoryPill>
+      </TopRow>
+
       <Question>{question}</Question>
 
-      {isMultiSelect && (
-        <Notice>※ 복수 선택 가능해요</Notice>
-      )}
+      {isMultiSelect && <Notice>※ 복수 선택 가능해요</Notice>}
 
       <OptionList>
         {options.map((option) => (
@@ -35,29 +37,52 @@ function QuestionCard({
 
 export default QuestionCard;
 
-/* styled-components*/
+/* styled */
 
 const Card = styled.div`
   width: 720px;
-  background: #ffffff;
+  background: ${Colors.white};
   border-radius: 16px;
   padding: 48px;
   margin-top: 32px;
+  box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
 `;
 
-const Category = styled.div`
-  font-size: 14px;
-  margin-bottom: 12px;
+const TopRow = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const CategoryPill = styled.div`
+  color: ${Colors.white};
+  text-align: center;
+  font-family: ${Colors.font};
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 14px;
+
+  display: flex;
+  width: 80px;
+  height: 30px;
+  padding: 8px 14px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 15px;
+  background: ${Colors.secondPurple};
 `;
 
 const Question = styled.h2`
   font-size: 22px;
-  margin-bottom: 24px;
+  margin-bottom: 70px;
+  display: flex;
+  justify-content: center;
+  color: ${Colors.black};
 `;
 
 const Notice = styled.div`
   font-size: 13px;
-  color: #666;
+  color: ${Colors.fixGray};
   margin-bottom: 12px;
 `;
 

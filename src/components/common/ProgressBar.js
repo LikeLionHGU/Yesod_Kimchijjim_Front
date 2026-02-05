@@ -1,10 +1,13 @@
+
 import styled from "styled-components";
+import { Colors } from "../../styles/colors";
+
 
 const ProgressBar = ({ total, current }) => {
   return (
     <ProgressContainer>
       {Array.from({ length: total }).map((_, idx) => (
-        <Bar key={idx} active={idx < current} />
+        <Bar key={idx} $active={idx < current} />
       ))}
     </ProgressContainer>
   );
@@ -22,7 +25,7 @@ const Bar = styled.div`
   width: 60px;
   height: 4px;
   border-radius: 2px;
-  background-color: ${({ active }) =>
-    active ? "#6c63ff" : "#e0e0e0"};
+  background-color: ${({ $active }) =>
+    $active ? Colors.mainPurple : Colors.detailWhite};
   transition: background-color 0.3s;
 `;
