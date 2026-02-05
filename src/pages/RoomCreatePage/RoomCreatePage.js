@@ -20,7 +20,10 @@ const PageContainer = styled.div`
 const BackButton = styled.button`
     position: absolute;
     top: 90px;
-    left: 157px; 
+    left: calc(50% - 468px - 56px - 39px); 
+    @media (max-width:1200px){
+        left: 20px;
+    }
     border-radius: 11px;
     background: ${Colors.white};
     box-shadow: 0 0 10px 0 ${Colors.boxShadowBlack};
@@ -32,6 +35,7 @@ const BackButton = styled.button`
     align-items: center;
     border: none;
     cursor: pointer;
+    z-index: 100;
 
     &:hover{
         opacity: 0.5;
