@@ -157,3 +157,4 @@ const GuideText = styled.div`
   font-size: 13px;
   color: ${Colors.mainPurple};
 `;
+
