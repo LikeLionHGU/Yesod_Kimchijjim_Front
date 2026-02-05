@@ -67,6 +67,7 @@ const SubTitle = styled.p`
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
+    margin-bottom: 0;
 `;
 
 const RowWrapper = styled.div`
@@ -85,7 +86,7 @@ const Card = styled.div`
     width: 936px;
     box-sizing: border-box;
     padding: 49px 95px 72px 95px;
-    
+
     display: flex; 
     flex-direction: column;
     gap: 0;
