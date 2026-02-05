@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import  { useNavigate } from "react-router-dom";
-
+import BackIcon from "../../assets/backicon.svg";
 
 const BackButtonStyle = styled.button`
     position: absolute;
@@ -39,9 +39,7 @@ const GoBackPage = () => {
 
     return(
         <BackButtonStyle onClick={handleGoBack}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none">
-                <path d="M9.41406 1.41406L2.82812 8L9.41406 14.5859L8 16L0 8L8 0L9.41406 1.41406Z" fill="#A2A2A2" />
-            </svg>
+            <img src={BackIcon} width="10" height="16"/>
         </BackButtonStyle>
     )
 };
