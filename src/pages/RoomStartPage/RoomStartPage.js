@@ -30,8 +30,15 @@ const RoomStartPage = () => {
 
     }
 
-    const isButtonActive = roomCode.length === 6;
+    const handleRoomCodeChange = (e) => {
+        const text = e.target.value;
 
+        if (text.length <= 6){
+            setRoomCode(text);
+        }
+    };
+
+    const isButtonActive = roomCode.length === 6;
 
     return(
         <PageContainer>
@@ -54,7 +61,8 @@ const RoomStartPage = () => {
                         <CodeInput
                             placeholder = "코드를 입력해주세요"
                             value={roomCode}
-                            onChange={(e) => setRoomCode(e.target.value)}
+                            onChange={handleRoomCodeChange}
+                            maxLength={6}
                         />
                         <ArrowButton onClick={handleRoomJoin} disabled={!isButtonActive}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="17" height="15" viewBox="0 0 17 15" fill="none">
@@ -104,7 +112,8 @@ const CardBase = styled.div`
     display: flex;
     width: 461px;
     height: 329px;
-    padding: 133px 139px;
+    box-sizing: border-box;
+    padding: 0;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -206,10 +215,15 @@ const ArrowButton = styled.button`
     align-items: center;    
     border-radius: 11px;
     border: none;
+    background: ${Colors.mainPurple};
+    opacity: 1;
+    transition: background 0.3s ease;
+    cursor: pointer;
     
     &:disabled {
-        background: rgba(101, 63, 210, 0.50);
-        cursor: not-allowed;
+        background: ${Colors.mainPurple};
+        opacity: 0.5;
+        cursor: default;
     }
 `;
 

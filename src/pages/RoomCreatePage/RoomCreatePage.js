@@ -244,9 +244,9 @@ const CreateButton = styled.button`
     font-weight: 700;
     line-height: 30px;
 
-    cursor: ${props => (props.$isActive ? 'pointer' : 'not-allowed')};
+    cursor: ${props => (props.$isActive ? 'pointer' : 'default')};
 
-    &:hover{
+    &:hover:not(:disabled){
         opacity: 0.7;
     }
 `;
