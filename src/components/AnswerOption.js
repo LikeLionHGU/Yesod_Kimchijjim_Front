@@ -89,27 +89,63 @@ const Option = styled.div`
     `}
 `;
 
+// const Circle = styled.div`
+//   width: 18px;
+//   height: 18px;
+//   border-radius: 50%;
+
+//   /*디폴트*/
+//   border: 2px solid ${Colors.borderLine};
+//   background: transparent;
+
+//   /*selected 상태*/
+//   ${({ $selected }) =>
+//     $selected &&
+//     `
+//       border: 2px solid ${Colors.mainPurple};
+//       background: ${Colors.mainPurple};
+//     `}
+// `;
+
 const Circle = styled.div`
-  width: 18px;
-  height: 18px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
+  box-sizing: border-box;
+  position: relative;
+  flex-shrink: 0;
 
-  /*디폴트*/
-  border: 2px solid ${Colors.borderLine};
-  background: transparent;
+  border: 1px solid ${Colors.borderLine};
+  background: ${Colors.fixWhite};
 
-  /*selected 상태*/
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: ${Colors.mainPurple};
+    opacity: 0;
+  }
+
   ${({ $selected }) =>
     $selected &&
     `
-      border: 2px solid ${Colors.mainPurple};
-      background: ${Colors.mainPurple};
+      border: 1px solid ${Colors.mainPurple};
+
+      &::after {
+        opacity: 1;
+      }
     `}
 `;
 
+
 const Text = styled.div`
   font-family: ${Colors.font};
-  font-size: 14px;
+  font-size: 17px;
   color: ${Colors.black};
 
   ${({ $selected }) =>

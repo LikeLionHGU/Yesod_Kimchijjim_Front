@@ -99,9 +99,9 @@ function TestPage() {
          
           myAnswer: ruleText,
           others: [
-            "상대1 더미 답변",
-            "상대2 더미 답변",
-            "상대3 더미 답변",
+            "상대1 답변",
+            "상대2 답변",
+            "상대3 답변",
           ],
         },
       });
@@ -124,10 +124,11 @@ function TestPage() {
         onSelect={handleSelect}
         isMultiSelect={isMultiSelect}
       />
-
+    <ButtonWrap>
       <Button onClick={handleSubmit} disabled={selectedOption.length === 0}>
         선택 완료
       </Button>
+    </ButtonWrap>
 
       {isSubmitted && (
         <GuideText>
@@ -156,5 +157,12 @@ const GuideText = styled.div`
   margin-top: 12px;
   font-size: 13px;
   color: ${Colors.mainPurple};
+`;
+
+const ButtonWrap = styled.div`
+  width: 746px;        
+  display: flex;
+  justify-content: center; 
+  margin-top: 20px;
 `;
 

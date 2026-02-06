@@ -13,6 +13,7 @@ function App() {
         <Route path="/match" element={<MatchPage />} />
         <Route path="/mismatch" element={<MismatchPage />} />
         <Route path="/after-mismatch" element={<AfterMismatchPage />} />
+        <Route path="/after-mismatch" element={<AfterMismatchPage />} />
       </Routes>
     </BrowserRouter>
   );
