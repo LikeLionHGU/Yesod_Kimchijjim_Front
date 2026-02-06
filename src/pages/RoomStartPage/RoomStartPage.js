@@ -6,16 +6,20 @@ import InfoIconImg from "../../assets/info.svg";
 import TitleSection from "../../components/common/TitleSection";
 import GoBackPage from "../../components/common/BackButton";
 import TitleIcon from "../../assets/Ellipse 5.svg";
+import ArrowBtnIcon from "../../assets/arrowbtnIcon.svg";
 
 const RoomStartPage = () => {
     const navigate = useNavigate();
     const [roomCode, setRoomCode] = useState("");
 
+    const [isError, setIsError] = useState(false);
+
     const handleRoomCreate = () => {
         navigate("/room/create");
     };
 
-    /*const handleRoomJoin = async () => {
+    /*백엔드, 코드 맞으면 roomJoinPage로 넘어가기 
+    const handleRoomJoin = async () => {
         if(roomCode.length !== 6) return;
 
         try{
@@ -27,7 +31,13 @@ const RoomStartPage = () => {
     };*/
 
     const handleRoomJoin = () => {
-
+        if(roomCode === "123456"){
+            console.log("성공");
+            navigate("/room/join");
+        } else{
+            console.log("실패");
+            setIsError(true);
+        }
     }
 
     const handleRoomCodeChange = (e) => {
@@ -35,6 +45,7 @@ const RoomStartPage = () => {
 
         if (text.length <= 6){
             setRoomCode(text);
+            setIsError(false);
         }
     };
 
@@ -70,6 +81,12 @@ const RoomStartPage = () => {
                             </svg>
                         </ArrowButton>
                     </InputWrapper>
+
+                    {isError && <ErrorContainer>
+                        <IconImage src={InfoIconImg} />
+                        <ErrorMessage>잘못된 코드입니다</ErrorMessage>
+                    </ErrorContainer>}
+
                 </JoinCard>
             </CardContainer>
         </PageContainer>
@@ -219,11 +236,40 @@ const ArrowButton = styled.button`
     opacity: 1;
     transition: background 0.3s ease;
     cursor: pointer;
+    z-index: 10;
     
     &:disabled {
         background: ${Colors.mainPurple};
         opacity: 0.5;
         cursor: default;
     }
+
+    & > svg {
+        pointer-events: none;
+    }
+`;
+
+const IconImage = styled.img`
+    width: 15px;
+    height: 15px;
+`;
+
+const ErrorContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 6px;
+`;
+
+const ErrorMessage = styled.span`
+    color: ${Colors.errorColor};
+    font-family: "Noto Sans KR";
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
 `;
 

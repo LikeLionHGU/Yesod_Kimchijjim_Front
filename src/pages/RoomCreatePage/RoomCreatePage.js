@@ -169,6 +169,7 @@ const ErrorContainer = styled.div`
 
 const ErrorMessage = styled.span`
     color: ${Colors.errorColor};
+    font-family: "Noto Sans KR";
     font-size: 11px;
     font-style: normal;
     font-weight: 500;
