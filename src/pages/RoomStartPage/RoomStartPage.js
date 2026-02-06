@@ -110,6 +110,7 @@ const CardBase = styled.div`
     align-items: center;
     box-shadow: 0px 0px 15px ${Colors.boxShadowBlack};
     border-radius: 15px;
+    transition: transform 0.2s;
 
     @media (max-width: 950px) {
         width: 100%;
@@ -164,7 +165,7 @@ const CodeInput = styled.input`
     border-radius: 11px;
     border: 1px solid ${Colors.borderLine};
     background: ${Colors.white};
-    padding: 11px 64px 11px 15px;
+    padding: 11px 102px 11px 15px;
     font-family: "Noto Sans KR";
     font-size: 20px;
     font-style: normal;
@@ -180,6 +181,15 @@ const CodeInput = styled.input`
 
     &:hover{
         border: 2px solid ${Colors.mainPurple};
+    }
+
+    &::placeholder {
+        color: ${Colors.inputColor};
+        font-family: "Noto Sans KR";
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 30px;
+        letter-spacing: 0px;
     }
 `;
 
