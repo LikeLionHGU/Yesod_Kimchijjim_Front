@@ -20,7 +20,10 @@ const PageContainer = styled.div`
 const BackButton = styled.button`
     position: absolute;
     top: 90px;
-    left: 157px; 
+    left: calc(50% - 468px - 56px - 39px); 
+    @media (max-width:1200px){
+        left: 20px;
+    }
     border-radius: 11px;
     background: ${Colors.white};
     box-shadow: 0 0 10px 0 ${Colors.boxShadowBlack};
@@ -32,6 +35,7 @@ const BackButton = styled.button`
     align-items: center;
     border: none;
     cursor: pointer;
+    z-index: 100;
 
     &:hover{
         opacity: 0.5;
@@ -78,6 +82,14 @@ const RowWrapper = styled.div`
     width: 100%;
     align-items: flex-start;
     margin-bottom: 0;
+
+    @media (max-width: 950px) {
+        flex-direction: column;
+        gap: 30px;
+        align-items: center; /*가로가운데정렬*/
+        gap: 48px;
+        width: 100%;
+    }
 `;
 
 const Card = styled.div`
@@ -91,6 +103,13 @@ const Card = styled.div`
     display: flex; 
     flex-direction: column;
     gap: 0;
+
+    @media (max-width: 950px){
+        width: 90%;
+        height: auto;
+        padding: 49px 95px 72px 95px;
+        align-items: center;
+    }
 `;
 
 const FormGroup = styled.div`
@@ -98,6 +117,10 @@ const FormGroup = styled.div`
     flex-direction: column;
     gap: 10px; {/*label과 input 박스 사이 간격*/}
     position: relative;
+
+    @media(max-width: 950px){
+        width: 365px;
+    }
 `;
 
 const Label = styled.label`
@@ -112,7 +135,7 @@ const Label = styled.label`
 
 const Input = styled.input`
     box-sizing: border-box;
-    width: 100%;
+    
     width: 365px;
     height: 55px;
     border-radius: 11px;
@@ -124,7 +147,9 @@ const Input = styled.input`
 
     &:focus{
         border: 2px solid ${props => (props.$hasError ? `${Colors.errorColor}` : `${Colors.mainPurple}`)};
-    }   
+    }
+
+    
 `;
 
 const IconImage = styled.img`
@@ -144,6 +169,7 @@ const ErrorContainer = styled.div`
 
 const ErrorMessage = styled.span`
     color: ${Colors.errorColor};
+    font-family: "Noto Sans KR";
     font-size: 11px;
     font-style: normal;
     font-weight: 500;
@@ -192,6 +218,10 @@ const CreateButtonWrapper = styled.div`
     max-width: 936px;
     justify-content: flex-end;
     margin-top: 20px;
+
+    @media (max-width: 950px) {
+        width: 90%;
+    }
 `;
 
 const CreateButton = styled.button`
@@ -215,9 +245,9 @@ const CreateButton = styled.button`
     font-weight: 700;
     line-height: 30px;
 
-    cursor: ${props => (props.$isActive ? 'pointer' : 'not-allowed')};
+    cursor: ${props => (props.$isActive ? 'pointer' : 'default')};
 
-    &:hover{
+    &:hover:not(:disabled){
         opacity: 0.7;
     }
 `;

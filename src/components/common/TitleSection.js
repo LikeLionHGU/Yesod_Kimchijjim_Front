@@ -45,7 +45,7 @@ function TitleSection({
                     {iconSrc && <img src={iconSrc}/>}
                 </TitleIcon>
                 <Title>{titleText}</Title>
-                <Subtitle>{subTitleText}</Subtitle>
+                <SubTitle>{subTitleText}</SubTitle>
             </TitleGroup>
         );
     }
