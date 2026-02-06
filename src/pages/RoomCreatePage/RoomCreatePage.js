@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
 
+//RoomStartPage에서 와서
+//RoomInvitePage로 이동
+
 //styled-components
 const PageContainer = styled.div`
     width: 100%;
@@ -312,6 +315,8 @@ const RoomCreatePage = () => {
 
         console.log('방 생성 정보: ', { myName, roomName, member });
         alert(`[${roomName}] 방이 생성되었습니다! (인원: ${member}명)`);
+
+        navigate("/room/invite");
     };
 
     return (

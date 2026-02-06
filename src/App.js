@@ -6,6 +6,7 @@ import MismatchPage from "./pages/MismatchPage/MismatchPage";
 import AfterMismatchPage from "./pages/AfterMismatchPage/AfterMismatchPage";
 import RoomStartPage from "./pages/RoomStartPage/RoomStartPage"
 import RoomCreatePage from "./pages/RoomCreatePage/RoomCreatePage";
+import RoomInvitePage from "./pages/RoomInvitePage/RoomInvitePage";
 import RoomJoinPage from "./pages/RoomJoinPage/RoomJoinPage";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
 
         <Route path="/" element={<RoomStartPage />} />
         <Route path="/room/create" element={<RoomCreatePage/>}/>
+        <Route path="/room/invite" element={<RoomInvitePage/>}/>
         <Route path="/room/join" element={<RoomJoinPage/>}/>
         <Route path="/match" element={<MatchPage />} />
         <Route path="/mismatch" element={<MismatchPage />} />
