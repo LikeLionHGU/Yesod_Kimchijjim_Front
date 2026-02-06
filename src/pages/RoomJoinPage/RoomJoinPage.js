@@ -10,10 +10,6 @@ import TitleIcon from "../../assets/Ellipse 5.svg";
 const RoomJoinPage = () => {
     const navigate = useNavigate();
 
-    const handleGoBack = () => {
-        navigate(-1);
-    };
-
     const [userName, setUserName] = useState("");
     const [isUserNameError, setIsUserNameError] = useState(false);
 
@@ -38,6 +34,12 @@ const RoomJoinPage = () => {
     const isActive = 
         !isUserNameError && userName.length >= 2;
 
+
+    const handleWait = () => {
+        if(!isActive) return;
+
+
+    }
 
     return(
         <PageContainer>
@@ -64,11 +66,15 @@ const RoomJoinPage = () => {
                 </FormGroup>
             </Card>
             
-
-
+            <CreateButtonWrapper>
+                <CreateButton
+                    $isActive={isActive}
+                    disabled={!isActive}
+                    onClick={handleWait}>대기실 입장하기</CreateButton>
+            </CreateButtonWrapper>
         </PageContainer>
-    )
-}
+    );
+};
 
 export default RoomJoinPage;
 
@@ -158,3 +164,43 @@ const ErrorMessage = styled.span`
     line-height: normal;
 `;
 
+const CreateButtonWrapper = styled.div`
+    display: flex;
+    width: 100%;
+    max-width: 556px;
+    justify-content: flex-end;
+    margin-top: 20px;
+
+    @media(max-width: 950px){
+        width: 90%;
+    }
+`;
+
+const CreateButton = styled.button`
+    display: flex;
+    width: 175px;
+    height: 55px;
+    padding: 12px 62px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: 11px;
+    opacity: ${props => (props.$isActive ? 1: 0.3)};
+    background: ${Colors.mainPurple};
+    border: none;
+
+    color: ${Colors.white};
+    font-family: "Noto Sans KR";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    white-space: nowrap;
+
+    cursor: ${props => (props.$isActive ? 'pointer' : 'default')};
+
+    &:hover:not(:disabled){
+        opacity: 0.7;
+    }
+`;
