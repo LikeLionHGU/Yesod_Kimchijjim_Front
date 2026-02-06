@@ -18,7 +18,7 @@ const RoomJoinPage = () => {
     const [isUserNameError, setIsUserNameError] = useState(false);
 
     const handleNameChange = (e) => {
-        const value = e.target.values;
+        const value = e.target.value;
         setUserName(value);
 
         const regex = /^[가-힣a-zA-Z]+$/;
@@ -47,7 +47,23 @@ const RoomJoinPage = () => {
                 titleText={"방 들어가기"}
                 subTitleText={"우리 방에 들어가요"}
             />
-            <Card></Card>
+            <Card>
+                <FormGroup>
+                    <Label>내 이름</Label>
+                    <Input
+                        type="text"
+                        value={userName}
+                        onChange={handleNameChange}
+                        $hasError={isUserNameError}
+                    />
+
+                    {isUserNameError && <ErrorContainer>
+                        <IconImage src={InfoIconImg}/>
+                        <ErrorMessage>한국어·영문만 사용 가능하며, 이름은 2~10자로 입력해주세요</ErrorMessage>
+                        </ErrorContainer>}
+                </FormGroup>
+            </Card>
+            
 
 
         </PageContainer>
@@ -74,11 +90,71 @@ const Card = styled.div`
     border-radius: 15px;
     background: ${Colors.white};
     box-shadow: 0 0 15px 0 rgba(163, 163, 253, 0.30);
-    width: 555px;
+    width: 556px;
     height: 192px;
     box-sizing: border-box;
     padding: 49px 95px;
-    gap: 10px;
+    gap: 0;
     display: flex;
     flex-direction: column;
 `;
+
+const FormGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+`;
+
+const Label = styled.label`
+    margin: 0;
+    display: block;
+    font-weight: 700;
+    line-height: 15px;
+    font-family: ${Colors.font};
+    font-size: 15px;
+    font-style: normal;
+    color: ${Colors.detailBlack};
+`;
+
+const Input = styled.input`
+    box-sizing: border-box;
+
+    width: 365px;
+    height: 55px;
+    border-radius: 11px;
+    border: solid ${props => (props.$hasError ? `2px ${Colors.errorColor}` : `1px ${Colors.borderLine}`)};
+    background: ${Colors.white};
+    font-size: 15px;
+    outline: none;
+    padding: 20px 28px;
+
+    &:focus{
+        border: 2px solid ${props => (props.$hasError ? `${Colors.errorColor}` : `${Colors.mainPurple}`)};
+    }
+`;
+
+const IconImage = styled.img`
+    width: 15px;
+    height: 15px;
+`;
+
+const ErrorContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 6px;
+`;
+
+const ErrorMessage = styled.span`
+    color: ${Colors.errorColor};
+    font-family: "Noto Sans KR";
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+`;
+
