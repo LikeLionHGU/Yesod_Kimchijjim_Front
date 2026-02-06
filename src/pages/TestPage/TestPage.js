@@ -21,7 +21,7 @@ function TestPage() {
     const startIndex = location.state?.startIndex;
     if (typeof startIndex === "number") {
       setCurrentIndex(startIndex);
-      // state를 계속 들고 있으면 새로고침/재방문 때 꼬일 수 있어서 지움(권장)
+      // state를 계속 들고 있으면 새로고침/재방문 때 꼬일 수 있어서 지움
       navigate("/", { replace: true });
     }
   }, [location.state, navigate]);
