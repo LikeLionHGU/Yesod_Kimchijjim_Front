@@ -1,7 +1,7 @@
 export const QUESTION_DATA = [
   {
     id: 1,
-    category: "취침 시간 규칙",
+    category: "취침 시간",
     question: "보통 언제 잠드나요?",
     options: [
       { id: "A", text: "보통 밤 12시 이전에 잠들어요." },
@@ -13,7 +13,7 @@ export const QUESTION_DATA = [
 
   {
     id: 2,
-    category: "기상 시간 규칙",
+    category: "기상 시간",
     question: "보통 언제 일어나요?",
     options: [
       { id: "A", text: "보통 오전 7시 이전에 일어나요." },
@@ -25,7 +25,7 @@ export const QUESTION_DATA = [
 
   {
     id: 3,
-    category: "소등(불 끄기) 규칙",
+    category: "소등(불 끄기)",
     question: " 언제 끄면 좋을까요?",
     options: [
       { id: "A", text: "한 명이라도 잠들 때 불을 꺼요" },
@@ -37,7 +37,7 @@ export const QUESTION_DATA = [
 
   {
     id: 4,
-    category: "취침 시 소음 규칙",
+    category: "취침 시 소음",
     question: "자고 있을 때, 이런 소음은 조심해 주세요!",
     options: [
       { id: "A", text: "전화 통화는 방 밖에서 해요." },
@@ -49,7 +49,7 @@ export const QUESTION_DATA = [
 
   {
     id: 5,
-    category: "알람 규칙",
+    category: "알람",
     question: "알람은 이렇게 맞춰요.",
     options: [
       { id: "A", text: "알람은 한 번만 울리게 맞춰요." },

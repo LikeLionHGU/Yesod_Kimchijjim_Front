@@ -102,7 +102,8 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 80px 0;
+  padding-top: 120px;
+  padding-bottom: 80px;
 `;
 
 const TopIcon = styled.img`
@@ -115,12 +116,15 @@ const Title = styled.h1`
   margin: 0;
   font-size: 28px;
   color: ${Colors.black};
+  text-align: center;
+  font-weight: 800;
 `;
 
 const SubTitle = styled.p`
-  margin: 12px 0 40px;
+  margin: 12px 0 68px;
   color: ${Colors.fixGray};
-  margin-bottom: 64px;
+  text-align: center;
+  font-size: 14px;
 `;
 
 const RuleCard = styled.div`
@@ -128,13 +132,15 @@ const RuleCard = styled.div`
   height: 101px;
   border-radius: 15px;
   background: ${Colors.white};
-
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
 
   display: flex;
   align-items: center;
   gap: 16px;
   padding: 0 24px;
+  box-sizing: border-box;
+
+  position: relative;
 `;
 
 const Tag = styled.div`
@@ -149,6 +155,7 @@ const RuleText = styled.div`
   flex: 1;
   font-size: 16px;
   color: ${Colors.black};
+  padding-right: 48px;
 `;
 
 const RuleInput = styled.input`
@@ -159,10 +166,16 @@ const RuleInput = styled.input`
   padding: 0 12px;
   font-size: 16px;
   outline: none;
+  padding-right: 48px;
 `;
 
 
 const IconButton = styled.button`
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+
   border: none;
   background: transparent;
   padding: 6px;
@@ -183,6 +196,11 @@ const IconImg = styled.img`
 
 
 const EditDoneBtn = styled.button`
+ position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+
   border: none;
   background: transparent;
   color: ${Colors.mainPurple};
@@ -191,5 +209,8 @@ const EditDoneBtn = styled.button`
 `;
 
 const ButtonWrap = styled.div`
+  width: 746px;      
+  display: flex;
+  justify-content: flex-end; 
   margin-top: 20px;
 `;

@@ -1,58 +1,51 @@
+
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import Button from "../../components/common/Button";
+import Ellipse5 from "../../assets/Ellipse 5.svg";
 
 function AfterMismatchPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
 
+  // state 없으면 잘못 진입 → 홈
   useEffect(() => {
     if (!state) navigate("/", { replace: true });
   }, [state, navigate]);
 
-  const { questionId, nextIndex, totalQuestions } = state || {};
-  const [agreedRule, setAgreedRule] = useState("");
+  const totalQuestions = state?.totalQuestions ?? 5;
+  const nextIndex = state?.nextIndex ?? 0;
 
-  const handleDone = () => {
-    if (!agreedRule.trim()) return;
+  // Mismatch에서 넘어온 합의 규칙(draftRule)
+  const [ruleText] = useState(state?.draftRule ?? "");
 
-    /* 
-              백엔드 연동 (API 명세서 기반)
-      
-    
-    await fetch("/room/test", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ rule: agreedRule }),
-    });
-    */
-
+  const handleNext = () => {
     if (nextIndex >= totalQuestions) {
-      alert("5문제 끝! → ResultPage로 이동 (지금은 alert)");
+      alert("5문제 끝! → ResultPage로 이동하깅");
       return;
     }
-
     navigate("/", { state: { startIndex: nextIndex } });
   };
 
   return (
     <Wrapper>
-      <Title>규칙을 합의했어요</Title>
-      <SubTitle>합의된 규칙을 입력해 주세요</SubTitle>
+      <TopIcon src={Ellipse5} alt="ellipse" />
 
-      <InputCard>
-        <RuleInput
-          value={agreedRule}
-          onChange={(e) => setAgreedRule(e.target.value)}
-          placeholder="합의된 규칙 작성하기"
-        />
-      </InputCard>
+     
+      <Title>규칙을 합의했어요</Title>
+      <SubTitle>새로운 규칙을 만들었어요</SubTitle>
+
+      
+      <RuleCard>
+        <Tag>키워드</Tag>
+        <RuleText>{ruleText || "합의한 규칙이 여기에 표시돼요."}</RuleText>
+      </RuleCard>
 
       <ButtonWrap>
-        <Button onClick={handleDone} disabled={!agreedRule.trim()}>
-          작성 완료
+        <Button onClick={handleNext} disabled={!ruleText.trim()}>
+          다음으로
         </Button>
       </ButtonWrap>
     </Wrapper>
@@ -61,44 +54,66 @@ function AfterMismatchPage() {
 
 export default AfterMismatchPage;
 
+
 const Wrapper = styled.div`
   min-height: 100vh;
   background: ${Colors.backgroundColor};
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 80px 0;
+  padding-top: 120px;
+  padding-bottom: 80px;
+`;
+
+const TopIcon = styled.img`
+  width: 80px;
+  height: 80px;
+  margin-bottom: 31px;
 `;
 
 const Title = styled.h1`
   margin: 0;
   font-size: 28px;
   color: ${Colors.black};
+  text-align: center;
+  font-weight: 800;
 `;
 
 const SubTitle = styled.p`
-  margin: 12px 0 40px;
+  margin: 12px 0 68px;
   color: ${Colors.fixGray};
+  text-align: center;
+  font-size: 14px;
 `;
 
-const InputCard = styled.div`
-  width: 720px;
+const RuleCard = styled.div`
+  width: 746px;
+  height: 101px;
+  border-radius: 15px;
   background: ${Colors.white};
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 8px 24px ${Colors.boxShadowBlack};
+  box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  box-sizing: border-box;
 `;
 
-const RuleInput = styled.input`
-  width: 100%;
-  height: 54px;
-  border: 1px solid ${Colors.inputColor};
-  border-radius: 12px;
-  padding: 0 14px;
+const Tag = styled.div`
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: ${Colors.white};
+  background: ${Colors.secondPurple};
+`;
+
+const RuleText = styled.div`
+  flex: 1;
   font-size: 16px;
-  outline: none;
+  color: ${Colors.black};
 `;
 
 const ButtonWrap = styled.div`
-  margin-top: 24px;
+  margin-top: 20px;
 `;
