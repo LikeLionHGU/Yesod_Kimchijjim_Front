@@ -1,6 +1,6 @@
 import react, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
 import TitleSection from "../../components/common/TitleSection";
@@ -9,6 +9,8 @@ import TitleIcon from "../../assets/Ellipse 5.svg";
 
 const RoomJoinPage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const code = location.state?.code;
 
     const [userName, setUserName] = useState("");
     const [isUserNameError, setIsUserNameError] = useState(false);
@@ -38,7 +40,9 @@ const RoomJoinPage = () => {
     const handleWait = () => {
         if(!isActive) return;
 
-        navigate("/room/member/wait");
+        navigate("/room/member/wait", {
+            state: {code:code}
+        });
     };
 
     return(
@@ -95,7 +99,7 @@ const PageContainer = styled.div`
 const Card = styled.div`
     border-radius: 15px;
     background: ${Colors.white};
-    box-shadow: 0 0 15px 0 rgba(163, 163, 253, 0.30);
+    box-shadow: 0 0 15px 0 ${Colors.boxShadowPurple};
     width: 556px;
     height: 192px;
     box-sizing: border-box;

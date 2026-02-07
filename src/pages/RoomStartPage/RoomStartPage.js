@@ -33,7 +33,9 @@ const RoomStartPage = () => {
     const handleRoomJoin = () => {
         if(roomCode === "123456"){
             console.log("성공");
-            navigate("/room/join");
+            navigate("/room/join", {
+                state: {code: roomCode}
+            });
         } else{
             console.log("실패");
             setIsError(true);
