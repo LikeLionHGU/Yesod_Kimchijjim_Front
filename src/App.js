@@ -6,7 +6,10 @@ import MismatchPage from "./pages/MismatchPage/MismatchPage";
 import AfterMismatchPage from "./pages/AfterMismatchPage/AfterMismatchPage";
 import RoomStartPage from "./pages/RoomStartPage/RoomStartPage"
 import RoomCreatePage from "./pages/RoomCreatePage/RoomCreatePage";
+import RoomInvitePage from "./pages/RoomInvitePage/RoomInvitePage";
+import RoomLeaderWaitPage from "./pages/RoomWaitPage/RoomLeaderWaitPage";
 import RoomJoinPage from "./pages/RoomJoinPage/RoomJoinPage";
+import RoomMemberWaitPage from "./pages/RoomWaitPage/RoomMemberWaitPage";
 
 function App() {
   return (
@@ -15,7 +18,10 @@ function App() {
 
         <Route path="/" element={<RoomStartPage />} />
         <Route path="/room/create" element={<RoomCreatePage/>}/>
+        <Route path="/room/invite" element={<RoomInvitePage/>}/>
+        <Route path="/room/leader/wait" element={<RoomLeaderWaitPage/>}/>
         <Route path="/room/join" element={<RoomJoinPage/>}/>
+        <Route path="/room/member/wait" element={<RoomMemberWaitPage/>}/>
         <Route path="/match" element={<MatchPage />} />
         <Route path="/mismatch" element={<MismatchPage />} />
         <Route path="/after-mismatch" element={<AfterMismatchPage />} />

@@ -38,8 +38,8 @@ const RoomJoinPage = () => {
     const handleWait = () => {
         if(!isActive) return;
 
-
-    }
+        navigate("/room/member/wait");
+    };
 
     return(
         <PageContainer>
@@ -183,7 +183,7 @@ const CreateButton = styled.button`
     padding: 12px 62px;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 10px;   
 
     border-radius: 11px;
     opacity: ${props => (props.$isActive ? 1: 0.3)};
