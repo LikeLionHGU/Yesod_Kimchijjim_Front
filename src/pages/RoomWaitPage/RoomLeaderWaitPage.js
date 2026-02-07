@@ -15,6 +15,7 @@ const RoomLeaderWaitPage = () => {
             <Title>대기실</Title>
             <SubTitle>모든 룸메이트가 입장하길 기다리고 있어요</SubTitle>
         </TitleGroup>
+        
     </PageContainer>
    );
 };
