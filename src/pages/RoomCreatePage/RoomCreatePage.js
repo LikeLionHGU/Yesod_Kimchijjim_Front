@@ -314,9 +314,14 @@ const RoomCreatePage = () => {
         if (!isActive) return;
 
         console.log('방 생성 정보: ', { myName, roomName, member });
-        alert(`[${roomName}] 방이 생성되었습니다! (인원: ${member}명)`);
 
-        navigate("/room/invite");
+        navigate("/room/invite", {
+            state: {
+                roomName: roomName,
+                member: member,
+                roomCode: "E12345" //백에서 코드 받아오기
+            }
+        });
     };
 
     return (

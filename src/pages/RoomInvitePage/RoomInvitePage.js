@@ -1,21 +1,37 @@
 import react, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import TitleSection from "../../components/common/TitleSection";
 import GoBackPage from "../../components/common/BackButton";
 import TitleIcon from "../../assets/Ellipse 5.svg";
-import CheckIcon from "../../assets/check.svg";
+import LinkIcon from "../../assets/linkIcon.svg";
 
 /*방장이 RoomCreatePage이후 들어옴*/
 /* 백엔드에서 방코드를 받아와서 띄워야 함 */
 
 const RoomInvitePage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const {roomName, member, roomCode} = location.state || {
+        roomName: "정보 없음",
+        member: 0,
+        roomCode: "ERROR"
+    };
 
     const handleWaitMember = () => {
         navigate("/room/leader/wait");
     };
+
+    const handleCopyCode = async () => {
+        try{
+            await navigator.clipboard.writeText(roomCode);
+            alert("초대 코드가 복사되었습니다!");
+        } catch(err) {
+            alert("복사 실패");
+        }
+    }
 
     return(
         <PageContainer>
@@ -27,11 +43,24 @@ const RoomInvitePage = () => {
             />
             <CardContainer>
                 <InfoCard>
-
+                    <InfoGroup style={{marginBottom: `48px`}}>
+                        <Label>방 이름</Label>
+                        <NameInfo>{roomName}</NameInfo>
+                    </InfoGroup>
+                    <InfoGroup>
+                        <Label>최대 인원</Label>
+                        <MemeberInfo>{member}명</MemeberInfo>
+                    </InfoGroup>
                 </InfoCard>
 
                 <CodeCard>
-
+                    <InfoGroup>
+                        <Label>방 코드</Label>
+                        <CodeInfo><span>{roomCode}</span>
+                            <LinkIconWrapper onClick={handleCopyCode}>
+                                <img src={LinkIcon} />
+                            </LinkIconWrapper></CodeInfo>
+                    </InfoGroup>
                 </CodeCard>
             </CardContainer>
             <CreateButtonWrapper>
@@ -80,18 +109,24 @@ const InfoCard = styled.div`
     width: 365px;
     height: 329px;
     box-sizing: border-box;
-    padding: 0;
+
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    box-shadow: ${Colors.boxShadowPurple};
+    align-items: flex-start;
+    padding-left: 95px;
+    box-shadow: 0 0 15px 0 ${Colors.boxShadowPurple};
     background: ${Colors.white};
     border-radius: 15px;
     transition: transform 0.2s;
 
     @media (max-width: 950px) {
         width: 100%;
-        height: 250px;
+        height: 200px;
+        flex-direction: row;
+        padding: 60px 20px;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 15px; 
     }
 `;
 
@@ -104,7 +139,7 @@ const CodeCard = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-shadow: ${Colors.boxShadowPurple};
+    box-shadow: 0 0 15px 0 ${Colors.boxShadowPurple};
     background: ${Colors.white};
     border-radius: 15px;
     transition: transform 0.2s;
@@ -154,4 +189,93 @@ const CreateButton = styled.div`
     &:hover{
         opacity: 0.7;
     }
+`;
+
+const InfoGroup = styled.div`
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+    align-items: flex-start;
+
+    @media(max-width: 950px) {
+        
+    }
+`;
+
+
+const Label = styled.label`
+    margin: 0;
+    display: block;
+    font-family: ${Colors.font};
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 15px;
+    color: ${Colors.detailBlack};
+`;
+
+const NameInfo = styled.div`
+    box-sizing: border-box;
+
+    width: 175px;
+    height: 55px;
+    border-radius: 11px;
+    background: ${Colors.fixWhite};
+    border: none;
+    padding: 20px 18px;
+
+    font-family: ${Colors.font};
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 15px; 
+    color: ${Colors.borderLine};
+`;
+
+const MemeberInfo = styled.div`
+    box-sizing: border-box;
+
+    width: 80px;
+    height: 55px;
+    border-radius: 11px;
+    background: ${Colors.fixWhite};
+    border: none;
+    padding: 20px 28px;
+
+    font-family: ${Colors.font};
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 15px; 
+    color: ${Colors.borderLine};
+`;
+
+const CodeInfo = styled.div`
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 366px;
+    height: 74px;
+    border-radius: 11px;
+    background: ${Colors.fixWhite};
+    border: none;
+    padding: 18px 28px;
+
+    font-family: ${Colors.font};
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 700;
+    color: ${Colors.black};
+    letter-spacing: 5px;
+`;
+
+const LinkIconWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
 `;
