@@ -21,7 +21,9 @@ const RoomInvitePage = () => {
     };
 
     const handleWaitMember = () => {
-        navigate("/room/leader/wait");
+        navigate("/room/leader/wait", {
+            state: {roomCode: roomCode}
+        });
     };
 
     const handleCopyCode = async () => {

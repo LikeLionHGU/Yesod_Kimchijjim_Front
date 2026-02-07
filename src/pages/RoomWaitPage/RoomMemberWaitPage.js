@@ -11,6 +11,10 @@ const RoomMemberWaitPage = () => {
 
     const roomCode = location.state?.code || "??????";
 
+    /*const handleTestStart = () => {
+        navigate("/room/test")
+    };*/
+
     return (
         <PageContainer>
             <GoBackPage />

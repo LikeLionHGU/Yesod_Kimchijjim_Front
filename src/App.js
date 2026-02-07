@@ -22,6 +22,7 @@ function App() {
         <Route path="/room/leader/wait" element={<RoomLeaderWaitPage/>}/>
         <Route path="/room/join" element={<RoomJoinPage/>}/>
         <Route path="/room/member/wait" element={<RoomMemberWaitPage/>}/>
+        <Route path="/room/test" element={<TestPage/>}/>
         <Route path="/match" element={<MatchPage />} />
         <Route path="/mismatch" element={<MismatchPage />} />
         <Route path="/after-mismatch" element={<AfterMismatchPage />} />
