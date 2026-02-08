@@ -4,8 +4,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import TitleSection from "../../components/common/TitleSection";
 import GoBackPage from "../../components/common/BackButton";
-import TitleIcon from "../../assets/Ellipse 5.svg";
 import LinkIcon from "../../assets/linkIcon.svg";
+import HomeIcon from "../../assets/homeIcon.svg";
 
 /*방장이 RoomCreatePage이후 들어옴*/
 /* 백엔드에서 방코드를 받아와서 띄워야 함 */
@@ -39,7 +39,7 @@ const RoomInvitePage = () => {
         <PageContainer>
             <GoBackPage/>
             <TitleSection
-                iconSrc={TitleIcon}
+                iconSrc={HomeIcon}
                 titleText={"방이 생성되었습니다"}
                 subTitleText={"룸메이트에게 초대 코드를 공유하세요"}
             />
