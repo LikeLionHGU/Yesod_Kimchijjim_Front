@@ -11,6 +11,7 @@ import RoomLeaderWaitPage from "./pages/RoomWaitPage/RoomLeaderWaitPage";
 import RoomJoinPage from "./pages/RoomJoinPage/RoomJoinPage";
 import RoomMemberWaitPage from "./pages/RoomWaitPage/RoomMemberWaitPage";
 import LoadingPage from "./pages/LoadingPage/LoadingPage";
+import AlreadyRoomStartPage from "./pages/RoomInvitePage/AlreadyRoomStartPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/loading" element={<LoadingPage/>}/>
         <Route path="/room/create" element={<RoomCreatePage/>}/>
         <Route path="/room/invite" element={<RoomInvitePage/>}/>
+        <Route path="/room/error" element={<AlreadyRoomStartPage/>}/>
         <Route path="/room/leader/wait" element={<RoomLeaderWaitPage/>}/>
         <Route path="/room/join" element={<RoomJoinPage/>}/>
         <Route path="/room/member/wait" element={<RoomMemberWaitPage/>}/>
