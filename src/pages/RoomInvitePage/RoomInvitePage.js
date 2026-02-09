@@ -14,10 +14,10 @@ const RoomInvitePage = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const {roomName, member, roomCode} = location.state || {
+    const {roomName, roomCode, member} = location.state || {
         roomName: "정보 없음",
-        member: 0,
-        roomCode: "ERROR"
+        roomCode: "ERROR",
+        member: 0
     };
 
     const handleWaitMember = () => {

@@ -33,7 +33,7 @@ function App() {
         <Route path="/mismatch" element={<MismatchPage />} />
         <Route path="/after-mismatch" element={<AfterMismatchPage />} />
         <Route path="/result" element={<Resultpage />} />
-        <Route path="/final-result" element={<FinalResultPage />} />
+        {/* <Route path="/final-result" element={<FinalResultPage />} /> */}
       </Routes>
     </BrowserRouter>
   );

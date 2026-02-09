@@ -1,10 +1,11 @@
 import react, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { Await, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
 import NoIconTitleSection from "../../components/common/NoIconTitleSection";
 import GoBackPage from "../../components/common/BackButton";
+import axios from "axios";
 
 //RoomStartPage에서 와서
 //RoomInvitePage로 이동
@@ -254,18 +255,31 @@ const RoomCreatePage = () => {
         !isRoomError && roomName.length >= 2 &&
         member !== null;
 
-    const handleCreate = () => {
+    const handleCreate = async () => {
         if (!isActive) return;
 
-        console.log('방 생성 정보: ', { myName, roomName, member });
-
-        navigate("/room/invite", {
-            state: {
+        try{
+            const response = await axios.post(`${process.env.REACT_APP_HOST_URL}/room`, { 
                 roomName: roomName,
-                member: member,
-                roomCode: "E12345" //백에서 코드 받아오기
-            }
-        });
+                maxPeople: member,
+                hostNickname: myName
+            });
+
+            console.log('백엔드 응답:', response.data);
+
+            const { roomName:backendRoomName, roomCode, maxPeople} = response.data;
+
+            navigate("/room/invite", {
+                state: {
+                    roomName: backendRoomName,
+                    roomCode: roomCode,
+                    member: maxPeople
+                }
+            });
+        } catch (error) {
+            console.error("방 생성 실패:", error);
+            alert("방 생성 중 오류 발생");
+        }
     };
 
     return (
