@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import react, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
@@ -6,6 +6,7 @@ import InfoIconImg from "../../assets/info.svg";
 import NoIconTitleSection from "../../components/common/NoIconTitleSection";
 import GoBackPage from "../../components/common/BackButton";
 import ArrowBtnIcon from "../../assets/arrowbtnIcon.svg";
+import axios from "axios";
 
 const RoomStartPage = () => {
     const navigate = useNavigate();

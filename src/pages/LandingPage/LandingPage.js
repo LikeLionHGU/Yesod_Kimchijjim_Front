@@ -8,6 +8,9 @@ import GoBackPage from "../../components/common/BackButton";
 import axios from "axios";
 import GoogleIcon from "../../assets/googleIcon.svg";
 
+//시작 로그인 페이지 
+//google oauth url과 연결된 구글 로그인 버튼이 있어야한다. 
+
 const LandingPage = () => {
     const handleGoogleLogin = () => {
         window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_GOOGLE_AUTH_REDIRECT_URI}&response_type=code&scope=email profile`;

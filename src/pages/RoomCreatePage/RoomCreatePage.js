@@ -276,6 +276,7 @@ const RoomCreatePage = () => {
                     member: maxPeople
                 }
             });
+            
         } catch (error) {
             console.error("방 생성 실패:", error);
             alert("방 생성 중 오류 발생");
