@@ -14,13 +14,15 @@ import FinalResultPage from "./pages/FinalResultPage/FinalResultPage";
 import RoomMemberWaitPage from "./pages/RoomWaitPage/RoomMemberWaitPage";
 import LoadingPage from "./pages/LoadingPage/LoadingPage";
 import AlreadyRoomStartPage from "./pages/RoomInvitePage/AlreadyRoomStartPage";
+import LandingPage from "./pages/LandingPage/LandingPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
 
-        <Route path="/" element={<RoomStartPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/room" element={<RoomStartPage/>}/>
         <Route path="/loading" element={<LoadingPage/>}/>
         <Route path="/room/create" element={<RoomCreatePage/>}/>
         <Route path="/room/invite" element={<RoomInvitePage/>}/>

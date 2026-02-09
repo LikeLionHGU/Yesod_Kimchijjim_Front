@@ -196,7 +196,7 @@ const CreateButton = styled.button`
     cursor: ${props => (props.$isActive ? 'pointer' : 'default')};
 
     &:hover:not(:disabled){
-        opacity: 0.7;
+        background: ${Colors.hoverPurple};
     }
 `;
 

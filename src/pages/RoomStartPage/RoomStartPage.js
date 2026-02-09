@@ -150,7 +150,7 @@ const CreateCard = styled(CardBase)`
     cursor: pointer;
 
     &:hover{
-        opacity: 0.7;
+        background: ${Colors.hoverPurple};
     }
 `;
 
@@ -250,6 +250,10 @@ const ArrowButton = styled.button`
 
     & > svg {
         pointer-events: none;
+    }
+
+    &:hover{
+        background: ${Colors.hoverPurple};
     }
 `;
 
