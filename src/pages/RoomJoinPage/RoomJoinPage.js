@@ -3,10 +3,8 @@ import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
-//import TitleSection from "../../components/common/TitleSection";
 import NoIconTitleSection from "../../components/common/NoIconTitleSection";
 import GoBackPage from "../../components/common/BackButton";
-//import TitleIcon from "../../assets/Ellipse 5.svg";
 
 const RoomJoinPage = () => {
     const navigate = useNavigate();
