@@ -3,9 +3,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
-import TitleSection from "../../components/common/TitleSection";
+import NoIconTitleSection from "../../components/common/NoIconTitleSection";
 import GoBackPage from "../../components/common/BackButton";
-import TitleIcon from "../../assets/Ellipse 5.svg";
 import ArrowBtnIcon from "../../assets/arrowbtnIcon.svg";
 
 const RoomStartPage = () => {
@@ -33,7 +32,9 @@ const RoomStartPage = () => {
     const handleRoomJoin = () => {
         if(roomCode === "123456"){
             console.log("성공");
-            navigate("/room/join");
+            navigate("/room/join", {
+                state: {code: roomCode}
+            });
         } else{
             console.log("실패");
             setIsError(true);
@@ -54,8 +55,7 @@ const RoomStartPage = () => {
     return(
         <PageContainer>
             <GoBackPage/>
-            <TitleSection
-                iconSrc={TitleIcon}
+            <NoIconTitleSection
                 titleText={"우리 방 시작하기"}
                 subTitleText={"룸메이트와 함께 사용할 방을 만들어보세요"}
             />
@@ -74,18 +74,19 @@ const RoomStartPage = () => {
                             value={roomCode}
                             onChange={handleRoomCodeChange}
                             maxLength={6}
+                            $isError={isError}
                         />
-                        <ArrowButton onClick={handleRoomJoin} disabled={!isButtonActive}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="15" viewBox="0 0 17 15" fill="none">
-                                <path d="M1 6.36426C0.447715 6.36426 -6.43764e-08 6.81197 0 7.36426C6.43764e-08 7.91654 0.447715 8.36426 1 8.36426L1 7.36426L1 6.36426ZM16.7071 8.07136C17.0976 7.68084 17.0976 7.04767 16.7071 6.65715L10.3431 0.293189C9.95262 -0.0973354 9.31946 -0.0973354 8.92893 0.293189C8.53841 0.683714 8.53841 1.31688 8.92893 1.7074L14.5858 7.36426L8.92893 13.0211C8.53841 13.4116 8.53841 14.0448 8.92893 14.4353C9.31946 14.8258 9.95262 14.8258 10.3431 14.4353L16.7071 8.07136ZM1 7.36426L1 8.36426L16 8.36426L16 7.36426L16 6.36426L1 6.36426L1 7.36426Z" fill="white" />
-                            </svg>
+                        <ArrowButton onClick={handleRoomJoin} disabled={!isButtonActive}
+                        $isError={isError}>
+                            <img src={ArrowBtnIcon}/>
                         </ArrowButton>
-                    </InputWrapper>
 
-                    {isError && <ErrorContainer>
-                        <IconImage src={InfoIconImg} />
-                        <ErrorMessage>잘못된 코드입니다</ErrorMessage>
-                    </ErrorContainer>}
+                        {isError && ( <ErrorContainer>
+                            <IconImage src={InfoIconImg} />
+                            <ErrorMessage>잘못된 코드입니다</ErrorMessage>
+                        </ErrorContainer>)}
+
+                    </InputWrapper>
 
                 </JoinCard>
             </CardContainer>
@@ -183,13 +184,16 @@ const InputWrapper = styled.div`
     width: 270px;
     height: 57px;
     margin-top: 18px;
+
+    display: flex;
+    align-items: center;
 `;
 
 const CodeInput = styled.input`
     width: 100%;
     height: 100%;
     border-radius: 11px;
-    border: 1px solid ${Colors.borderLine};
+    border: 1px solid ${props => props.$isError ? Colors.errorColor : Colors.borderLine};
     background: ${Colors.white};
     padding: 11px 102px 11px 15px;
     font-family: "Noto Sans KR";
@@ -202,11 +206,11 @@ const CodeInput = styled.input`
     box-sizing: border-box;
 
     &:focus{
-        border: 2px solid ${Colors.mainPurple};
+        border: 2px solid ${props => props.$isError ? Colors.errorColor : Colors.mainPurple};
     }
 
     &:hover{
-        border: 2px solid ${Colors.mainPurple};
+        border: 2px solid ${props => props.$isError ? Colors.errorColor : Colors.mainPurple};
     }
 
     &::placeholder {
@@ -232,8 +236,8 @@ const ArrowButton = styled.button`
     align-items: center;    
     border-radius: 11px;
     border: none;
-    background: ${Colors.mainPurple};
-    opacity: 1;
+    background: ${props => props.$isError ? "#ADADAD" : Colors.mainPurple};
+    opacity: ${props => props.$isError ? 0.5 : 1};
     transition: background 0.3s ease;
     cursor: pointer;
     z-index: 10;

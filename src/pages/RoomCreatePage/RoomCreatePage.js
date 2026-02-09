@@ -3,6 +3,11 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
+import NoIconTitleSection from "../../components/common/NoIconTitleSection";
+import GoBackPage from "../../components/common/BackButton";
+
+//RoomStartPage에서 와서
+//RoomInvitePage로 이동
 
 //styled-components
 const PageContainer = styled.div`
@@ -15,64 +20,6 @@ const PageContainer = styled.div`
     padding-top: 43px;
     padding-bottom: 269px;
     position: relative;
-`;
-
-const BackButton = styled.button`
-    position: absolute;
-    top: 90px;
-    left: calc(50% - 468px - 56px - 39px); 
-    @media (max-width:1200px){
-        left: 20px;
-    }
-    border-radius: 11px;
-    background: ${Colors.white};
-    box-shadow: 0 0 10px 0 ${Colors.boxShadowBlack};
-    display: flex;
-    width: 39px;
-    height: 39px;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    cursor: pointer;
-    z-index: 100;
-
-    &:hover{
-        opacity: 0.5;
-    }
-`;
-
-const TitleSection = styled.div`
-    text-align: center;
-    margin-bottom: 64px;
-`;
-
-const TitleIcon = styled.div`
-    margin-top: 133px;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 31px;
-`;
-
-const Title = styled.p`
-    color: ${Colors.black};
-    text-align: center;
-    font-family: ${Colors.font};
-    font-size: 30px;
-    font-style: normal;
-    font-weight: 700;
-    margin-bottom: 15px;
-`;
-
-const SubTitle = styled.p`
-    color: ${Colors.detailBlack};
-    text-align: center;
-    font-family: ${Colors.font};
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    margin-bottom: 0;
-    margin-top: 0;
 `;
 
 const RowWrapper = styled.div`
@@ -311,26 +258,23 @@ const RoomCreatePage = () => {
         if (!isActive) return;
 
         console.log('방 생성 정보: ', { myName, roomName, member });
-        alert(`[${roomName}] 방이 생성되었습니다! (인원: ${member}명)`);
+
+        navigate("/room/invite", {
+            state: {
+                roomName: roomName,
+                member: member,
+                roomCode: "E12345" //백에서 코드 받아오기
+            }
+        });
     };
 
     return (
         <PageContainer>
-            <BackButton onClick={handleGoBack}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none">
-                    <path d="M9.41406 1.41406L2.82812 8L9.41406 14.5859L8 16L0 8L8 0L9.41406 1.41406Z" fill="#A2A2A2" />
-                </svg>
-            </BackButton>
-
-            <TitleSection>
-                <TitleIcon>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
-                        <circle cx="40" cy="40" r="40" fill="#653FD2" />
-                    </svg>
-                </TitleIcon>
-                <Title>방 만들기</Title>
-                <SubTitle>룸메이트와 함께 사용할 방을 만들어보세요</SubTitle>
-            </TitleSection>
+            <GoBackPage/>
+            <NoIconTitleSection
+                titleText={"방 만들기"}
+                subTitleText={"룸메이트와 함께 사용할 방을 만들어보세요"}
+            />
 
             <Card>
                 {/*내 이름*/}
