@@ -3,8 +3,9 @@ import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import Button from "../../components/common/Button";
-import Ellipse5 from "../../assets/Ellipse 5.svg";
+import check from "../../assets/check.svg";
 import Pencil from "../../assets/Pencil.svg";
+
 
 function MatchPage() {
   const navigate = useNavigate();
@@ -18,27 +19,34 @@ function MatchPage() {
   const questionId = state?.questionId;
   const totalQuestions = state?.totalQuestions ?? 5;
   const nextIndex = state?.nextIndex ?? 0;
+  const questionIndex = state?.questionIndex ?? (nextIndex - 1); // 혹시 누락 대비
 
   const [isEditing, setIsEditing] = useState(false);
   const [ruleText, setRuleText] = useState(state?.ruleText ?? "");
 
-  const handleNext = () => {
-    /* 
-         백엔드 연동 (API 명세서 기반)
-      
-    await fetch("/room/test", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        rule: state.ruleText,
-        update: ruleText,
-      }),
-    });
-    */
+  // rules[index] 자리에 최종 규칙 저장
+  const saveRuleAt = (index, text) => {
+    const prev = JSON.parse(localStorage.getItem("rules") || "[]");
+    const next = Array.from({ length: totalQuestions }, (_, i) => prev[i] ?? "");
+    next[index] = text;
+    localStorage.setItem("rules", JSON.stringify(next));
+  };
 
-    // 5문제 끝이면 ResultPage로 가야하지만 지금은 alert
+  const handleNext = () => {
+    // 여기서 저장해야 "수정된 규칙"이 들어감
+    saveRuleAt(questionIndex, ruleText);
+
+    // 5문제 끝이면 ResultPage로
     if (nextIndex >= totalQuestions) {
-      alert("5문제 끝! → ResultPage로 이동하깅");
+      const saved = JSON.parse(localStorage.getItem("rules") || "[]");
+
+      navigate("/result", {
+        state: {
+          roomTitle: "화목관 302호 방의 규칙",
+          periodText: "2026.3.3 - 3.31",
+          rules: saved.map((t, idx) => ({ id: idx + 1, text: t })),
+        },
+      });
       return;
     }
 
@@ -48,8 +56,7 @@ function MatchPage() {
 
   return (
     <Wrapper>
-
-      <TopIcon src={Ellipse5} alt="ellipse" />
+      <TopIcon src={check} alt="check" />
 
       <Title>모두의 답변이 일치해요</Title>
       <SubTitle>답변을 토대로 우리방의 규칙을 만들었어요</SubTitle>
@@ -169,7 +176,6 @@ const RuleInput = styled.input`
   padding-right: 48px;
 `;
 
-
 const IconButton = styled.button`
   position: absolute;
   right: 24px;
@@ -187,16 +193,14 @@ const IconButton = styled.button`
   }
 `;
 
-
 const IconImg = styled.img`
   width: 24px;
   height: 24px;
   display: block;
 `;
 
-
 const EditDoneBtn = styled.button`
- position: absolute;
+  position: absolute;
   right: 24px;
   top: 50%;
   transform: translateY(-50%);
@@ -209,8 +213,8 @@ const EditDoneBtn = styled.button`
 `;
 
 const ButtonWrap = styled.div`
-  width: 746px;      
+  width: 746px;
   display: flex;
-  justify-content: flex-end; 
+  justify-content: flex-end;
   margin-top: 20px;
 `;

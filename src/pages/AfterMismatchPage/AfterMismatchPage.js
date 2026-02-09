@@ -1,10 +1,9 @@
-
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import Button from "../../components/common/Button";
-import Ellipse5 from "../../assets/Ellipse 5.svg";
+import check from "../../assets/check.svg";
 
 function AfterMismatchPage() {
   const navigate = useNavigate();
@@ -17,27 +16,44 @@ function AfterMismatchPage() {
 
   const totalQuestions = state?.totalQuestions ?? 5;
   const nextIndex = state?.nextIndex ?? 0;
+  const questionIndex = state?.questionIndex ?? (nextIndex - 1);
 
   // Mismatch에서 넘어온 합의 규칙(draftRule)
   const [ruleText] = useState(state?.draftRule ?? "");
 
+  // rules[index] 자리에 최종 규칙 저장
+  const saveRuleAt = (index, text) => {
+    const prev = JSON.parse(localStorage.getItem("rules") || "[]");
+    const next = Array.from({ length: totalQuestions }, (_, i) => prev[i] ?? "");
+    next[index] = text;
+    localStorage.setItem("rules", JSON.stringify(next));
+  };
+
   const handleNext = () => {
+    // 합의한 규칙이 최종본이라서 여기서 저장
+    saveRuleAt(questionIndex, ruleText);
+
     if (nextIndex >= totalQuestions) {
-      alert("5문제 끝! → ResultPage로 이동하깅");
+      const saved = JSON.parse(localStorage.getItem("rules") || "[]");
+
+      navigate("/result", {
+        state: {
+          rules: saved.map((t, idx) => ({ id: idx + 1, text: t })),
+        },
+      });
       return;
     }
+
     navigate("/", { state: { startIndex: nextIndex } });
   };
 
   return (
     <Wrapper>
-      <TopIcon src={Ellipse5} alt="ellipse" />
+      <TopIcon src={check} alt="check" />
 
-     
       <Title>규칙을 합의했어요</Title>
       <SubTitle>새로운 규칙을 만들었어요</SubTitle>
 
-      
       <RuleCard>
         <Tag>키워드</Tag>
         <RuleText>{ruleText || "합의한 규칙이 여기에 표시돼요."}</RuleText>
@@ -53,7 +69,6 @@ function AfterMismatchPage() {
 }
 
 export default AfterMismatchPage;
-
 
 const Wrapper = styled.div`
   min-height: 100vh;

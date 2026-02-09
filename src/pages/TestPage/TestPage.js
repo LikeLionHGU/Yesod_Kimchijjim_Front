@@ -7,7 +7,6 @@ import ProgressBar from "../../components/common/ProgressBar";
 import Button from "../../components/common/Button";
 import QuestionCard from "../../components/QuestionCard";
 
-
 function TestPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,6 +14,15 @@ function TestPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // 테스트 시작이면 rules를 초기화
+  useEffect(() => {
+    const startIndex = location.state?.startIndex;
+    if (typeof startIndex !== "number") {
+      // 첫 진입인 경우
+      localStorage.removeItem("rules");
+    }
+  }, []); // 주석 살림
 
   // Match/AfterMismatch에서 "다음 문제 인덱스"를 넘기면 이어서 진행
   useEffect(() => {
@@ -62,20 +70,11 @@ function TestPage() {
     const ruleText = buildRuleText();
     const nextIndex = currentIndex + 1;
 
-    /* 
-       백엔드 연동 (API 명세서 기반)
-       7. 테스트(응답) 입력  POST /room/test
-       request: { roomUserId, rule }
-       
-    await fetch("/room/test", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        roomUserId: 1, // TODO: 실제 roomUserId로 교체
-        rule: ruleText,
-      }),
-    });
-    */
+    // 지금은 여기서 rules 저장 안함
+    // match에서 수정할 수도 있고, mismatch에서 합의 규칙을 새로 쓰니까
+    // 최종 확정은 다음 페이지에서 저장하는게 맞음
+
+    const questionIndex = currentIndex; // 0~4 (몇 번째 문제인지)
 
     // 홀수 문제(1,3,5)=match / 짝수(2,4)=mismatch
     const isMatchDummy = currentQuestion.id % 2 === 1;
@@ -87,6 +86,7 @@ function TestPage() {
           ruleText,
           nextIndex,
           totalQuestions,
+          questionIndex,
         },
       });
     } else {
@@ -96,18 +96,14 @@ function TestPage() {
           ruleText,
           nextIndex,
           totalQuestions,
-         
+          questionIndex,
+
           myAnswer: ruleText,
-          others: [
-            "상대1 답변",
-            "상대2 답변",
-            "상대3 답변",
-          ],
+          others: ["상대1 답변", "상대2 답변", "상대3 답변"],
         },
       });
     }
 
-  
     setSelectedOption([]);
     setIsSubmitted(false);
   };
@@ -124,11 +120,12 @@ function TestPage() {
         onSelect={handleSelect}
         isMultiSelect={isMultiSelect}
       />
-    <ButtonWrap>
-      <Button onClick={handleSubmit} disabled={selectedOption.length === 0}>
-        선택 완료
-      </Button>
-    </ButtonWrap>
+
+      <ButtonWrap>
+        <Button onClick={handleSubmit} disabled={selectedOption.length === 0}>
+          선택 완료
+        </Button>
+      </ButtonWrap>
 
       {isSubmitted && (
         <GuideText>
@@ -160,9 +157,8 @@ const GuideText = styled.div`
 `;
 
 const ButtonWrap = styled.div`
-  width: 746px;        
+  width: 746px;
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   margin-top: 20px;
 `;
-

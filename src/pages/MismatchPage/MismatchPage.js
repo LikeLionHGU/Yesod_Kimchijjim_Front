@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
-import Ellipse5 from "../../assets/Ellipse 5.svg";
+import exclamation_mark from "../../assets/exclamation_mark.svg";
 
 function MismatchPage() {
   const navigate = useNavigate();
@@ -12,34 +12,42 @@ function MismatchPage() {
     if (!state) navigate("/", { replace: true });
   }, [state, navigate]);
 
-  const { questionId, nextIndex, totalQuestions, myAnswer, others } = state || {};
+  const {
+    questionId,
+    nextIndex,
+    totalQuestions,
+    myAnswer,
+    others,
+    questionIndex,
+  } = state || {};
+
   const [draftRule, setDraftRule] = useState("");
 
-  
   const answers = [myAnswer, ...(others ?? [])].filter(Boolean);
 
   const handleDone = () => {
     navigate("/after-mismatch", {
-      state: { questionId, nextIndex, totalQuestions, draftRule },
+      state: { questionId, nextIndex, totalQuestions, draftRule, questionIndex },
     });
   };
 
   return (
     <Wrapper>
-      <TopIcon src={Ellipse5} alt="ellipse" />
+      <TopIcon src={exclamation_mark} alt="exclamaion_mark" />
 
       <Title>의견 차이가 있어요</Title>
       <SubTitle>서로 만족할 수 있는 중간 지점을 찾아봐요</SubTitle>
 
       <MainCard>
-       <SmallLabel>논의 중인 질문</SmallLabel>
+        <SmallLabel>논의 중인 질문</SmallLabel>
+
         <CardHeader>
           <QuestionTitle>몇시에 소등할까요?</QuestionTitle>
           <KeywordPill>키워드</KeywordPill>
         </CardHeader>
 
-        
-       <SectionLabel>나온 답변</SectionLabel>
+        <SectionLabel>나온 답변</SectionLabel>
+
         <AnswersWrap>
           {answers.map((t, idx) => (
             <AnswerBox key={idx}>{t}</AnswerBox>
@@ -77,8 +85,6 @@ function MismatchPage() {
 
 export default MismatchPage;
 
-
-
 const Wrapper = styled.div`
   min-height: 100vh;
   background: ${Colors.backgroundColor};
@@ -109,7 +115,6 @@ const SubTitle = styled.p`
   text-align: center;
   font-size: 14px;
 `;
-
 
 const MainCard = styled.div`
   width: 746px;
@@ -151,7 +156,6 @@ const KeywordPill = styled.div`
   font-weight: 700;
   box-sizing: border-box;
 `;
-
 
 const AnswersWrap = styled.div`
   display: grid;
@@ -224,9 +228,9 @@ const RuleInput = styled.input`
 
 const DoneButton = styled.button`
   display: flex;
-  min-width: 175px;          
+  min-width: 175px;
   height: 55px;
-  padding: 12px 24px;        
+  padding: 12px 24px;
   justify-content: center;
   align-items: center;
   gap: 10px;
@@ -238,17 +242,16 @@ const DoneButton = styled.button`
   font-weight: 800;
   cursor: pointer;
 
-  white-space: nowrap;       
-  line-height: 1;            
-  
+  white-space: nowrap;
+  line-height: 1;
+
   opacity: ${({ disabled }) => (disabled ? 0.3 : 1)};
   pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
-
 const SmallLabel = styled.div`
   font-size: 12px;
-  color: ${Colors.fixGray};   
+  color: ${Colors.fixGray};
   margin-bottom: 8px;
 `;
 
