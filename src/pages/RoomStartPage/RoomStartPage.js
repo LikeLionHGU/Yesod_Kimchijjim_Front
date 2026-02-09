@@ -3,9 +3,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
-import TitleSection from "../../components/common/TitleSection";
+import NoIconTitleSection from "../../components/common/NoIconTitleSection";
 import GoBackPage from "../../components/common/BackButton";
-import TitleIcon from "../../assets/Ellipse 5.svg";
 import ArrowBtnIcon from "../../assets/arrowbtnIcon.svg";
 
 const RoomStartPage = () => {
@@ -56,8 +55,7 @@ const RoomStartPage = () => {
     return(
         <PageContainer>
             <GoBackPage/>
-            <TitleSection
-                iconSrc={TitleIcon}
+            <NoIconTitleSection
                 titleText={"우리 방 시작하기"}
                 subTitleText={"룸메이트와 함께 사용할 방을 만들어보세요"}
             />
