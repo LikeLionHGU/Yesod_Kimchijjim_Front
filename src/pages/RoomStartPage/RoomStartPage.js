@@ -74,14 +74,19 @@ const RoomStartPage = () => {
                             value={roomCode}
                             onChange={handleRoomCodeChange}
                             maxLength={6}
+                            $isError={isError}
                         />
-                        <ArrowButton onClick={handleRoomJoin} disabled={!isButtonActive} src={ArrowBtnIcon}/>
-                    </InputWrapper>
+                        <ArrowButton onClick={handleRoomJoin} disabled={!isButtonActive}
+                        $isError={isError}>
+                            <img src={ArrowBtnIcon}/>
+                        </ArrowButton>
 
-                    {isError && <ErrorContainer>
-                        <IconImage src={InfoIconImg} />
-                        <ErrorMessage>잘못된 코드입니다</ErrorMessage>
-                    </ErrorContainer>}
+                        {isError && ( <ErrorContainer>
+                            <IconImage src={InfoIconImg} />
+                            <ErrorMessage>잘못된 코드입니다</ErrorMessage>
+                        </ErrorContainer>)}
+
+                    </InputWrapper>
 
                 </JoinCard>
             </CardContainer>
@@ -179,13 +184,16 @@ const InputWrapper = styled.div`
     width: 270px;
     height: 57px;
     margin-top: 18px;
+
+    display: flex;
+    align-items: center;
 `;
 
 const CodeInput = styled.input`
     width: 100%;
     height: 100%;
     border-radius: 11px;
-    border: 1px solid ${Colors.borderLine};
+    border: 1px solid ${props => props.$isError ? Colors.errorColor : Colors.borderLine};
     background: ${Colors.white};
     padding: 11px 102px 11px 15px;
     font-family: "Noto Sans KR";
@@ -198,11 +206,11 @@ const CodeInput = styled.input`
     box-sizing: border-box;
 
     &:focus{
-        border: 2px solid ${Colors.mainPurple};
+        border: 2px solid ${props => props.$isError ? Colors.errorColor : Colors.mainPurple};
     }
 
     &:hover{
-        border: 2px solid ${Colors.mainPurple};
+        border: 2px solid ${props => props.$isError ? Colors.errorColor : Colors.mainPurple};
     }
 
     &::placeholder {
@@ -228,8 +236,8 @@ const ArrowButton = styled.button`
     align-items: center;    
     border-radius: 11px;
     border: none;
-    background: ${Colors.mainPurple};
-    opacity: 1;
+    background: ${props => props.$isError ? "#ADADAD" : Colors.mainPurple};
+    opacity: ${props => props.$isError ? 0.5 : 1};
     transition: background 0.3s ease;
     cursor: pointer;
     z-index: 10;

@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
 import GoBackPage from "../../components/common/BackButton";
+import NoIconTitleSection from "../../components/common/NoIconTitleSection";
 
 const RoomLeaderWaitPage = () => {
    const navigate = useNavigate();
@@ -18,10 +19,10 @@ const RoomLeaderWaitPage = () => {
    return(
     <PageContainer>
         <GoBackPage/>
-        <TitleGroup>
-            <Title>대기실</Title>
-            <SubTitle>모든 룸메이트가 입장하길 기다리고 있어요</SubTitle>
-        </TitleGroup>
+        <NoIconTitleSection
+            titleText={"대기실"}
+            subTitleText={"모든 룸메이트가 입장하길 기다리고 있어요"}
+        />
         <Card>
             <CodeGroup>
                 <Label>방 코드</Label>
