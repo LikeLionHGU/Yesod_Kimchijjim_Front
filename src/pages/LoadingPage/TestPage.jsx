@@ -3,6 +3,8 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Colors } from "../../styles/colors";
+import styled from "styled-components";
 
 const TestPage = () => {
     const[authResult, setAuthResult] = useState("인증 확인 중!");
@@ -44,7 +46,12 @@ const TestPage = () => {
 
                     const userInfo = localStorage.getItem("userInfo");
                     if(userInfo){
+                    //JSON.stringify() 객체를 문자열로 변환 (저장할 때)
+                    //로컬스토리지는 글자(string)만 저장할 수 있기 때문에 
+            
+                    //JSON.parse() 문자열을 객체로 변환 (꺼내쓸 때)
                         const user = JSON.parse(userInfo);
+                        console.log("변환된 유저 객체:", user); //밑의 name과 email을 그에 맞게 수정
                         setAuthResult(`인증 성공! 환영합니다, ${user.name}님! 이메일: ${user.email}`);
                     }
                 } else{
@@ -81,7 +88,18 @@ const TestPage = () => {
 
     return (
         <PageContainer>
+            <div style={{ padding: "2rem" }}>
+                <h2>JWT 인증 테스트</h2>
+                <p style={{ whiteSpace: "pre-line", fontSize: "18px" }}>
+                    결과: {authResult}
+                </p>
 
+                {authResult.includes("실패") && (
+                    <p style={{ color: "#666", fontSize: "14px", marginTop: "1rem" }}>
+                        2초 후 로그인 페이지로 이동합니다...
+                    </p>
+                )}
+            </div>
         </PageContainer>
     );
 };

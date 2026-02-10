@@ -15,6 +15,7 @@ import RoomMemberWaitPage from "./pages/RoomWaitPage/RoomMemberWaitPage";
 import LoadingPage from "./pages/LoadingPage/LoadingPage";
 import AlreadyRoomStartPage from "./pages/RoomInvitePage/AlreadyRoomStartPage";
 import LandingPage from "./pages/LandingPage/LandingPage";
+import LoginTestPage from "./pages/LoadingPage/TestPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Routes>
 
         <Route path="/" element={<LandingPage />} />
+        <Route path="/login/test" element={<LoginTestPage/>}/>
         <Route path="/room" element={<RoomStartPage/>}/>
         <Route path="/loading" element={<LoadingPage/>}/>
         <Route path="/room/create" element={<RoomCreatePage/>}/>

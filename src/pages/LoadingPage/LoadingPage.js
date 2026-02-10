@@ -37,8 +37,8 @@ const LoadingPage = () => {
                 //백엔드로 authorization code 전송
                 await sendAccessTokenToBackend(code);
 
-                //성공 시, RoomStartPage로 이동
-                navigate("/room");
+                //성공 시, RoomStartPage로 이동(일단 테스트 나중에 /room으로 바꾸기)
+                navigate("/login/test");
 
             } catch (error) {
                 console.error("로그인 과정에서 에러 발생", error);
