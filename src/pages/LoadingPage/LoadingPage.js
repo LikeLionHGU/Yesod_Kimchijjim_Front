@@ -30,6 +30,8 @@ const LoadingPage = () => {
                 return;
             }
 
+            localStorage.setItem("idToken", idToken);
+
             try{
                 await sendAccessTokenToBackend(idToken);
                 navigate("/room");

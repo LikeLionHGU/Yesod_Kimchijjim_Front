@@ -18,6 +18,45 @@ const RoomStartPage = () => {
         navigate("/room/create");
     };
 
+    const handleRoomJoin = async() => {
+        if(!isButtonActive) return;
+
+        try{
+            const token = localStorage.getItem("idToken");
+
+            const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/rooms/check`, {
+                params: {
+                    roomCode: roomCode
+                },
+                withCredentials: true
+            });
+
+            if(response.status === 200) {
+                console.log("검증 성공. 방에 들어가자");
+                setIsError(false);
+
+                navigate("/room/join", {
+                    state: {code: roomCode}
+                });
+            }
+        } catch(error) {
+            console.error("검증실패:", error);
+            const status = error.response?.status;
+
+            if(status === 404) {
+                alert("존재하지 않는 방 코드입니다. 다시 확인해 주세요")
+            } else if (status === 409){
+                alert("방 인원이 가득 찼습니다. 다른 방을 이용해 주세요");
+            } else if(status === 500) {
+                alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요");
+            } else {
+                alert("알 수 없는 오류가 발생했습니다");
+            }
+
+            setIsError(true);
+        }
+    };
+
     /*백엔드, 코드 맞으면 roomJoinPage로 넘어가기 
     const handleRoomJoin = async () => {
         if(roomCode.length !== 6) return;
@@ -30,17 +69,18 @@ const RoomStartPage = () => {
         }
     };*/
 
-    const handleRoomJoin = () => {
-        if(roomCode === "123456"){
-            console.log("성공");
-            navigate("/room/join", {
-                state: {code: roomCode}
-            });
-        } else{
-            console.log("실패");
-            setIsError(true);
-        }
-    }
+    // 백엔드랑 연결 전, 방 입장하려고요
+    // const handleRoomJoin = () => {
+    //     if(roomCode === "123456"){
+    //         console.log("성공");
+    //         navigate("/room/join", {
+    //             state: {code: roomCode}
+    //         });
+    //     } else{
+    //         console.log("실패");
+    //         setIsError(true);
+    //     }
+    // }
 
     const handleRoomCodeChange = (e) => {
         const text = e.target.value;
