@@ -6,6 +6,8 @@ import InfoIconImg from "../../assets/info.svg";
 import NoIconTitleSection from "../../components/common/NoIconTitleSection";
 import GoBackPage from "../../components/common/BackButton";
 import axios from "axios";
+import TitleSection from "../../components/common/TitleSection";
+import DoorIcon from "../../assets/doorIcon.svg";
 
 //RoomStartPage에서 와서
 //RoomInvitePage로 이동
@@ -259,10 +261,12 @@ const RoomCreatePage = () => {
         if (!isActive) return;
 
         try{
-            const response = await axios.post(`${process.env.REACT_APP_HOST_URL}/room`, { 
+            const response = await axios.post(`${process.env.REACT_APP_HOST_URL}/rooms`, { 
                 roomName: roomName,
                 maxPeople: member,
                 hostNickname: myName
+            }, {
+                withCredentials:true
             });
 
             console.log('백엔드 응답:', response.data);
@@ -286,7 +290,8 @@ const RoomCreatePage = () => {
     return (
         <PageContainer>
             <GoBackPage/>
-            <NoIconTitleSection
+            <TitleSection
+                iconSrc={DoorIcon}
                 titleText={"방 만들기"}
                 subTitleText={"룸메이트와 함께 사용할 방을 만들어보세요"}
             />

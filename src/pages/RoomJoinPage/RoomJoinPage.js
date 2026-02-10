@@ -5,6 +5,8 @@ import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
 import NoIconTitleSection from "../../components/common/NoIconTitleSection";
 import GoBackPage from "../../components/common/BackButton";
+import TitleSection from "../../components/common/TitleSection";
+import DoorIcon from "../../assets/doorIcon.svg";
 
 const RoomJoinPage = () => {
     const navigate = useNavigate();
@@ -47,7 +49,8 @@ const RoomJoinPage = () => {
     return(
         <PageContainer>
             <GoBackPage/>
-            <NoIconTitleSection
+            <TitleSection
+                iconSrc={DoorIcon}
                 titleText={"방 들어가기"}
                 subTitleText={"우리 방에 들어가요"}
             />
