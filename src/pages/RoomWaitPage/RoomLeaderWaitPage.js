@@ -1,20 +1,58 @@
-import react, {useState} from "react";
+import react, {useState, useEffect} from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
 import GoBackPage from "../../components/common/BackButton";
 import NoIconTitleSection from "../../components/common/NoIconTitleSection";
+import axios from "axios";
 
 const RoomLeaderWaitPage = () => {
    const navigate = useNavigate();
    const location = useLocation();
 
-   const roomCode = location.state?.roomCode||"??????";
+   const roomCode = location.state?.roomCode|| sessionStorage.getItem("currentRoomCode") || "??????";
 
-   const handleTestStart = () => {
-    navigate("/room/test")
-   };
+    const [roomStatus, setRoomStatus] = useState({
+        isFull: false,
+        currentPeople: 0,
+        maxPeople: 0
+    });
+
+    useEffect(()=>{
+        const checkStatus = async() => {
+            try{
+                const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}/waiting`, {
+                    withCredentials: true
+                });
+
+                const {isFull, currentPeople, maxPeople} = response.data;
+
+                setRoomStatus({
+                    isFull,
+                    currentPeople,
+                    maxPeople
+                });
+
+                if(isFull) {
+                    navigate("/room/test", {
+                        state: {roomCode: roomCode}
+                    });
+                }
+            } catch(error){
+                console.error("방 상태를 불러오는 중 오류 발생:", error);
+            }
+        };
+
+        const intervalId = setInterval(checkStatus, 3000);
+
+        return () => clearInterval(intervalId);
+
+    }, [roomCode, navigate]);
+
+//    const handleTestStart = () => {
+//     navigate("/room/test")
+//    };
 
    return(
     <PageContainer>
@@ -31,7 +69,9 @@ const RoomLeaderWaitPage = () => {
         </Card>
 
         <ButtonGroup>
-            <TestStartBtn onClick={handleTestStart}>테스트 시작하기</TestStartBtn>
+            {/* <TestStartBtn onClick={handleTestStart}>테스트 시작하기</TestStartBtn> */}
+
+            {roomStatus.currentCount}/{roomStatus.maxCount}
         </ButtonGroup>
     </PageContainer>
    );

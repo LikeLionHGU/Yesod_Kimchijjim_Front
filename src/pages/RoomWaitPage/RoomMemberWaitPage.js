@@ -1,39 +1,83 @@
-import react, { useState } from "react";
+import react, {useState, useEffect} from "react";
 import styled from "styled-components";
-import { useNavigate, useLocation} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
 import GoBackPage from "../../components/common/BackButton";
 import NoIconTitleSection from "../../components/common/NoIconTitleSection";
+import axios from "axios";
 
-const RoomMemberWaitPage = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
+const RoomLeaderWaitPage = () => {
+   const navigate = useNavigate();
+   const location = useLocation();
 
-    const roomCode = location.state?.code || "??????";
+   const roomCode = location.state?.roomCode|| sessionStorage.getItem("currentRoomCode") || "??????";
 
-    /*const handleTestStart = () => {
-        navigate("/room/test")
-    };*/
+    const [roomStatus, setRoomStatus] = useState({
+        isFull: false,
+        currentPeople: 0,
+        maxPeople: 0
+    });
 
-    return (
-        <PageContainer>
-            <GoBackPage />
-            <NoIconTitleSection
-                titleText={"대기실"}
-                subTitleText={"모든 룸메이트가 입장하길 기다리고 있어요"}
-            />
-            <Card>
-                <CodeGroup>
-                    <Label>방 코드</Label>
-                    <Code>{roomCode}</Code>
-                </CodeGroup>
-            </Card>
-        </PageContainer>
-    );
+    useEffect(()=>{
+        const checkStatus = async() => {
+            try{
+                const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}/waiting`, {
+                    withCredentials: true
+                });
+
+                const {isFull, currentPeople, maxPeople} = response.data;
+
+                setRoomStatus({
+                    isFull,
+                    currentPeople,
+                    maxPeople
+                });
+
+                if(isFull) {
+                    navigate("/room/test", {
+                        state: {roomCode: roomCode}
+                    });
+                }
+            } catch(error){
+                console.error("방 상태를 불러오는 중 오류 발생:", error);
+            }
+        };
+
+        const intervalId = setInterval(checkStatus, 3000);
+
+        return () => clearInterval(intervalId);
+
+    }, [roomCode, navigate]);
+
+//    const handleTestStart = () => {
+//     navigate("/room/test")
+//    };
+
+   return(
+    <PageContainer>
+        <GoBackPage/>
+        <NoIconTitleSection
+            titleText={"대기실"}
+            subTitleText={"모든 룸메이트가 입장하길 기다리고 있어요"}
+        />
+        <Card>
+            <CodeGroup>
+                <Label>방 코드</Label>
+                <Code>{roomCode}</Code>
+            </CodeGroup>
+        </Card>
+
+        <ButtonGroup>
+            {/* <TestStartBtn onClick={handleTestStart}>테스트 시작하기</TestStartBtn> */}
+
+            {roomStatus.currentCount}/{roomStatus.maxCount}
+        </ButtonGroup>
+    </PageContainer>
+   );
 };
 
-export default RoomMemberWaitPage;
+export default RoomLeaderWaitPage;
 
 //styled-components
 const PageContainer = styled.div`
@@ -47,6 +91,33 @@ const PageContainer = styled.div`
     padding-bottom: 269px;
     position: relative;
     box-sizing: border-box;
+`;
+
+const TitleGroup = styled.div`
+    text-align: center;
+    margin-top: 164px;
+`;
+
+const Title = styled.p`
+    color: ${Colors.detailBlack};
+    text-align: center;
+    font-family: ${Colors.font};
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    margin-bottom: 15px;
+`;
+
+const SubTitle = styled.p`
+    color: ${Colors.detailBlack};
+    text-align: center;
+    font-family: ${Colors.font};
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    margin-bottom: 0;
+    margin-top: 0;
 `;
 
 const Card = styled.div`
@@ -63,7 +134,7 @@ const Card = styled.div`
     justify-content: center;
     align-items: center;
     margin-top: auto;
-    margin-bottom: 186px;
+    margin-bottom: 19px;
 `;
 
 const CodeGroup = styled.div`
@@ -94,4 +165,38 @@ const Code = styled.div`
     font-weight: 700;
     line-height: 30px;
     letter-spacing: 5.4px;
+`;
+
+const ButtonGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    margin-bottom: 186px;
+`;
+
+const TestStartBtn = styled.button`
+    border-radius: 15px;
+    background: ${props => props.$isActive ? `${Colors.mainPurple}` : `${Colors.mainPurple}`};
+    opacity: ${props => props.$isActive ? 1 : 0.5};
+    box-shadow: 0 0 15px 0 ${Colors.boxShadowBlack}; 
+    width: 556px;
+    height: 86px;
+    border: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: ${Colors.white};
+    font-family: ${Colors.font};
+    font-size: 25px;
+    font-weight: 700;
+    cursor: ${props => props.$isActive ? 'pointer':'default'};
+    transition: all 0.2s;
+
+    &:hover{
+        opacity: ${props => props.$isActive ? 0.7: 0.5};
+    };
 `;
