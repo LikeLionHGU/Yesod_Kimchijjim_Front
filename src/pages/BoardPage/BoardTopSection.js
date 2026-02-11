@@ -7,12 +7,15 @@ function BoardTopSection = ({userName, roomName, memberCount, rules}) => {
   return(
     <TopContainer>
       <ContentWrapper>
+
         <LeftSection>
           <GreetingGroup>
-            <Title>반가워요, <Name>{userName || "김한동"}</Name>님</Title>
+            <Title>반가워요, <Name>"김한동"</Name>님</Title>
             <SubTitle>우리방 규칙을 확인하고, 의견을 나눠보세요</SubTitle>
           </GreetingGroup>
+
           <BoardPageIcon src={BoardIcon}/>
+
         </LeftSection>
 
         <RightSection>
@@ -20,9 +23,31 @@ function BoardTopSection = ({userName, roomName, memberCount, rules}) => {
             <CardHeader>우리방의 규칙</CardHeader>
 
             <SectionTitleGroup>
+              <SectionLabel>방 정보</SectionLabel>
+              <IconButton src={연필}/>
             </SectionTitleGroup>
+
+            <RoomInfoBox>
+              <RoomName>{룸네임}</RoomName>
+              <MemberCountGroup>
+                <UserIconImg src={사람아이콘}/>
+                <Count>{방인원}</Count>
+              </MemberCountGroup>
+            </RoomInfoBox>
+
+            <SectionTitleGroup>
+              <SectionLabel>방 규칙</SectionLabel>
+              <TextButton>규칙 수정하기</TextButton>
+            </SectionTitleGroup>
+
+            <RuleList>
+              {규칙불러오기}
+            </RuleList>
+            <PageNationDot/>
+
           </RuleCard>
         </RightSection>
+
       </ContentWrapper>
     </TopContainer>
   )
@@ -86,4 +111,131 @@ const SubTitle = styled.p`
   font-weight: 700;
   line-height: 46px;
   margin-top: 0;
-`
+`;
+
+const BoardPageIcon = styled.img`
+  width: 332px;
+  height: 328px;
+  align-self: center;
+`;
+
+const RightSection = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const RuleCard = styled.div`
+  width: 460px;
+  height: 636px;
+  background: ${Colors.backgroundColor};
+  border-radius: 15px;
+  padding: 16px, 41px;
+  box-shadow: ${Colors.boxShadowBlack};
+  display: flex;
+  flex-direction: column;
+`;
+
+const CardHeader = styled.p`
+  color: ${Colors.detailBlack};
+  font-family: ${Colors.font};
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 17px; 
+  margin-bottom: 50px;
+`;
+
+const SectionTitleGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+`;
+
+const SectionLabel = styled.p`
+  font-size: 13px;
+  font-family: ${Colors.font};
+  color: ${Colors.detailBlack};
+  font-style: normal;
+  font-weight: 700;
+  line-height: 15px;
+`;
+
+const RoomInfoBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: ${Colors.white};
+  padding: 14px 15px;
+  border-radius: 12.592px;
+`; 
+
+const RoomName = styled.span`
+  color: ${Colors.black};
+  font-family: ${Colors.font};
+  font-size: 18.887px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21.405px;
+`;
+
+const MemberCountGroup = styled.div`
+  display: flex;
+  align-items: center;
+  color: ${Colors.inputColor};
+`;
+
+const RuleList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+`; 
+
+const RuleItem = styled.div`
+  background-color: ${Colors.white};
+  padding: 15px 16px;
+  border-radius: 12.591px;
+  color: ${Colors.black};
+
+  font-family: ${Colors.font};
+  font-size: 18.887px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21.405px;
+  text-align: left;
+`;
+
+const TextButton = styled.button`
+  background: none; 
+  border: none;
+  color: ${Colors.secondPurple};
+  font-family: ${Colors.font};
+  font-size: 13px;
+  font-style: noraml;
+  font-weight: 700;
+  line-height: 15px;
+  cursor: pointer;
+`;
+
+const IconButton = styled.img`
+  width: 20px;
+  cursor: pointer;
+`;
+
+const UserIconImg = styled.img`
+  width: 17px;
+`;
+
+const Count = styled.span`
+  font-size: 18.887px;
+`;
+
+const PageNationDot = styled.div`
+      width: 8px;
+    height: 8px;
+    background-color: ${Colors.mainPurple};
+    border-radius: 50%;
+    align-self: center;
+    margin-top: 7px;
+`;
