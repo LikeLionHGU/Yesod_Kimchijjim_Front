@@ -22,6 +22,8 @@ const RoomLeaderWaitPage = () => {
     useEffect(()=>{
         const checkStatus = async() => {
             try{
+                const token = localStorage.getItem("idToken");
+                
                 const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}/waiting`, {
                     withCredentials: true
                 });
@@ -34,7 +36,7 @@ const RoomLeaderWaitPage = () => {
                     maxPeople
                 });
 
-                if(isFull) {
+                if (isFull === true || currentPeople >= maxPeople || response.data.full === true) {
                     navigate("/room/test", {
                         state: {roomCode: roomCode}
                     });

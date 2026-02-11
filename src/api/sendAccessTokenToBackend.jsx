@@ -46,6 +46,8 @@ import axios from "axios";
 
 const sendAccessTokenToBackend = async(idToken) => {
     try{
+        console.log("실제 요청 주소:", `${process.env.REACT_APP_HOST_URL}/사용중인경로`);
+        
         const response = await axios.post(`${process.env.REACT_APP_HOST_URL}/auth/google`,
             {idToken: idToken},
             {withCredentials: true}

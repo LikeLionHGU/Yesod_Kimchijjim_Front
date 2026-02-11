@@ -48,7 +48,7 @@ function App() {
           <Route path="/room/member/wait" element={<RoomMemberWaitPage />} />
 
           
-          <Route path="/test" element={<TestPage />} />
+          {/* <Route path="/test" element={<TestPage />} /> */}
           <Route path="/room/test" element={<TestPage />} />
 
           
