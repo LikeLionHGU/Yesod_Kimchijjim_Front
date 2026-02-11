@@ -5,10 +5,15 @@ import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
 import NoIconTitleSection from "../../components/common/NoIconTitleSection";
 import GoBackPage from "../../components/common/BackButton";
+import TitleSection from "../../components/common/TitleSection";
+import DoorIcon from "../../assets/doorIcon.svg";
+import axios from "axios";
+
 
 const RoomJoinPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
+
     const code = location.state?.code;
 
     const [userName, setUserName] = useState("");
@@ -36,18 +41,43 @@ const RoomJoinPage = () => {
         !isUserNameError && userName.length >= 2;
 
 
-    const handleWait = () => {
+    const handleWait = async() => {
         if(!isActive) return;
 
-        navigate("/room/member/wait", {
-            state: {code:code}
+        try{
+            const token = localStorage.getItem('idToken');
+
+            console.log("보내는 코드:", code);
+            
+            const response = await axios.post(`${process.env.REACT_APP_HOST_URL}/rooms/join`, {
+                roomCode: code,
+                nickname: userName
+            },
+
+            {withCredentials: true});
+        
+            console.log("방 입장 성공:", response.data);
+
+            sessionStorage.setItem("currentRoomCode", code);
+
+             navigate("/room/member/wait", {
+                state: {
+                    code: code,
+                    roomInfo: response.data,
+                    myNickname: userName
+                }
         });
+        } catch(error){
+            console.error("방 입장 실패:", error);
+            alert(error.response?.data?.message || "방 입장에 실패했습니다");
+        }
     };
 
     return(
         <PageContainer>
             <GoBackPage/>
-            <NoIconTitleSection
+            <TitleSection
+                iconSrc={DoorIcon}
                 titleText={"방 들어가기"}
                 subTitleText={"우리 방에 들어가요"}
             />
@@ -202,7 +232,7 @@ const CreateButton = styled.button`
 
     cursor: ${props => (props.$isActive ? 'pointer' : 'default')};
 
-    &:hover:not(:disabled){
-        opacity: 0.7;
+    &:hover{
+        background: ${Colors.hoverPurple};
     }
 `;

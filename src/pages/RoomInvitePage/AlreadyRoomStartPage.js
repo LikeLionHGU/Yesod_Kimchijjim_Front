@@ -5,6 +5,7 @@ import TitleSection from "../../components/common/TitleSection";
 import GoBackPage from "../../components/common/BackButton";
 import HomeIcon from "../../assets/homeIcon.svg";
 import { useNavigate } from "react-router-dom";
+//import CheckVideo from "../../assets/checkVideo.gif";
 
 const AlreadyRoomStartPage = () => {
     const navigate = useNavigate();
