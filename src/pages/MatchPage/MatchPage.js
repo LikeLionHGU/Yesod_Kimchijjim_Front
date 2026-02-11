@@ -1,99 +1,157 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import Button from "../../components/common/Button";
 import check from "../../assets/check.svg";
-import Pencil from "../../assets/Pencil.svg";
-
+import { api } from "../../utils/api";
+import { QUESTION_DATA } from "../../constants/questions";
+import { useRoom } from "../../context/RoomContext";
 
 function MatchPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const { roomCode, userId } = useRoom();
 
-  // state 없으면 잘못 진입 → 홈
+  // state 없으면 잘못 진입(직접 url 등) → test로
   useEffect(() => {
-    if (!state) navigate("/", { replace: true });
+    if (!state?.questionId) navigate("/test", { replace: true });
   }, [state, navigate]);
 
   const questionId = state?.questionId;
-  const totalQuestions = state?.totalQuestions ?? 5;
   const nextIndex = state?.nextIndex ?? 0;
-  const questionIndex = state?.questionIndex ?? (nextIndex - 1); // 혹시 누락 대비
+  const totalQuestions = state?.totalQuestions ?? QUESTION_DATA.length;
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [ruleText, setRuleText] = useState(state?.ruleText ?? "");
+  const questionMeta = useMemo(
+    () => QUESTION_DATA.find((q) => q.id === questionId),
+    [questionId]
+  );
 
-  // rules[index] 자리에 최종 규칙 저장
-  const saveRuleAt = (index, text) => {
-    const prev = JSON.parse(localStorage.getItem("rules") || "[]");
-    const next = Array.from({ length: totalQuestions }, (_, i) => prev[i] ?? "");
-    next[index] = text;
-    localStorage.setItem("rules", JSON.stringify(next));
-  };
+  const [rulesText, setRulesText] = useState([]);
+  const [readyInfo, setReadyInfo] = useState(null);
 
-  const handleNext = () => {
-    // 여기서 저장해야 "수정된 규칙"이 들어감
-    saveRuleAt(questionIndex, ruleText);
+  // 버튼 연타 방지 + "한 번만 누르기"
+  const [hasPressedReady, setHasPressedReady] = useState(false);
+  const [isSendingReady, setIsSendingReady] = useState(false);
 
-    // 5문제 끝이면 ResultPage로
-    if (nextIndex >= totalQuestions) {
-      const saved = JSON.parse(localStorage.getItem("rules") || "[]");
+  // 만장일치 규칙 로드
+  useEffect(() => {
+    if (!roomCode || !questionId) return;
 
-      navigate("/result", {
-        state: {
-          roomTitle: "화목관 302호 방의 규칙",
-          periodText: "2026.3.3 - 3.31",
-          rules: saved.map((t, idx) => ({ id: idx + 1, text: t })),
-        },
+    let mounted = true;
+    (async () => {
+      try {
+        const data = await api.getResult({ roomId: roomCode, questionId });
+        if (!mounted) return;
+
+        // 만장일치일 때 내려오는 규칙 문장들
+        setRulesText(data?.unanimousRuleTexts || []);
+      } catch (e) {
+        setRulesText([]);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [roomCode, questionId]);
+
+  // all-ready 폴링
+  useEffect(() => {
+    if (!roomCode || !questionId) return;
+
+    const t = setInterval(async () => {
+      try {
+        const res = await api.getReadyStatus({
+          roomId: roomCode,
+          screen: "MATCH",
+          questionId,
+        });
+
+        setReadyInfo(res);
+
+        if (res?.isAllReady) {
+          if (nextIndex >= totalQuestions) navigate("/test/result");
+          else navigate("/test", { state: { startIndex: nextIndex } });
+        }
+      } catch (e) {}
+    }, 2000);
+
+    return () => clearInterval(t);
+  }, [roomCode, questionId, navigate, nextIndex, totalQuestions]);
+
+  // 내가 ready 누르기
+  const handleReady = async () => {
+    // 이미 눌렀으면 아무 것도 안 함
+    if (hasPressedReady) return;
+    if (!roomCode || !questionId || !userId) return;
+
+    setIsSendingReady(true);
+    try {
+      const res = await api.ready({
+        roomId: roomCode,
+        roomUserId: userId,
+        screen: "MATCH",
+        questionId,
       });
-      return;
-    }
 
-    // 다음 문제로
-    navigate("/", { state: { startIndex: nextIndex } });
+      // 눌렀다는 상태 잠금
+      setHasPressedReady(true);
+
+      // count 바로 갱신
+      setReadyInfo(res);
+    } catch (e) {
+      alert("요청에 실패했어요. 잠시 후 다시 눌러줘.");
+    } finally {
+      setIsSendingReady(false);
+    }
   };
+
+  const notReadyCount =
+    readyInfo && !readyInfo.isAllReady
+      ? readyInfo.totalCount - readyInfo.readyCount
+      : 0;
 
   return (
     <Wrapper>
       <TopIcon src={check} alt="check" />
 
       <Title>모두의 답변이 일치해요</Title>
-      <SubTitle>답변을 토대로 우리방의 규칙을 만들었어요</SubTitle>
+      <SubTitle>
+        {questionMeta?.question ? questionMeta.question : "규칙을 확인해요"}
+      </SubTitle>
 
-      <RuleCard>
-        <Tag>키워드</Tag>
-
-        {!isEditing ? (
-          <RuleText>{ruleText}</RuleText>
+      <RuleList>
+        {rulesText.length === 0 ? (
+          <EmptyText>규칙을 불러오는 중이에요...</EmptyText>
         ) : (
-          <RuleInput
-            value={ruleText}
-            onChange={(e) => setRuleText(e.target.value)}
-            placeholder="규칙을 수정해보세요"
-          />
+          rulesText.map((t, idx) => (
+            <RuleCard key={idx}>
+              <Tag>{questionMeta?.category || "키워드"}</Tag>
+              <RuleText>{t}</RuleText>
+            </RuleCard>
+          ))
         )}
-
-        {!isEditing ? (
-          <IconButton
-            type="button"
-            onClick={() => setIsEditing(true)}
-            aria-label="규칙 수정"
-            title="수정"
-          >
-            <IconImg src={Pencil} alt="pencil" />
-          </IconButton>
-        ) : (
-          <EditDoneBtn type="button" onClick={() => setIsEditing(false)}>
-            수정 완료
-          </EditDoneBtn>
-        )}
-      </RuleCard>
+      </RuleList>
 
       <ButtonWrap>
-        <Button onClick={handleNext} disabled={!ruleText.trim()}>
-          다음으로
+        <Button
+          onClick={handleReady}
+          disabled={
+            rulesText.length === 0 || isSendingReady || hasPressedReady
+          }
+        >
+          {hasPressedReady ? "확인 완료!" : "확인했어요"}
         </Button>
+
+        {/* ready 눌렀을 때만 안내문 보여주기 */}
+        {hasPressedReady && (
+          <Hint>
+            {notReadyCount > 0
+              ? `아직 ${notReadyCount}명이 누르지 않았어요. 모두 누르면 넘어가요.`
+              : "모두 눌렀어요! 곧 넘어가요."}
+          </Hint>
+        )}
       </ButtonWrap>
     </Wrapper>
   );
@@ -101,7 +159,7 @@ function MatchPage() {
 
 export default MatchPage;
 
-/*styled*/
+/* ===== CSS ===== */
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -128,10 +186,17 @@ const Title = styled.h1`
 `;
 
 const SubTitle = styled.p`
-  margin: 12px 0 68px;
+  margin: 12px 0 44px;
   color: ${Colors.fixGray};
   text-align: center;
   font-size: 14px;
+`;
+
+const RuleList = styled.div`
+  width: 746px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 `;
 
 const RuleCard = styled.div`
@@ -140,14 +205,11 @@ const RuleCard = styled.div`
   border-radius: 15px;
   background: ${Colors.white};
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
-
   display: flex;
   align-items: center;
   gap: 16px;
   padding: 0 24px;
   box-sizing: border-box;
-
-  position: relative;
 `;
 
 const Tag = styled.div`
@@ -156,65 +218,34 @@ const Tag = styled.div`
   font-size: 12px;
   color: ${Colors.white};
   background: ${Colors.secondPurple};
+  white-space: nowrap;
 `;
 
 const RuleText = styled.div`
   flex: 1;
   font-size: 16px;
   color: ${Colors.black};
-  padding-right: 48px;
-`;
-
-const RuleInput = styled.input`
-  flex: 1;
-  height: 44px;
-  border: 1px solid ${Colors.inputColor};
-  border-radius: 10px;
-  padding: 0 12px;
-  font-size: 16px;
-  outline: none;
-  padding-right: 48px;
-`;
-
-const IconButton = styled.button`
-  position: absolute;
-  right: 24px;
-  top: 50%;
-  transform: translateY(-50%);
-
-  border: none;
-  background: transparent;
-  padding: 6px;
-  cursor: pointer;
-  border-radius: 8px;
-
-  &:hover {
-    background: ${Colors.fixWhite};
-  }
-`;
-
-const IconImg = styled.img`
-  width: 24px;
-  height: 24px;
-  display: block;
-`;
-
-const EditDoneBtn = styled.button`
-  position: absolute;
-  right: 24px;
-  top: 50%;
-  transform: translateY(-50%);
-
-  border: none;
-  background: transparent;
-  color: ${Colors.mainPurple};
-  font-weight: 800;
-  cursor: pointer;
 `;
 
 const ButtonWrap = styled.div`
   width: 746px;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
   margin-top: 20px;
+`;
+
+const Hint = styled.div`
+  font-size: 12px;
+  color: ${Colors.mainPurple};
+  text-align: right;
+`;
+
+const EmptyText = styled.div`
+  width: 746px;
+  text-align: center;
+  color: ${Colors.fixGray};
+  font-size: 14px;
+  padding: 20px 0;
 `;

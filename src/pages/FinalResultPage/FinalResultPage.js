@@ -1,86 +1,117 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useLocation, useNavigate } from "react-router-dom";
-import html2canvas from "html2canvas";
 import { Colors } from "../../styles/colors";
-import TitleSection from "../../components/common/TitleSection";
 import Button from "../../components/common/Button";
-import Ellipse5 from "../../assets/Ellipse 5.svg";
+import { api } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
+import { useRoom } from "../../context/RoomContext";
 
 function FinalResultPage() {
   const navigate = useNavigate();
-  const { state } = useLocation();
+  const { roomCode, userId, amIHost } = useRoom();
 
-  // state 없으면 잘못 진입 → 홈
+  const captureRef = useRef(null);
+
+  const [rules, setRules] = useState([]);
+  const [isMoving, setIsMoving] = useState(false);
+
+  // Final 규칙 불러오기
   useEffect(() => {
-    if (!state) navigate("/", { replace: true });
-  }, [state, navigate]);
+    if (!roomCode || !userId) return;
 
-  const roomTitle = state?.roomTitle ?? "우리방의 규칙";
-  const periodText = state?.periodText ?? "";
-  const rules = state?.rules ?? [];
+    let mounted = true;
 
-  // 규칙보드 부분만 캡처해야하
-  const boardRef = useRef(null);
+    (async () => {
+      try {
+        const res = await api.getFinalRules({ roomCode, userId });
 
-  const handleDownloadPng = async () => {
-    if (!boardRef.current) return;
+        // { data: [{ questionId, category, rule }, ...] }
+        if (!mounted) return;
+        setRules(res?.data || []);
+      } catch (e) {
+        console.error(e);
+        setRules([]);
+      }
+    })();
 
-    // 규칙박스만 캡쳐
-    //npm i html2canvas
-    const canvas = await html2canvas(boardRef.current, {
-      backgroundColor: null,
-      scale: 2,
-      useCORS: true,
-    });
+    return () => {
+      mounted = false;
+    };
+  }, [roomCode, userId]);
 
-    const dataUrl = canvas.toDataURL("image/png");
-    const a = document.createElement("a");
-    a.href = dataUrl;
-    a.download = "room-rules.png";
-    a.click();
+  // 집 아이콘 선택하모 -> 보드페이지로
+  const handleMoveToBoard = async () => {
+    if (!roomCode || !userId) return;
+
+    setIsMoving(true);
+    try {
+     
+      await api.selectHouseIcon({ roomCode, userId });
+
+      navigate("/board", { replace: true });
+    } catch (e) {
+      console.error(e);
+      alert("보드로 이동에 실패했어요. 다시 시도해 주세요.");
+    } finally {
+      setIsMoving(false);
+    }
   };
 
-  const handleGoNext = () => {
-    // navigate("/board");
-    alert("보드페이지 언제만들지");
+  const handleSaveImage = async () => {
+    try {
+      const { default: html2canvas } = await import("html2canvas");
+
+      const node = captureRef.current;
+      if (!node) return;
+
+      const canvas = await html2canvas(node, {
+        scale: 2,
+        backgroundColor: null,
+        useCORS: true,
+      });
+
+      const url = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `rules_${roomCode}.png`;
+      a.click();
+    } catch (e) {
+      console.error(e);
+      alert("이미지 저장 기능을 쓰려면 html2canvas 설치가 필요해요. (npm i html2canvas)");
+    }
   };
 
   return (
     <Wrapper>
-      <TitleSection
-        iconSrc={Ellipse5}
-        titleText="규칙이 완성되었어요!"
-        subTitleText="우리방의 규칙을 사진으로 저장하고 공유해보세요"
-      />
-
-      <CaptureBox ref={boardRef}>
-        <CaptureHeader>
-          <HeaderLeft>
-            <BoardTitle>{roomTitle}</BoardTitle>
-            {periodText && <BoardPeriod>{periodText}</BoardPeriod>}
-          </HeaderLeft>
-
-          <SaveLink type="button" onClick={handleDownloadPng}>
-            이미지 저장
-          </SaveLink>
-        </CaptureHeader>
+      <CaptureArea ref={captureRef}>
+        <Header>
+          <Title>우리 방 규칙</Title>
+          <SubTitle>{amIHost ? "방장 확정본" : "최종 확정본"}</SubTitle>
+        </Header>
 
         <RuleList>
-          {rules.map((r, idx) => (
-            <RuleItem key={r.id ?? idx}>
-              <Keyword>키워드</Keyword>
-              <RuleText>{r.text}</RuleText>
-            </RuleItem>
-          ))}
+          {rules.length === 0 ? (
+            <EmptyText>최종 규칙을 불러오는 중이에요...</EmptyText>
+          ) : (
+            rules.map((r, idx) => (
+              <RuleItem key={`${r.questionId}-${idx}`}>
+                <Pill>{r.category || "기타"}</Pill>
+                <RuleText>{r.rule}</RuleText>
+              </RuleItem>
+            ))
+          )}
         </RuleList>
-      </CaptureBox>
+      </CaptureArea>
 
-      <BottomBtnWrap>
-        <ButtonWrap>
-          <Button onClick={handleGoNext}>규칙 저장하기</Button>
-        </ButtonWrap>
-      </BottomBtnWrap>
+      <Bottom>
+        <SmallBtn type="button" onClick={handleSaveImage}>
+          이미지 저장
+        </SmallBtn>
+
+        <Button onClick={handleMoveToBoard} disabled={rules.length === 0 || isMoving}>
+          규칙 저장하기
+        </Button>
+      </Bottom>
     </Wrapper>
   );
 }
@@ -94,94 +125,94 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 100px;
+  padding: 90px 0 80px;
 `;
 
-const CaptureBox = styled.div`
-  width: 936px;
-  background: ${Colors.white};
-  border-radius: 15px;
-  padding: 24px 24px 28px;
-  box-sizing: border-box;
+const CaptureArea = styled.div`
+  width: 746px;
 
-
-  border: 1px solid ${Colors.mainPurple};
+  @media (max-width: 820px) {
+    width: calc(100% - 32px);
+  }
 `;
 
-const CaptureHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 18px;
+const Header = styled.div`
+  width: 100%;
+  text-align: center;
 `;
 
-const HeaderLeft = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
+const Title = styled.h1`
+  margin: 0;
+  font-size: 28px;
+  color: ${Colors.black};
+  font-weight: 800;
 `;
 
-const BoardTitle = styled.div`
-  font-size: 13px;
-  font-weight: 700;
-  color: ${Colors.detailBlack};
-`;
-
-const BoardPeriod = styled.div`
-  font-size: 12px;
+const SubTitle = styled.p`
+  margin: 12px 0 24px;
   color: ${Colors.fixGray};
-`;
-
-const SaveLink = styled.button`
-  border: none;
-  background: transparent;
-  color: ${Colors.mainPurple};
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
+  font-size: 14px;
 `;
 
 const RuleList = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 14px;
 `;
 
 const RuleItem = styled.div`
+  width: 100%;
+  border-radius: 15px;
+  background: ${Colors.white};
+  box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
+  padding: 16px 20px;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 18px;
-  border-radius: 14px;
-  background: ${Colors.white};
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.06);
+  gap: 14px;
 `;
 
-const Keyword = styled.div`
-  padding: 6px 14px;
+const Pill = styled.div`
+  padding: 6px 12px;
   border-radius: 999px;
-  background: ${Colors.secondPurple};
+  font-size: 12px;
   color: ${Colors.white};
-  font-size: 11px;
-  font-weight: 700;
+  background: ${Colors.secondPurple};
+  white-space: nowrap;
 `;
 
 const RuleText = styled.div`
   flex: 1;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
   color: ${Colors.black};
+  word-break: break-word;
 `;
 
-const BottomBtnWrap = styled.div`
-  width: 936px;
+const Bottom = styled.div`
+  width: 746px;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 24px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 22px;
+
+  @media (max-width: 820px) {
+    width: calc(100% - 32px);
+  }
 `;
 
-const ButtonWrap = styled.div`
-  width: 175px;
-  display: flex;
-  justify-content: flex-end;
+const SmallBtn = styled.button`
+  border: none;
+  background: transparent;
+  color: ${Colors.mainPurple};
+  font-weight: 800;
+  cursor: pointer;
+`;
+
+const EmptyText = styled.div`
+  width: 100%;
+  text-align: center;
+  color: ${Colors.fixGray};
+  font-size: 14px;
+  padding: 20px 0;
 `;

@@ -1,15 +1,15 @@
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import { RoomProvider } from "./context/RoomContext";
+
+import LandingPage from "./pages/LandingPage/LandingPage";
+import BoardPage from "./pages/BoardPage/BoardPage";
+
 import TestPage from "./pages/TestPage/TestPage";
 import MatchPage from "./pages/MatchPage/MatchPage";
 import MismatchPage from "./pages/MismatchPage/MismatchPage";
 import AfterMismatchPage from "./pages/AfterMismatchPage/AfterMismatchPage";
-import Resultpage from "./pages/ResultPage/ResultPage"
-import RoomStartPage from "./pages/RoomStartPage/RoomStartPage"
-import RoomCreatePage from "./pages/RoomCreatePage/RoomCreatePage";
-import RoomInvitePage from "./pages/RoomInvitePage/RoomInvitePage";
-import RoomLeaderWaitPage from "./pages/RoomWaitPage/RoomLeaderWaitPage";
-import RoomJoinPage from "./pages/RoomJoinPage/RoomJoinPage";
+import ResultPage from "./pages/ResultPage/ResultPage";
 import FinalResultPage from "./pages/FinalResultPage/FinalResultPage";
 import RoomMemberWaitPage from "./pages/RoomWaitPage/RoomMemberWaitPage";
 import LoadingPage from "./pages/LoadingPage/LoadingPage";
@@ -19,8 +19,11 @@ import LoginTestPage from "./pages/LoadingPage/TestPage";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+   
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/board" element={<BoardPage />} />
 
         <Route path="/" element={<LandingPage />} />
         <Route path="/login/test" element={<LoginTestPage/>}/>

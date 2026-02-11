@@ -1,36 +1,36 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
-import { Colors } from "../../styles/colors";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Colors } from "../../styles/colors";
 import { QUESTION_DATA } from "../../constants/questions";
 import ProgressBar from "../../components/common/ProgressBar";
 import Button from "../../components/common/Button";
 import QuestionCard from "../../components/QuestionCard";
+import { api } from "../../utils/api";
+import { useRoom } from "../../context/RoomContext";
 
 function TestPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { roomCode, userId } = useRoom();
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState([]);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [selectedOptionIds, setSelectedOptionIds] = useState([]);
 
-  // 테스트 시작이면 rules를 초기화
-  useEffect(() => {
-    const startIndex = location.state?.startIndex;
-    if (typeof startIndex !== "number") {
-      // 첫 진입인 경우
-      localStorage.removeItem("rules");
-    }
-  }, []); // 주석 살림
+  // 제출 버튼 한 번만 누르게
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
-  // Match/AfterMismatch에서 "다음 문제 인덱스"를 넘기면 이어서 진행
+  // 제출 중 표시
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // 내 제출 직후에만 보여줄 “현재 n명 투표”
+  const [voteStatus, setVoteStatus] = useState(null);
+
   useEffect(() => {
     const startIndex = location.state?.startIndex;
     if (typeof startIndex === "number") {
       setCurrentIndex(startIndex);
-      // state를 계속 들고 있으면 새로고침/재방문 때 꼬일 수 있어서 지움
-      navigate("/", { replace: true });
+      navigate("/test", { replace: true });
     }
   }, [location.state, navigate]);
 
@@ -39,74 +39,134 @@ function TestPage() {
 
   if (!currentQuestion) return null;
 
-  const isMultiSelect = currentQuestion.id === 4;
+  const questionId = currentQuestion.id;
+  const nextIndex = currentIndex + 1;
+  const isMultiSelect = questionId === 4;
+
+  const payload = useMemo(
+    () => ({
+      questionId,
+      nextIndex,
+      totalQuestions,
+      questionIndex: currentIndex,
+    }),
+    [questionId, nextIndex, totalQuestions, currentIndex]
+  );
+
+  // 질문이 바뀌면 초기화
+  useEffect(() => {
+    setSelectedOptionIds([]);
+    setHasSubmitted(false);
+    setIsSubmitting(false);
+    setVoteStatus(null);
+  }, [questionId]);
 
   const handleSelect = (optionId) => {
+    // 제출 후에는 선택 변경 못하게 잠금
+    if (hasSubmitted) return;
+
     if (isMultiSelect) {
-      setSelectedOption((prev) =>
+      setSelectedOptionIds((prev) =>
         prev.includes(optionId)
           ? prev.filter((id) => id !== optionId)
           : [...prev, optionId]
       );
     } else {
-      setSelectedOption([optionId]);
+      setSelectedOptionIds([optionId]);
     }
   };
 
-  // 선택한 optionId -> optionText로 바꿔서 ruleText 만들기
-  const buildRuleText = () => {
-    const selectedTexts = currentQuestion.options
-      .filter((opt) => selectedOption.includes(opt.id))
-      .map((opt) => opt.text);
+  // GET /room/{roomCode}/test/result로 상태 폴링해서 이동
+  useEffect(() => {
+    if (!hasSubmitted) return;
+    if (!roomCode || !questionId) return;
 
-    return selectedTexts.join(" / ");
-  };
+    const poll = async () => {
+      try {
+        //
+        const res = await api.getResult({ roomId: roomCode, questionId });
 
-  const handleSubmit = () => {
-    if (selectedOption.length === 0) return;
+        const status = res?.status; // "WAITING" | "MATCH" | "MISMATCH"
+        const currentVotes = res?.currentVotes;
 
-    setIsSubmitted(true);
+        // 투표 현황 문구 갱신(제출한 사람만 보기)
+        if (typeof currentVotes === "number") {
+          setVoteStatus({ current: currentVotes, total: 4 });
+        }
 
-    const ruleText = buildRuleText();
-    const nextIndex = currentIndex + 1;
+        if (status === "MATCH") {
+          navigate("/test/match", { state: payload, replace: true });
+          return;
+        }
 
-    // 지금은 여기서 rules 저장 안함
-    // match에서 수정할 수도 있고, mismatch에서 합의 규칙을 새로 쓰니까
-    // 최종 확정은 다음 페이지에서 저장하는게 맞음
+        if (status === "MISMATCH") {
+          navigate("/test/mismatch", { state: payload, replace: true });
+          return;
+        }
 
-    const questionIndex = currentIndex; // 0~4 (몇 번째 문제인지)
+        // WAITING이면 대기
+      } catch (e) {
+        
+      }
+    };
 
-    // 홀수 문제(1,3,5)=match / 짝수(2,4)=mismatch
-    const isMatchDummy = currentQuestion.id % 2 === 1;
+    // 제출 직후 바로 한 번 조회하고, 이후 2초 폴링
+    poll();
+    const t = setInterval(poll, 2000);
 
-    if (isMatchDummy) {
-      navigate("/match", {
-        state: {
-          questionId: currentQuestion.id,
-          ruleText,
-          nextIndex,
-          totalQuestions,
-          questionIndex,
-        },
+    return () => clearInterval(t);
+  }, [hasSubmitted, roomCode, questionId, navigate, payload]);
+
+  const handleSubmit = async () => {
+    if (hasSubmitted) return;
+    if (selectedOptionIds.length === 0) return;
+    if (!roomCode || !userId) return;
+
+    setIsSubmitting(true);
+
+    try {
+      // POST /room/test/result
+      const res = await api.submitAnswer({
+        roomId: roomCode,
+        roomUserId: userId,
+        questionId,
+        selectedOptionIds,
       });
-    } else {
-      navigate("/mismatch", {
-        state: {
-          questionId: currentQuestion.id,
-          ruleText,
-          nextIndex,
-          totalQuestions,
-          questionIndex,
 
-          myAnswer: ruleText,
-          others: ["상대1 답변", "상대2 답변", "상대3 답변"],
-        },
-      });
+      // 제출 성공 → 잠금
+      setHasSubmitted(true);
+
+      // POST 응답에서도 WAITING/MATCH/MISMATCH가 오니까 즉시 처리
+      const status = res?.status; 
+      const currentVotes = res?.currentVotes;
+
+      if (typeof currentVotes === "number") {
+        setVoteStatus({ current: currentVotes, total: 4 });
+      }
+
+      if (status === "MATCH") {
+        navigate("/test/match", { state: payload, replace: true });
+        return;
+      }
+
+      if (status === "MISMATCH") {
+        navigate("/test/mismatch", { state: payload, replace: true });
+        return;
+      }
+
+      // WAITING이면 폴링 useEffect가 계속 진행
+    } catch (e) {
+      console.error("답변 제출 실패:", e);
+      alert("서버 연결에 실패했어요. 잠시 후 다시 시도해 주세요.");
+      setIsSubmitting(false);
+      setHasSubmitted(false);
+      return;
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setSelectedOption([]);
-    setIsSubmitted(false);
   };
+
+  const buttonText = hasSubmitted ? "투표 완료!" : "선택 완료";
 
   return (
     <Wrapper>
@@ -116,29 +176,45 @@ function TestPage() {
         category={currentQuestion.category}
         question={currentQuestion.question}
         options={currentQuestion.options}
-        selectedOption={selectedOption}
+        selectedOption={selectedOptionIds}
         onSelect={handleSelect}
         isMultiSelect={isMultiSelect}
       />
 
+      {/* 내가 제출한 경우에만 보여주는 문구 */}
+      {hasSubmitted && (
+        <VoteText>
+          {voteStatus ? (
+            <>
+              현재 {voteStatus.current}명이 투표했어요!
+              <br />
+              모두 투표하면 자동으로 넘어가요.
+            </>
+          ) : (
+            <>
+              투표를 제출했어요!
+              <br />
+              다른 사람들의 투표를 기다리는 중이에요.
+            </>
+          )}
+        </VoteText>
+      )}
+
       <ButtonWrap>
-        <Button onClick={handleSubmit} disabled={selectedOption.length === 0}>
-          선택 완료
+        <Button
+          onClick={handleSubmit}
+          disabled={
+            selectedOptionIds.length === 0 || isSubmitting || hasSubmitted
+          }
+        >
+          {buttonText}
         </Button>
       </ButtonWrap>
-
-      {isSubmitted && (
-        <GuideText>
-          다른 참여자들이 선택을 완료할 때까지 잠시만 기다려주세요!
-        </GuideText>
-      )}
     </Wrapper>
   );
 }
 
 export default TestPage;
-
-/* styled-components */
 
 const Wrapper = styled.div`
   width: 100%;
@@ -150,15 +226,17 @@ const Wrapper = styled.div`
   background: ${Colors.backgroundColor};
 `;
 
-const GuideText = styled.div`
-  margin-top: 12px;
-  font-size: 13px;
-  color: ${Colors.mainPurple};
-`;
-
 const ButtonWrap = styled.div`
   width: 746px;
   display: flex;
   justify-content: center;
   margin-top: 20px;
+`;
+
+const VoteText = styled.div`
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: ${Colors.mainPurple};
+  text-align: center;
 `;

@@ -4,71 +4,140 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import Button from "../../components/common/Button";
 import check from "../../assets/check.svg";
+import { api } from "../../utils/api";
+import { useRoom } from "../../context/RoomContext";
 
 function AfterMismatchPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const { roomCode, userId } = useRoom();
 
-  // state 없으면 잘못 진입 → 홈
   useEffect(() => {
-    if (!state) navigate("/", { replace: true });
+    if (!state?.questionId) navigate("/test", { replace: true });
   }, [state, navigate]);
 
-  const totalQuestions = state?.totalQuestions ?? 5;
+  const questionId = state?.questionId;
   const nextIndex = state?.nextIndex ?? 0;
-  const questionIndex = state?.questionIndex ?? (nextIndex - 1);
+  const totalQuestions = state?.totalQuestions ?? 5;
 
-  // Mismatch에서 넘어온 합의 규칙(draftRule)
-  const [ruleText] = useState(state?.draftRule ?? "");
+  const [ruleText, setRuleText] = useState("");
+  const [readyInfo, setReadyInfo] = useState(null);
 
-  // rules[index] 자리에 최종 규칙 저장
-  const saveRuleAt = (index, text) => {
-    const prev = JSON.parse(localStorage.getItem("rules") || "[]");
-    const next = Array.from({ length: totalQuestions }, (_, i) => prev[i] ?? "");
-    next[index] = text;
-    localStorage.setItem("rules", JSON.stringify(next));
-  };
+  // ready 버튼 한 번만
+  const [hasPressedReady, setHasPressedReady] = useState(false);
+  const [isSendingReady, setIsSendingReady] = useState(false);
 
-  const handleNext = () => {
-    // 합의한 규칙이 최종본이라서 여기서 저장
-    saveRuleAt(questionIndex, ruleText);
+  // 합의된 규칙 불러오기
+  useEffect(() => {
+    if (!roomCode || !questionId) return;
 
-    if (nextIndex >= totalQuestions) {
-      const saved = JSON.parse(localStorage.getItem("rules") || "[]");
+    let mounted = true;
 
-      navigate("/result", {
-        state: {
-          rules: saved.map((t, idx) => ({ id: idx + 1, text: t })),
-        },
+    (async () => {
+      try {
+        const data = await api.getResult({ roomId: roomCode, questionId });
+        if (!mounted) return;
+
+        // 합의 완료 페이지에서 보여줄 규칙 문장
+        setRuleText(data?.agreedRuleText || "");
+      } catch (e) {
+        setRuleText("");
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [roomCode, questionId]);
+
+  // all-ready 폴링
+  useEffect(() => {
+    if (!roomCode || !questionId) return;
+
+    const t = setInterval(async () => {
+      try {
+        const res = await api.getReadyStatus({
+          roomId: roomCode,
+          screen: "AFTER_MISMATCH",
+          questionId,
+        });
+
+        setReadyInfo(res);
+
+        if (res?.isAllReady) {
+          if (nextIndex >= totalQuestions) navigate("/test/result");
+          else navigate("/test", { state: { startIndex: nextIndex } });
+        }
+      } catch (e) {}
+    }, 2000);
+
+    return () => clearInterval(t);
+  }, [roomCode, questionId, navigate, nextIndex, totalQuestions]);
+
+  // 내가 ready 누르기
+  const handleReady = async () => {
+    if (hasPressedReady) return;
+    if (!roomCode || !questionId || !userId) return;
+    if (!ruleText.trim()) return;
+
+    setIsSendingReady(true);
+    try {
+      const res = await api.ready({
+        roomId: roomCode,
+        roomUserId: userId,
+        screen: "AFTER_MISMATCH",
+        questionId,
       });
-      return;
-    }
 
-    navigate("/", { state: { startIndex: nextIndex } });
+      setHasPressedReady(true);
+      setReadyInfo(res);
+    } catch (e) {
+      alert("요청에 실패했어요. 잠시 후 다시 눌러줘.");
+    } finally {
+      setIsSendingReady(false);
+    }
   };
+
+  const notReadyCount =
+    readyInfo && !readyInfo.isAllReady
+      ? readyInfo.totalCount - readyInfo.readyCount
+      : 0;
 
   return (
     <Wrapper>
       <TopIcon src={check} alt="check" />
 
       <Title>규칙을 합의했어요</Title>
-      <SubTitle>새로운 규칙을 만들었어요</SubTitle>
+      <SubTitle>규칙은 테스트가 끝난 뒤에도 수정할 수 있어요</SubTitle>
 
       <RuleCard>
         <Tag>키워드</Tag>
-        <RuleText>{ruleText || "합의한 규칙이 여기에 표시돼요."}</RuleText>
+        <RuleText>{ruleText || "합의된 규칙을 불러오는 중이에요..."}</RuleText>
       </RuleCard>
 
       <ButtonWrap>
-        <Button onClick={handleNext} disabled={!ruleText.trim()}>
-          다음으로
+        <Button
+          onClick={handleReady}
+          disabled={!ruleText.trim() || isSendingReady || hasPressedReady}
+        >
+          {hasPressedReady ? "확인 완료!" : "확인했어요"}
         </Button>
+
+        {hasPressedReady && (
+          <Hint>
+            {notReadyCount > 0
+              ? `아직 ${notReadyCount}명이 누르지 않았어요. 모두 누르면 넘어가요.`
+              : "모두 눌렀어요! 곧 넘어가요."}
+          </Hint>
+        )}
       </ButtonWrap>
     </Wrapper>
   );
 }
 
 export default AfterMismatchPage;
+
+
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -107,7 +176,6 @@ const RuleCard = styled.div`
   border-radius: 15px;
   background: ${Colors.white};
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
-
   display: flex;
   align-items: center;
   gap: 16px;
@@ -121,6 +189,7 @@ const Tag = styled.div`
   font-size: 12px;
   color: ${Colors.white};
   background: ${Colors.secondPurple};
+  white-space: nowrap;
 `;
 
 const RuleText = styled.div`
@@ -130,5 +199,16 @@ const RuleText = styled.div`
 `;
 
 const ButtonWrap = styled.div`
+  width: 746px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
   margin-top: 20px;
+`;
+
+const Hint = styled.div`
+  font-size: 12px;
+  color: ${Colors.mainPurple};
+  text-align: right;
 `;
