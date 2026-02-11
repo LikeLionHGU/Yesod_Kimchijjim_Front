@@ -28,6 +28,7 @@ function QuestionCard({
             text={option.text}
             selected={selectedOption.includes(option.id)}
             onClick={() => onSelect(option.id)}
+            isMultiSelect={isMultiSelect}
           />
         ))}
       </OptionList>

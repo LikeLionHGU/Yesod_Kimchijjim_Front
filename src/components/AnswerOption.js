@@ -3,11 +3,17 @@
 import styled from "styled-components";
 import { Colors } from "../styles/colors";
 
-function AnswerOption({ text, selected, onClick }) {
+
+
+function AnswerOption({ text, selected, onClick, isMultiSelect }) {
   return (
     <Option $selected={selected} onClick={onClick}>
-      <Circle $selected={selected} />
-      <Text $selected={selected}>{text}</Text>
+      {isMultiSelect ? (
+        <Square $selected={selected} />
+      ) : (
+        <Circle $selected={selected} />
+      )}
+      {text}
     </Option>
   );
 }
@@ -97,3 +103,33 @@ const Text = styled.div`
       font-weight: 600;
     `}
 `;
+
+const Square = styled.div`
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+
+  border: 2px solid ${({ $selected }) =>
+    $selected ? Colors.mainPurple : Colors.borderLine};
+  background: ${({ $selected }) =>
+    $selected ? Colors.backgroundColor : Colors.fixWhite};
+
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    transform: translate(-50%, -50%);
+    border-radius: 3px;
+    background: ${Colors.mainPurple};
+    opacity: ${({ $selected }) => ($selected ? 1 : 0)};
+  }
+`;
+
+
