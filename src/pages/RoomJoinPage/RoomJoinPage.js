@@ -54,17 +54,18 @@ const RoomJoinPage = () => {
                 nickname: userName
             },
 
-            {withCredentials: true}
-        );
+            {withCredentials: true});
         
-        console.log("방 입장 성공:", response.data);
+            console.log("방 입장 성공:", response.data);
 
-        navigate("/room/member/wait", {
-            state: {
-                code: code,
-                roomInfo: response.data,
-                myNickname: userName
-            }
+            sessionStorage.setItem("currentRoomCode", code);
+
+             navigate("/room/member/wait", {
+                state: {
+                    code: code,
+                    roomInfo: response.data,
+                    myNickname: userName
+                }
         });
         } catch(error){
             console.error("방 입장 실패:", error);

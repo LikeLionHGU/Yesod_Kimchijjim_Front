@@ -1,16 +1,42 @@
-import react from "react";
+import react, {useState} from "react";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import BoardIcon from "../../assets/boardpageIcon.svg";
+import peopleICon from "../../assets/peopleIcon.svg";
+import pencilIcon from "../../assets/Pencil.svg";
+import passPage from "../../assets/passpage.svg";
 
-function BoardTopSection = ({userName, roomName, memberCount, rules}) => {
+const BoardTopSection = ({userName, roomName, memberCount, rules}) => {
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const ITEMS_PER_PAGE = 5;
+
+  const totalPages = Math.ceil((rules?.length || 0) / ITEMS_PER_PAGE);
+
+  const handleprevPage = () => {
+    if (currentPage>0) {
+      setCurrentPage(currentPage -1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if(currentPage < totalPages - 1){
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const currentRules= rules?.slice(
+    currentPage * ITEMS_PER_PAGE,
+    (currentPage + 1) * ITEMS_PER_PAGE
+  );
+
   return(
     <TopContainer>
       <ContentWrapper>
 
         <LeftSection>
           <GreetingGroup>
-            <Title>반가워요, <Name>"김한동"</Name>님</Title>
+            <Title>반가워요, <Name>{userName}</Name>님</Title>
             <SubTitle>우리방 규칙을 확인하고, 의견을 나눠보세요</SubTitle>
           </GreetingGroup>
 
@@ -22,16 +48,16 @@ function BoardTopSection = ({userName, roomName, memberCount, rules}) => {
           <RuleCard>
             <CardHeader>우리방의 규칙</CardHeader>
 
-            <SectionTitleGroup>
+            <div style={{display: 'flex', gap: '5px', alignItems: 'center'}}>
               <SectionLabel>방 정보</SectionLabel>
-              <IconButton src={연필}/>
-            </SectionTitleGroup>
+              <IconButton src={pencilIcon} />
+            </div>
 
             <RoomInfoBox>
-              <RoomName>{룸네임}</RoomName>
+              <RoomName>{roomName}</RoomName>
               <MemberCountGroup>
-                <UserIconImg src={사람아이콘}/>
-                <Count>{방인원}</Count>
+                <UserIconImg src={peopleICon}/>
+                <Count>{memberCount}</Count>
               </MemberCountGroup>
             </RoomInfoBox>
 
@@ -40,10 +66,56 @@ function BoardTopSection = ({userName, roomName, memberCount, rules}) => {
               <TextButton>규칙 수정하기</TextButton>
             </SectionTitleGroup>
 
-            <RuleList>
-              {규칙불러오기}
-            </RuleList>
-            <PageNationDot/>
+            <RuleListContainer>
+              <gotoLeftBtn onClick={handleprevPage}
+                $disabled={currentPage ===0}
+                src = {passPage}/>
+
+              <RuleList>
+                {currentRules && currentRules.length > 0 ? (
+                  currentRules.map((rule, index) => (
+                    <RuleItem key={rule.id || index}>{rule.content}</RuleItem>
+
+                  ))
+                ) : (<RuleItem>아직 정해진 규칙이 없어요</RuleItem>)}
+              </RuleList>
+
+              <gotoRightBtn onClick={handleNextPage}
+                $disabled={currentPage === totalPages-1}
+                src={passPage}/>
+
+            </RuleListContainer>
+
+          {/* <RuleListWrapper>
+            {currentPage>0 && <passBtn onClick={handleprevPage} src={passPage}/>}
+
+              <RuleList>
+                {currentRules?.map((rule, index) => (
+                  <RuleItem key={rule.id || index}>{rule.content}</RuleItem>
+                ))}
+              </RuleList>
+
+                {currentPage < totalPages -1 && <passBtn onClick={handleNextPage}/>}
+
+          </RuleListWrapper> */}
+            {/* <RuleList>
+              {currentRules && currentRules.length > 0?(
+                currentRules.map((rule,index)=>(
+                  <RuleItem key={rule.id || index}>{rule.content}</RuleItem>
+
+                ))
+              ): (<RuleItem>아직 정해진 규칙이 없어요</RuleItem>)}
+            </RuleList> */}
+            
+            <DotContainer>
+              {Array.from({length: totalPages}).map((_,i) => (
+                <PageNationDot
+                  key={i}
+                  $active={i === currentPage}
+                  onClick={() => setCurrentPage(i)}
+                />
+              ))}
+            </DotContainer>
 
           </RuleCard>
         </RightSection>
@@ -58,10 +130,9 @@ export default BoardTopSection;
 
 const TopContainer = styled.div`
   width: 100%;
-  display: felx;
+  display: flex;
   justify-content: center;
   padding-top: 148px;
-  background-color: ${Colors.white};
 `;
 
 const ContentWrapper = styled.div`
@@ -130,7 +201,7 @@ const RuleCard = styled.div`
   height: 636px;
   background: ${Colors.backgroundColor};
   border-radius: 15px;
-  padding: 16px, 41px;
+  padding: 16px 41px;
   box-shadow: ${Colors.boxShadowBlack};
   display: flex;
   flex-direction: column;
@@ -139,7 +210,7 @@ const RuleCard = styled.div`
 const CardHeader = styled.p`
   color: ${Colors.detailBlack};
   font-family: ${Colors.font};
-  font-size: 17px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: 17px; 
@@ -150,7 +221,7 @@ const SectionTitleGroup = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  margin-bottom: 15px;
 `;
 
 const SectionLabel = styled.p`
@@ -164,17 +235,19 @@ const SectionLabel = styled.p`
 
 const RoomInfoBox = styled.div`
   display: flex;
+  max-width: 360px;
   justify-content: space-between;
   align-items: center;
   background-color: ${Colors.white};
   padding: 14px 15px;
   border-radius: 12.592px;
+  margin-top: 15px; 
 `; 
 
 const RoomName = styled.span`
   color: ${Colors.black};
   font-family: ${Colors.font};
-  font-size: 18.887px;
+  font-size: 19px;
   font-style: normal;
   font-weight: 500;
   line-height: 21.405px;
@@ -184,22 +257,26 @@ const MemberCountGroup = styled.div`
   display: flex;
   align-items: center;
   color: ${Colors.inputColor};
+  gap: 5px;
 `;
 
 const RuleList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 11px;
+  min-height: 314px;
 `; 
 
 const RuleItem = styled.div`
   background-color: ${Colors.white};
-  padding: 15px 16px;
+  display: flex;
+  height: 54px;
+  padding: 16px 15px;
   border-radius: 12.591px;
   color: ${Colors.black};
 
   font-family: ${Colors.font};
-  font-size: 18.887px;
+  font-size: 19px;
   font-style: normal;
   font-weight: 500;
   line-height: 21.405px;
@@ -212,7 +289,7 @@ const TextButton = styled.button`
   color: ${Colors.secondPurple};
   font-family: ${Colors.font};
   font-size: 13px;
-  font-style: noraml;
+  font-style: normal;
   font-weight: 700;
   line-height: 15px;
   cursor: pointer;
@@ -225,17 +302,46 @@ const IconButton = styled.img`
 
 const UserIconImg = styled.img`
   width: 17px;
+  height: auto;
 `;
 
 const Count = styled.span`
   font-size: 18.887px;
+  font-family: ${Colors.font};
 `;
 
 const PageNationDot = styled.div`
-      width: 8px;
+    width: 8px;
     height: 8px;
-    background-color: ${Colors.mainPurple};
+    background-color: ${props => props.$active ? Colors.mainPurple : Colors.borderLine};
     border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
     align-self: center;
     margin-top: 7px;
 `;
+
+const DotContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: auto;
+  padding-bottom: 20px;
+`;
+
+const passBtn = styled.button`
+  background: none;
+  border: none;
+  width: 8px;
+  height: 14px;
+  cursor: pointer;
+`;
+
+const RuleListContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+`; 
+
