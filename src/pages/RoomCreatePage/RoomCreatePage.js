@@ -1,10 +1,13 @@
 import react, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { Await, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
 import NoIconTitleSection from "../../components/common/NoIconTitleSection";
 import GoBackPage from "../../components/common/BackButton";
+import axios from "axios";
+import TitleSection from "../../components/common/TitleSection";
+import DoorIcon from "../../assets/doorIcon.svg";
 
 //RoomStartPage에서 와서
 //RoomInvitePage로 이동
@@ -195,7 +198,7 @@ const CreateButton = styled.button`
     cursor: ${props => (props.$isActive ? 'pointer' : 'default')};
 
     &:hover:not(:disabled){
-        opacity: 0.7;
+        background: ${Colors.hoverPurple};
     }
 `;
 
@@ -254,24 +257,42 @@ const RoomCreatePage = () => {
         !isRoomError && roomName.length >= 2 &&
         member !== null;
 
-    const handleCreate = () => {
+    const handleCreate = async () => {
         if (!isActive) return;
 
-        console.log('방 생성 정보: ', { myName, roomName, member });
-
-        navigate("/room/invite", {
-            state: {
+        try{
+            const response = await axios.post(`${process.env.REACT_APP_HOST_URL}/rooms`, { 
                 roomName: roomName,
-                member: member,
-                roomCode: "E12345" //백에서 코드 받아오기
-            }
-        });
+                maxPeople: member,
+                hostNickname: myName
+            }, {
+                withCredentials:true
+            });
+
+            console.log('백엔드 응답:', response.data);
+
+            const { roomName:backendRoomName, roomCode, maxPeople} = response.data;
+            sessionStorage.setItem("currentRoomCode", roomCode);
+
+            navigate("/room/invite", {
+                state: {
+                    roomName: backendRoomName,
+                    roomCode: roomCode,
+                    member: maxPeople
+                }
+            });
+            
+        } catch (error) {
+            console.error("방 생성 실패:", error);
+            alert("방 생성 중 오류 발생");
+        }
     };
 
     return (
         <PageContainer>
             <GoBackPage/>
-            <NoIconTitleSection
+            <TitleSection
+                iconSrc={DoorIcon}
                 titleText={"방 만들기"}
                 subTitleText={"룸메이트와 함께 사용할 방을 만들어보세요"}
             />

@@ -11,34 +11,38 @@ import MismatchPage from "./pages/MismatchPage/MismatchPage";
 import AfterMismatchPage from "./pages/AfterMismatchPage/AfterMismatchPage";
 import ResultPage from "./pages/ResultPage/ResultPage";
 import FinalResultPage from "./pages/FinalResultPage/FinalResultPage";
-
-import RoomCreatePage from "./pages/RoomCreatePage/RoomCreatePage";
-import RoomJoinPage from "./pages/RoomJoinPage/RoomJoinPage";
-// import RoomWaitPage from "./pages/RoomWaitPage/RoomWaitPage";
-import RoomStartPage from "./pages/RoomStartPage/RoomStartPage";
+import RoomMemberWaitPage from "./pages/RoomWaitPage/RoomMemberWaitPage";
+import LoadingPage from "./pages/LoadingPage/LoadingPage";
+import AlreadyRoomStartPage from "./pages/RoomInvitePage/AlreadyRoomStartPage";
+import LandingPage from "./pages/LandingPage/LandingPage";
+import LoginTestPage from "./pages/LoadingPage/TestPage";
 
 function App() {
   return (
-    <RoomProvider>
+   
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/board" element={<BoardPage />} />
 
-          <Route path="/room/start" element={<RoomStartPage />} />
-          <Route path="/room/create" element={<RoomCreatePage />} />
-          <Route path="/room/join" element={<RoomJoinPage />} />
-          {/* <Route path="/room/wait" element={<RoomWaitPage />} /> */}
-
-          <Route path="/test" element={<TestPage />} />
-          <Route path="/test/match" element={<MatchPage />} />
-          <Route path="/test/mismatch" element={<MismatchPage />} />
-          <Route path="/test/after-mismatch" element={<AfterMismatchPage />} />
-          <Route path="/test/result" element={<ResultPage />} />
-          <Route path="/test/final" element={<FinalResultPage />} />
-        </Routes>
-      </BrowserRouter>
-    </RoomProvider>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login/test" element={<LoginTestPage/>}/>
+        <Route path="/room" element={<RoomStartPage/>}/>
+        <Route path="/loading" element={<LoadingPage/>}/>
+        <Route path="/room/create" element={<RoomCreatePage/>}/>
+        <Route path="/room/invite" element={<RoomInvitePage/>}/>
+        <Route path="/room/error" element={<AlreadyRoomStartPage/>}/>
+        <Route path="/room/leader/wait" element={<RoomLeaderWaitPage/>}/>
+        <Route path="/room/join" element={<RoomJoinPage/>}/>
+        <Route path="/room/member/wait" element={<RoomMemberWaitPage/>}/>
+        <Route path="/room/test" element={<TestPage/>}/>
+        <Route path="/match" element={<MatchPage />} />
+        <Route path="/mismatch" element={<MismatchPage />} />
+        <Route path="/after-mismatch" element={<AfterMismatchPage />} />
+        <Route path="/result" element={<Resultpage />} />
+        {/* <Route path="/final-result" element={<FinalResultPage />} /> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 

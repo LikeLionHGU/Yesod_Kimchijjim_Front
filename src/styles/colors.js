@@ -1,6 +1,7 @@
 export const Colors = {
     mainPurple: "#653FD2",
     secondPurple: "#7E72FA",
+    hoverPurple: "#4A1FC6",
     black: "#000",
     detailBlack: "#3B3B3B", //내 이름, 방 이름 label
     backgroundColor: "#F6F5FC",
