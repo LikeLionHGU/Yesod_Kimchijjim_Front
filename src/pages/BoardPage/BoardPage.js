@@ -73,3 +73,12 @@ const PageContainer = styled.div`
     position: relative;
     box-sizing: border-box;
 `;
+
+
+const TopArea = styled.div`
+  width: 100%;
+`;
+
+const BottomArea = styled.div`
+  width: 100%;
+`;
