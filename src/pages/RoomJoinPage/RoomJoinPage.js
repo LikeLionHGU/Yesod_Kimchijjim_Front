@@ -58,13 +58,15 @@ const RoomJoinPage = () => {
         
             console.log("방 입장 성공:", response.data);
 
+            //백엔드에서 /rooms/join에서 roomName이랑 maxPeople을 다 주는지 알아야 함. (response)에 뭐가 들어가는지 
             sessionStorage.setItem("currentRoomCode", code);
+            sessionStorage.setItem("isLeader", "false");
 
-             navigate("/room/member/wait", {
+             navigate("/room/wait", {
                 state: {
                     code: code,
-                    roomInfo: response.data,
-                    myNickname: userName
+                    myNickname: userName,
+                    isLeader: false
                 }
         });
         } catch(error){
@@ -95,6 +97,7 @@ const RoomJoinPage = () => {
                         <IconImage src={InfoIconImg}/>
                         <ErrorMessage>한국어·영문만 사용 가능하며, 이름은 2~10자로 입력해주세요</ErrorMessage>
                         </ErrorContainer>}
+
                 </FormGroup>
             </Card>
             

@@ -10,8 +10,8 @@ import axios from "axios";
 
 const RoomStartPage = () => {
     const navigate = useNavigate();
-    const [roomCode, setRoomCode] = useState("");
 
+    const [roomCode, setRoomCode] = useState("");
     const [isError, setIsError] = useState(false);
 
     const handleRoomCreate = () => {
@@ -44,7 +44,7 @@ const RoomStartPage = () => {
             const status = error.response?.status;
 
             if(status === 404) {
-                alert("존재하지 않는 방 코드입니다. 다시 확인해 주세요")
+                alert("존재하지 않는 방 코드입니다. 다시 확인해 주세요");
             } else if (status === 409){
                 alert("방 인원이 가득 찼습니다. 다른 방을 이용해 주세요");
             } else if(status === 500) {
@@ -56,31 +56,6 @@ const RoomStartPage = () => {
             setIsError(true);
         }
     };
-
-    /*백엔드, 코드 맞으면 roomJoinPage로 넘어가기 
-    const handleRoomJoin = async () => {
-        if(roomCode.length !== 6) return;
-
-        try{
-            //백엔드 API 호출 (암호가 맞는지 확인)
-            const response = await axios.post('/api/rooms/join', {code: roomCode});
-        } catch (error) {
-            setHasError(true);
-        }
-    };*/
-
-    // 백엔드랑 연결 전, 방 입장하려고요
-    // const handleRoomJoin = () => {
-    //     if(roomCode === "123456"){
-    //         console.log("성공");
-    //         navigate("/room/join", {
-    //             state: {code: roomCode}
-    //         });
-    //     } else{
-    //         console.log("실패");
-    //         setIsError(true);
-    //     }
-    // }
 
     const handleRoomCodeChange = (e) => {
         const text = e.target.value;
@@ -117,6 +92,7 @@ const RoomStartPage = () => {
                             maxLength={6}
                             $isError={isError}
                         />
+                        
                         <ArrowButton onClick={handleRoomJoin} disabled={!isButtonActive}
                         $isError={isError}>
                             <img src={ArrowBtnIcon}/>
@@ -125,7 +101,7 @@ const RoomStartPage = () => {
                         {isError && ( <ErrorContainer>
                             <IconImage src={InfoIconImg} />
                             <ErrorMessage>잘못된 코드입니다</ErrorMessage>
-                        </ErrorContainer>)}
+                        </ErrorContainer> )}
 
                     </InputWrapper>
 

@@ -15,6 +15,8 @@ import RoomCreatePage from "./pages/RoomCreatePage/RoomCreatePage";
 import RoomInvitePage from "./pages/RoomInvitePage/RoomInvitePage";
 import RoomJoinPage from "./pages/RoomJoinPage/RoomJoinPage";
 import AlreadyRoomStartPage from "./pages/RoomInvitePage/AlreadyRoomStartPage";
+import RoomWaitPage from "./pages/RoomWaitPage/RoomWaitPage";
+
 import RoomLeaderWaitPage from "./pages/RoomWaitPage/RoomLeaderWaitPage";
 import RoomMemberWaitPage from "./pages/RoomWaitPage/RoomMemberWaitPage";
 
@@ -44,6 +46,8 @@ function App() {
           <Route path="/room/join" element={<RoomJoinPage />} />
 
           <Route path="/room/error" element={<AlreadyRoomStartPage />} />
+
+          <Route path="/room/wait" element={<RoomWaitPage />} />
           <Route path="/room/leader/wait" element={<RoomLeaderWaitPage />} />
           <Route path="/room/member/wait" element={<RoomMemberWaitPage />} />
 

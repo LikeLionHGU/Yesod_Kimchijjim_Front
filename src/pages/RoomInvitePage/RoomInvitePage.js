@@ -14,15 +14,21 @@ const RoomInvitePage = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const {roomName, roomCode, member} = location.state || {
-        roomName: "정보 없음",
-        roomCode: "ERROR",
-        member: 0
+    const {roomName, roomCode, member, isLeader} = location.state || {
+        roomName: sessionStorage.getItem("roomName") ||"정보 없음",
+        roomCode: sessionStorage.getItem("currentRoomCode")||"ERROR",
+        member: sessionStorage.getItem("maxPeople") || 0,
+        isLeader: sessionStorage.getItem("isLeader") === "true"
     };
 
     const handleWaitMember = () => {
-        navigate("/room/leader/wait", {
-            state: {roomCode: roomCode}
+        navigate("/room/wait", {
+            state: {
+                roomCode,
+                roomName,
+                member,
+                isLeader
+            }
         });
     };
 
