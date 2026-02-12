@@ -11,7 +11,9 @@ const LoadingPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
+
     useEffect(()=>{
+
         const processLogin = async() => {
             const idToken = location.state?.idToken;
 
