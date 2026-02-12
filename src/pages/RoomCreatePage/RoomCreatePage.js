@@ -272,13 +272,18 @@ const RoomCreatePage = () => {
             console.log('백엔드 응답:', response.data);
 
             const { roomName:backendRoomName, roomCode, maxPeople} = response.data;
+
             sessionStorage.setItem("currentRoomCode", roomCode);
+            sessionStorage.setItem("isLeader", "true");
+            sessionStorage.setItem("roomName", backendRoomName);
+            sessionStorage.setItem("maxPeople", maxPeople);
 
             navigate("/room/invite", {
                 state: {
                     roomName: backendRoomName,
                     roomCode: roomCode,
-                    member: maxPeople
+                    member: maxPeople,
+                    isLeader: true
                 }
             });
             

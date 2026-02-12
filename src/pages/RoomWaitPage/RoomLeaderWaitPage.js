@@ -34,7 +34,7 @@ const RoomLeaderWaitPage = () => {
                     maxPeople
                 });
 
-                if(isFull) {
+                if (isFull === true || currentPeople >= maxPeople || response.data.full === true) {
                     navigate("/room/test", {
                         state: {roomCode: roomCode}
                     });
