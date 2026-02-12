@@ -1,3 +1,4 @@
+
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -5,16 +6,18 @@ import { Colors } from "../../styles/colors";
 import exclamation_mark from "../../assets/exclamation_mark.svg";
 import { api } from "../../utils/api";
 import { QUESTION_DATA } from "../../constants/questions";
-import { useRoom } from "../../context/RoomContext";
 
 function LeaderMismatchPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { roomCode, userId } = useRoom();
 
   useEffect(() => {
-    if (!state?.questionId) navigate("/test", { replace: true });
+    if (!state?.questionId) navigate("/room/test", { replace: true });
   }, [state, navigate]);
+
+  const roomCode = sessionStorage.getItem("currentRoomCode") || "";
+  const userIdStr = sessionStorage.getItem("userId") || "";
+  const userId = userIdStr ? Number(userIdStr) : null;
 
   const questionId = state?.questionId;
   const nextIndex = state?.nextIndex ?? 0;
@@ -26,54 +29,11 @@ function LeaderMismatchPage() {
     [questionId]
   );
 
-  const [answers, setAnswers] = useState([]);
+  const [answers] = useState(Array.isArray(state?.data) ? state.data : []);
   const [draftRule, setDraftRule] = useState("");
 
-  // 작성 완료 버튼 1번만 누르게
   const [hasSubmittedRule, setHasSubmittedRule] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // 미스매치 결과 조회: answers(각자 선택 결과) 가져오기
-  useEffect(() => {
-    if (!roomCode || !questionId) return;
-
-    let mounted = true;
-
-    (async () => {
-      try {
-        const data = await api.getResult({ roomId: roomCode, questionId });
-        if (!mounted) return;
-
-        setAnswers(data?.answers ?? []);
-      } catch (e) {
-        setAnswers([]);
-      }
-    })();
-
-    return () => {
-      mounted = false;
-    };
-  }, [roomCode, questionId]);
-
-  // 혹시 이미 방장이 규칙을 제출한 상태면(새로고침/재진입 등),
-  // agreedRuleText가 보이면 바로 AfterMismatch로 보내기
-  useEffect(() => {
-    if (!roomCode || !questionId) return;
-
-    const t = setInterval(async () => {
-      try {
-        const data = await api.getResult({ roomId: roomCode, questionId });
-        if (data?.agreedRuleText) {
-          navigate("/test/after-mismatch", {
-            state: { questionId, nextIndex, totalQuestions, questionIndex },
-            replace: true,
-          });
-        }
-      } catch (e) {}
-    }, 2000);
-
-    return () => clearInterval(t);
-  }, [roomCode, questionId, navigate, nextIndex, totalQuestions, questionIndex]);
 
   const handleDone = async () => {
     if (hasSubmittedRule) return;
@@ -82,27 +42,46 @@ function LeaderMismatchPage() {
 
     setIsSubmitting(true);
 
+    console.log("confirm 보내는 데이터", {
+  questionId,
+  draftRule,
+  state
+});
+
+
+    // 서버로 보내는값 로그 찍
+    console.log("[LeaderMismatch] confirmRule payload", {
+      roomCode,
+      userId,
+      questionId,
+      opinion: [draftRule],
+      category: state?.category || questionMeta?.category || "",
+    });
+
     try {
-      // 최신 명세: 방장 미스매치 규칙 입력 endpoint
-      // api.js에서 이 이름으로 맞춰놨다는 전제:
-      // api.submitLeaderMismatchRule({ roomCode, userId, questionId, opinion })
-      //
-      // 만약 네 api.js 함수명이 다르면 여기만 이름 바꾸면 됨.
-      await api.submitLeaderMismatchRule({
+      await api.confirmRule({
         roomCode,
         userId,
         questionId,
-        opinion: draftRule,
+        opinion: [draftRule],
+        category: state?.category || questionMeta?.category || "",
       });
 
       setHasSubmittedRule(true);
 
-      // 규칙 제출 성공하면 AfterMismatch로 이동
+      // 성공하면 AfterMismatch로 이동 (방장 화면 즉시 표시용 state 포함)
       navigate("/test/after-mismatch", {
-        state: { questionId, nextIndex, totalQuestions, questionIndex },
+        state: {
+          questionId,
+          nextIndex,
+          totalQuestions,
+          questionIndex,
+          agreedRuleText: draftRule,
+        },
         replace: true,
       });
     } catch (e) {
+      console.error("LeaderMismatch confirmRule fail:", e?.message || e);
       alert("규칙 제출에 실패했어요. 잠시 후 다시 시도해 주세요.");
     } finally {
       setIsSubmitting(false);
@@ -120,7 +99,9 @@ function LeaderMismatchPage() {
 
         <CardHeader>
           <QuestionTitle>{questionMeta?.question ?? "질문"}</QuestionTitle>
-          <KeywordPill>{questionMeta?.category ?? "키워드"}</KeywordPill>
+          <KeywordPill>
+            {questionMeta?.category ?? state?.category ?? "키워드"}
+          </KeywordPill>
         </CardHeader>
 
         <SectionLabel>나온 답변</SectionLabel>
@@ -163,7 +144,7 @@ function LeaderMismatchPage() {
 
 export default LeaderMismatchPage;
 
-/* ===== CSS ===== */
+
 
 const Wrapper = styled.div`
   min-height: 100vh;

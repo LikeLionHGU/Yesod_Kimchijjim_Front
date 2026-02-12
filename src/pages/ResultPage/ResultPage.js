@@ -1,9 +1,37 @@
+import { useEffect, useState } from "react";
 import LeaderResultPage from "./LeaderResultPage";
 import MemberResultPage from "./MemberResultPage";
+import { api } from "../../utils/api";
 import { useRoom } from "../../context/RoomContext";
 
 function ResultPage() {
-  const { amIHost } = useRoom();
+  const room = useRoom();
+
+  const roomCode =
+    room?.roomCode || sessionStorage.getItem("currentRoomCode") || "";
+  const userIdStr = room?.userId || sessionStorage.getItem("userId") || "";
+  const userId = userIdStr ? Number(userIdStr) : null;
+
+  const [amIHost, setAmIHost] = useState(Boolean(room?.amIHost));
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if (!roomCode || !userId) return;
+
+    (async () => {
+      try {
+        const res = await api.getRuleSummary({ roomCode, userId });
+        setAmIHost(Boolean(res?.amIHost));
+      } catch (e) {
+        console.error("[ResultPage] getRuleSummary failed:", e?.message || e);
+      } finally {
+        setReady(true);
+      }
+    })();
+  }, [roomCode, userId]);
+
+  if (!ready) return null;
+
   return amIHost ? <LeaderResultPage /> : <MemberResultPage />;
 }
 

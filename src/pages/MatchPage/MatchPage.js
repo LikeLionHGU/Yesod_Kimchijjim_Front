@@ -1,21 +1,23 @@
+
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import Button from "../../components/common/Button";
 import check from "../../assets/check.svg";
-import { api } from "../../utils/api";
 import { QUESTION_DATA } from "../../constants/questions";
-import { useRoom } from "../../context/RoomContext";
+import { api } from "../../utils/api";
 
 function MatchPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { roomCode, userId } = useRoom();
 
-  // state 없으면 잘못 진입(직접 url 등) → test로
+  const roomCode = sessionStorage.getItem("currentRoomCode") || "";
+  const userIdStr = sessionStorage.getItem("userId") || "";
+  const userId = userIdStr ? Number(userIdStr) : null;
+
   useEffect(() => {
-    if (!state?.questionId) navigate("/test", { replace: true });
+    if (!state?.questionId) navigate("/room/test", { replace: true });
   }, [state, navigate]);
 
   const questionId = state?.questionId;
@@ -27,99 +29,68 @@ function MatchPage() {
     [questionId]
   );
 
-  const [rulesText, setRulesText] = useState([]);
-  const [readyInfo, setReadyInfo] = useState(null);
+  
+  const rulesText = state?.data ?? [];
 
-  // 버튼 연타 방지 + "한 번만 누르기"
-  const [hasPressedReady, setHasPressedReady] = useState(false);
-  const [isSendingReady, setIsSendingReady] = useState(false);
+  const [hasPressed, setHasPressed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [waitingMsg, setWaitingMsg] = useState("");
 
-  // 만장일치 규칙 로드
-  useEffect(() => {
-    if (!roomCode || !questionId) return;
+  const goNext = () => {
+    if (nextIndex >= totalQuestions) navigate("/test/result");
+    else navigate("/room/test", { state: { startIndex: nextIndex }, replace: true });
+  };
 
-    let mounted = true;
-    (async () => {
-      try {
-        const data = await api.getResult({ roomId: roomCode, questionId });
-        if (!mounted) return;
-
-        // 만장일치일 때 내려오는 규칙 문장들
-        setRulesText(data?.unanimousRuleTexts || []);
-      } catch (e) {
-        setRulesText([]);
-      }
-    })();
-
-    return () => {
-      mounted = false;
-    };
-  }, [roomCode, questionId]);
-
-  // all-ready 폴링
-  useEffect(() => {
-    if (!roomCode || !questionId) return;
-
+  const pollUntilPass = () => {
     const t = setInterval(async () => {
       try {
-        const res = await api.getReadyStatus({
-          roomId: roomCode,
-          screen: "MATCH",
-          questionId,
-        });
-
-        setReadyInfo(res);
-
-        if (res?.isAllReady) {
-          if (nextIndex >= totalQuestions) navigate("/test/result");
-          else navigate("/test", { state: { startIndex: nextIndex } });
+        const res = await api.startNextMatch({ roomCode, userId });
+        if (res === "PASS") {
+          clearInterval(t);
+          goNext();
+        } else {
+          setWaitingMsg("다른 사람도 확인 중이에요... 모두 누르면 넘어가요.");
         }
-      } catch (e) {}
+      } catch (e) {
+        clearInterval(t);
+        setWaitingMsg("서버 통신 오류가 있어요. 다시 눌러주세요.");
+        setHasPressed(false);
+      }
     }, 2000);
 
     return () => clearInterval(t);
-  }, [roomCode, questionId, navigate, nextIndex, totalQuestions]);
-
-  // 내가 ready 누르기
-  const handleReady = async () => {
-    // 이미 눌렀으면 아무 것도 안 함
-    if (hasPressedReady) return;
-    if (!roomCode || !questionId || !userId) return;
-
-    setIsSendingReady(true);
-    try {
-      const res = await api.ready({
-        roomId: roomCode,
-        roomUserId: userId,
-        screen: "MATCH",
-        questionId,
-      });
-
-      // 눌렀다는 상태 잠금
-      setHasPressedReady(true);
-
-      // count 바로 갱신
-      setReadyInfo(res);
-    } catch (e) {
-      alert("요청에 실패했어요. 잠시 후 다시 눌러줘.");
-    } finally {
-      setIsSendingReady(false);
-    }
   };
 
-  const notReadyCount =
-    readyInfo && !readyInfo.isAllReady
-      ? readyInfo.totalCount - readyInfo.readyCount
-      : 0;
+  const handleConfirm = async () => {
+    if (hasPressed) return;
+    if (!roomCode || !userId || !questionId) return;
+
+    setHasPressed(true);
+    setIsLoading(true);
+    setWaitingMsg("");
+
+    try {
+      const res = await api.startNextMatch({ roomCode, userId });
+      if (res === "PASS") {
+        goNext();
+        return;
+      }
+      // WAITING이면 폴링 시작
+      setWaitingMsg("다른 사람도 확인 중이에요... 모두 누르면 넘어가요.");
+      pollUntilPass();
+    } catch (e) {
+      setHasPressed(false);
+      alert("요청에 실패했어요. 잠시 후 다시 눌러줘.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Wrapper>
       <TopIcon src={check} alt="check" />
-
       <Title>모두의 답변이 일치해요</Title>
-      <SubTitle>
-        {questionMeta?.question ? questionMeta.question : "규칙을 확인해요"}
-      </SubTitle>
+      <SubTitle>{questionMeta?.question ?? "규칙을 확인해요"}</SubTitle>
 
       <RuleList>
         {rulesText.length === 0 ? (
@@ -135,31 +106,16 @@ function MatchPage() {
       </RuleList>
 
       <ButtonWrap>
-        <Button
-          onClick={handleReady}
-          disabled={
-            rulesText.length === 0 || isSendingReady || hasPressedReady
-          }
-        >
-          {hasPressedReady ? "확인 완료!" : "확인했어요"}
+        <Button onClick={handleConfirm} disabled={rulesText.length === 0 || isLoading || hasPressed}>
+          {hasPressed ? "확인 완료!" : "확인했어요"}
         </Button>
-
-        {/* ready 눌렀을 때만 안내문 보여주기 */}
-        {hasPressedReady && (
-          <Hint>
-            {notReadyCount > 0
-              ? `아직 ${notReadyCount}명이 누르지 않았어요. 모두 누르면 넘어가요.`
-              : "모두 눌렀어요! 곧 넘어가요."}
-          </Hint>
-        )}
+        {hasPressed && <Hint>{waitingMsg || "확인했어요!"}</Hint>}
       </ButtonWrap>
     </Wrapper>
   );
 }
 
 export default MatchPage;
-
-/* ===== CSS ===== */
 
 const Wrapper = styled.div`
   min-height: 100vh;
