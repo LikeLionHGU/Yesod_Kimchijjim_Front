@@ -1,35 +1,66 @@
-import { useEffect, useRef, useState } from "react";
+
+import { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import Button from "../../components/common/Button";
 import { api } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { useRoom } from "../../context/RoomContext";
+import { QUESTION_DATA } from "../../constants/questions";
 
 function FinalResultPage() {
   const navigate = useNavigate();
-  const { roomCode, userId, amIHost } = useRoom();
+  const room = useRoom();
+
+  const roomCode =
+    room?.roomCode || sessionStorage.getItem("currentRoomCode") || "";
+  const userIdStr = room?.userId || sessionStorage.getItem("userId") || "";
+  const userId = userIdStr ? Number(userIdStr) : null;
 
   const captureRef = useRef(null);
 
-  const [rules, setRules] = useState([]);
-  const [isMoving, setIsMoving] = useState(false);
+  const [rules, setRules] = useState(null); 
+  const [error, setError] = useState(false);
 
-  // Final 규칙 불러오기
+  const getCategoryByQuestionId = (qid) => {
+    const found = QUESTION_DATA.find((q) => q.id === qid);
+    return found?.category ?? "기타";
+  };
+
+  const mappedRules = useMemo(() => {
+    if (!rules) return [];
+    // 백엔드: { id, rule, questionId }
+    return rules.map((r) => ({
+      id: r.id,
+      questionId: r.questionId,
+      text: r.rule,
+      category: getCategoryByQuestionId(r.questionId),
+    }));
+  }, [rules]);
+
   useEffect(() => {
-    if (!roomCode || !userId) return;
+    if (!roomCode || !userId) {
+      setError(true);
+      setRules([]);
+      return;
+    }
 
     let mounted = true;
 
     (async () => {
       try {
+        setError(false);
+        setRules(null); // 로딩 시작
+
         const res = await api.getFinalRules({ roomCode, userId });
 
-        // { data: [{ questionId, category, rule }, ...] }
         if (!mounted) return;
+        // res.data가 최종 룰 목록
         setRules(res?.data || []);
       } catch (e) {
-        console.error(e);
+        console.error("[FinalResultPage] getFinalRules failed:", e?.message || e);
+        if (!mounted) return;
+        setError(true);
         setRules([]);
       }
     })();
@@ -39,22 +70,9 @@ function FinalResultPage() {
     };
   }, [roomCode, userId]);
 
-  // 집 아이콘 선택하모 -> 보드페이지로
-  const handleMoveToBoard = async () => {
-    if (!roomCode || !userId) return;
-
-    setIsMoving(true);
-    try {
-     
-      await api.selectHouseIcon({ roomCode, userId });
-
-      navigate("/board", { replace: true });
-    } catch (e) {
-      console.error(e);
-      alert("보드로 이동에 실패했어요. 다시 시도해 주세요.");
-    } finally {
-      setIsMoving(false);
-    }
+  // 각자 보드로 이동 (서버 동기화 X)
+  const handleMoveToBoard = () => {
+    navigate("/board");
   };
 
   const handleSaveImage = async () => {
@@ -86,20 +104,26 @@ function FinalResultPage() {
       <CaptureArea ref={captureRef}>
         <Header>
           <Title>우리 방 규칙</Title>
-          <SubTitle>{amIHost ? "방장 확정본" : "최종 확정본"}</SubTitle>
+          <SubTitle>최종 확정본</SubTitle>
         </Header>
 
         <RuleList>
-          {rules.length === 0 ? (
+          {rules === null && !error && (
             <EmptyText>최종 규칙을 불러오는 중이에요...</EmptyText>
-          ) : (
-            rules.map((r, idx) => (
-              <RuleItem key={`${r.questionId}-${idx}`}>
-                <Pill>{r.category || "기타"}</Pill>
-                <RuleText>{r.rule}</RuleText>
-              </RuleItem>
-            ))
           )}
+
+          {error && (
+            <EmptyText>규칙을 불러오지 못했어요. 다시 접속해 주세요.</EmptyText>
+          )}
+
+          {rules !== null &&
+            !error &&
+            mappedRules.map((r) => (
+              <RuleItem key={`${r.id}-${r.questionId}`}>
+                <Pill>{r.category}</Pill>
+                <RuleText>{r.text}</RuleText>
+              </RuleItem>
+            ))}
         </RuleList>
       </CaptureArea>
 
@@ -108,7 +132,7 @@ function FinalResultPage() {
           이미지 저장
         </SmallBtn>
 
-        <Button onClick={handleMoveToBoard} disabled={rules.length === 0 || isMoving}>
+        <Button onClick={handleMoveToBoard} disabled={rules === null || error}>
           규칙 저장하기
         </Button>
       </Bottom>

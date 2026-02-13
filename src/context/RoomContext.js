@@ -1,40 +1,108 @@
-import { createContext, useContext, useState, useEffect } from "react";
+// import { createContext, useContext, useState, useEffect } from "react";
 
 
+
+// const RoomContext = createContext(null);
+
+// export function RoomProvider({ children }) {
+//   const [roomCode, setRoomCode] = useState(null);
+//   const [userId, setUserId] = useState(null);
+//   const [amIHost, setAmIHost] = useState(false);
+
+  
+  
+//   useEffect(() => {
+//     const savedRoomCode = localStorage.getItem("roomCode");
+//     const savedUserId = localStorage.getItem("userId");
+//     const savedAmIHost = localStorage.getItem("amIHost");
+
+//     if (savedRoomCode) setRoomCode(savedRoomCode);
+//     if (savedUserId) setUserId(Number(savedUserId));
+//     if (savedAmIHost) setAmIHost(savedAmIHost === "true");
+//   }, []);
+
+  
+
+  
+//   useEffect(() => {
+//     if (roomCode) localStorage.setItem("roomCode", roomCode);
+//   }, [roomCode]);
+
+//   useEffect(() => {
+//     if (userId) localStorage.setItem("userId", userId);
+//   }, [userId]);
+
+//   useEffect(() => {
+//     localStorage.setItem("amIHost", amIHost);
+//   }, [amIHost]);
+
+//   return (
+//     <RoomContext.Provider
+//       value={{
+//         roomCode,
+//         setRoomCode,
+//         userId,
+//         setUserId,
+//         amIHost,
+//         setAmIHost,
+//       }}
+//     >
+//       {children}
+//     </RoomContext.Provider>
+//   );
+// }
+
+
+// // 각 페이지에서 const { roomCode, userId, amIHost } = useRoom(); 꺼내쓰기
+
+// export function useRoom() {
+//   return useContext(RoomContext);
+// }
+
+
+import { createContext, useContext, useEffect, useState } from "react";
 
 const RoomContext = createContext(null);
 
+// ✅ sessionStorage 키를 프로젝트 전체에서 통일
+const KEY_ROOM_CODE = "currentRoomCode";
+const KEY_USER_ID = "userId";
+const KEY_AM_I_HOST = "amIHost";
+
 export function RoomProvider({ children }) {
-  const [roomCode, setRoomCode] = useState(null);
-  const [userId, setUserId] = useState(null);
-  const [amIHost, setAmIHost] = useState(false);
+  const [roomCode, setRoomCodeState] = useState("");
+  const [userId, setUserIdState] = useState(null);
+  const [amIHost, setAmIHostState] = useState(false);
 
-  
-  
+  // ✅ 최초 1회: sessionStorage에서 불러오기
   useEffect(() => {
-    const savedRoomCode = localStorage.getItem("roomCode");
-    const savedUserId = localStorage.getItem("userId");
-    const savedAmIHost = localStorage.getItem("amIHost");
+    const savedRoomCode = sessionStorage.getItem(KEY_ROOM_CODE) || "";
+    const savedUserId = sessionStorage.getItem(KEY_USER_ID) || "";
+    const savedAmIHost = sessionStorage.getItem(KEY_AM_I_HOST) || "false";
 
-    if (savedRoomCode) setRoomCode(savedRoomCode);
-    if (savedUserId) setUserId(Number(savedUserId));
-    if (savedAmIHost) setAmIHost(savedAmIHost === "true");
+    setRoomCodeState(savedRoomCode);
+    setUserIdState(savedUserId ? Number(savedUserId) : null);
+    setAmIHostState(savedAmIHost === "true");
   }, []);
 
-  
+  // ✅ setter를 “저장까지 같이” 하도록 래핑
+  const setRoomCode = (next) => {
+    const v = next || "";
+    setRoomCodeState(v);
+    sessionStorage.setItem(KEY_ROOM_CODE, v);
+  };
 
-  
-  useEffect(() => {
-    if (roomCode) localStorage.setItem("roomCode", roomCode);
-  }, [roomCode]);
+  const setUserId = (next) => {
+    const v = next === null || next === undefined ? "" : String(next);
+    setUserIdState(v ? Number(v) : null);
+    if (v) sessionStorage.setItem(KEY_USER_ID, v);
+  };
 
-  useEffect(() => {
-    if (userId) localStorage.setItem("userId", userId);
-  }, [userId]);
-
-  useEffect(() => {
-    localStorage.setItem("amIHost", amIHost);
-  }, [amIHost]);
+  const setAmIHost = (next) => {
+    const v = Boolean(next);
+    setAmIHostState(v);
+    sessionStorage.setItem(KEY_AM_I_HOST, String(v));
+  };
 
   return (
     <RoomContext.Provider
@@ -51,9 +119,6 @@ export function RoomProvider({ children }) {
     </RoomContext.Provider>
   );
 }
-
-
-// 각 페이지에서 const { roomCode, userId, amIHost } = useRoom(); 꺼내쓰기
 
 export function useRoom() {
   return useContext(RoomContext);
