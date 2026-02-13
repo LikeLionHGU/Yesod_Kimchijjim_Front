@@ -79,7 +79,8 @@ const RoomStartPage = () => {
             <CardContainer>
                 <CreateCard onClick={handleRoomCreate}>
                     <CardTitle style={{color:Colors.white}}>방 만들기</CardTitle>
-                    <CardSubText>방을 처음 만든 사람이 방장이 돼요</CardSubText>
+                    <CardSubText>방을 처음 만든 사람이 규칙 추가 및 수정할 수 있어요</CardSubText>
+                    <CardDetailText>* 방 생성 후에는 이 권한을 변경할 수 없어요</CardDetailText>
                 </CreateCard>
 
                 <JoinCard>
@@ -190,10 +191,20 @@ const CardSubText = styled.p`
     font-style: normal;
     font-weight: 500;
     color: ${Colors.detailWhite};
-    line-height: 30px;
-    margin-top: 3px;
+    line-height: 27px;
+    margin-top: 97px;
     margin-bottom: 0;
     white-space: nowrap;
+`;
+
+const CardDetailText = styled.p`
+    color: ${Colors.detailWhite};
+    text-align: center;
+    font-family: ${Colors.font};
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 27px;
 `;
 
 const InputWrapper = styled.div`

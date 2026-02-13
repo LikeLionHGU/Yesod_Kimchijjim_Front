@@ -5,12 +5,31 @@ import BoardIcon from "../../assets/boardpageIcon.svg";
 import peopleICon from "../../assets/peopleIcon.svg";
 import pencilIcon from "../../assets/Pencil.svg";
 import passPage from "../../assets/passpage.svg";
+import EditRoomModal from "./EditRoomModal";
 
-const BoardTopSection = ({userName, roomName, memberCount, rules}) => {
+const BoardTopSection = ({userName, roomName, memberCount, rules, onUpdateRoom, onDeleteRoom}) => {
 
   const [currentPage, setCurrentPage] = useState(0);
   const ITEMS_PER_PAGE = 5;
 
+  const isLeader = sessionStorage.getItem("isLeader") === "true";
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const openEditModal = () => setIsEditModalOpen(true);
+  const closeEditmodal = () => setIsEditModalOpen(false);
+
+  const handleRoomUpdate = (newName) => {
+    onUpdateRoom(newName);
+    console.log("방 이름 수정:", newName);
+    //백엔드 연결 (방이름 업데이트 관련)
+  };
+
+  const handleRoomDelete = () => {
+    onDeleteRoom();
+    console.log("방 삭제 요청");
+    //백엔드 연결 (방 삭제 관련)
+  };
+
+  //규칙들
   const totalPages = Math.ceil((rules?.length || 0) / ITEMS_PER_PAGE);
 
   const handleprevPage = () => {
@@ -50,7 +69,7 @@ const BoardTopSection = ({userName, roomName, memberCount, rules}) => {
 
             <div style={{display: 'flex', gap: '5px', alignItems: 'center'}}>
               <SectionLabel>방 정보</SectionLabel>
-              <IconButton src={pencilIcon} />
+              {isLeader && <IconButton src={pencilIcon} onClick={openEditModal} />}
             </div>
 
             <RoomInfoBox>
@@ -63,11 +82,11 @@ const BoardTopSection = ({userName, roomName, memberCount, rules}) => {
 
             <SectionTitleGroup>
               <SectionLabel>방 규칙</SectionLabel>
-              <TextButton>규칙 수정하기</TextButton>
+              {isLeader && <TextButton>규칙 수정하기</TextButton>}
             </SectionTitleGroup>
 
             <RuleListContainer>
-              <gotoLeftBtn onClick={handleprevPage}
+              <passBtn onClick={handleprevPage}
                 $disabled={currentPage ===0}
                 src = {passPage}/>
 
@@ -80,32 +99,11 @@ const BoardTopSection = ({userName, roomName, memberCount, rules}) => {
                 ) : (<RuleItem>아직 정해진 규칙이 없어요</RuleItem>)}
               </RuleList>
 
-              <gotoRightBtn onClick={handleNextPage}
-                $disabled={currentPage === totalPages-1}
+              <passBtn onClick={handleNextPage}
+                $disabled={currentPage === totalPages - 1}
                 src={passPage}/>
 
             </RuleListContainer>
-
-          {/* <RuleListWrapper>
-            {currentPage>0 && <passBtn onClick={handleprevPage} src={passPage}/>}
-
-              <RuleList>
-                {currentRules?.map((rule, index) => (
-                  <RuleItem key={rule.id || index}>{rule.content}</RuleItem>
-                ))}
-              </RuleList>
-
-                {currentPage < totalPages -1 && <passBtn onClick={handleNextPage}/>}
-
-          </RuleListWrapper> */}
-            {/* <RuleList>
-              {currentRules && currentRules.length > 0?(
-                currentRules.map((rule,index)=>(
-                  <RuleItem key={rule.id || index}>{rule.content}</RuleItem>
-
-                ))
-              ): (<RuleItem>아직 정해진 규칙이 없어요</RuleItem>)}
-            </RuleList> */}
             
             <DotContainer>
               {Array.from({length: totalPages}).map((_,i) => (
@@ -119,8 +117,16 @@ const BoardTopSection = ({userName, roomName, memberCount, rules}) => {
 
           </RuleCard>
         </RightSection>
-
       </ContentWrapper>
+
+      {isEditModalOpen && (
+        <EditRoomModal
+          isOpen={isEditModalOpen}
+          onClose={closeEditmodal}
+          currentRoomName={roomName}
+          onSave={handleRoomUpdate}
+          onDelete={handleRoomDelete} />)}
+          
     </TopContainer>
   )
 }

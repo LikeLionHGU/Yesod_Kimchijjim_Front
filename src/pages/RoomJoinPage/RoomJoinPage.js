@@ -95,7 +95,7 @@ const RoomJoinPage = () => {
   return (
     <PageContainer>
       <GoBackPage />
-      <TitleSection iconSrc={DoorIcon} titleText={"방 들어가기"} subTitleText={"우리 방에 들어가요"} />
+      <TitleSection iconSrc={DoorIcon} titleText={"방 들어가기"} subTitleText={"이름을 입력하면 방에 입장할 수 있어요"} />
 
       <Card>
         <FormGroup>

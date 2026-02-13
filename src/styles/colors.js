@@ -8,6 +8,7 @@ export const Colors = {
     white: "#FFF",
     detailWhite: "#E9E9E9",
     borderLine: "#7E7E7E", //2,3,4명 선택
+    inputBorder: "#A9A9A9",
     inputColor: "#DADADA",
     boxShadowBlack: "rgba(0, 0, 0, 0.10)",
     boxShadowPurple: "rgba(163, 163, 253, 0.30)",
