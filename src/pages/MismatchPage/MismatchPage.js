@@ -1,19 +1,20 @@
+
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import LeaderMismatchPage from "./LeaderMismatchPage";
 import MemberMismatchPage from "./MemberMismatchPage";
-import { useRoom } from "../../context/RoomContext";
 
 function MismatchPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { amIHost } = useRoom();
 
   useEffect(() => {
     if (!state?.questionId) {
-      navigate("/test", { replace: true });
+      navigate("/room/test", { replace: true });
     }
   }, [state, navigate]);
+
+  const amIHost = state?.amIHost === true;
 
   return amIHost ? <LeaderMismatchPage /> : <MemberMismatchPage />;
 }

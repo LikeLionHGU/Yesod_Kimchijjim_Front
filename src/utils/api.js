@@ -1,209 +1,118 @@
 
-const BASE_URL = process.env.REACT_APP_API_HOST_URL || "";
-
-  
-function toQuery(params = {}) {
-  const qs = Object.entries(params)
-    .filter(([, v]) => v !== undefined && v !== null && v !== "")
-    .map(
-      ([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`
-    )
-    .join("&");
-
-  return qs ? `?${qs}` : "";
-}
-
+const BASE_URL = process.env.REACT_APP_HOST_URL || "";
+const enc = (v) => encodeURIComponent(String(v));
 
 async function request(path, { method = "GET", body } = {}) {
   const res = await fetch(`${BASE_URL}${path}`, {
     method,
     headers: { "Content-Type": "application/json" },
-
-   
-    body: body !== undefined ? JSON.stringify(body) : undefined,
-
-
+    body: body ? JSON.stringify(body) : undefined,
     credentials: "include",
   });
 
-
   if (!res.ok) {
     let message = `HTTP ${res.status}`;
-
-    
     try {
-      const err = await res.json();
-      message = err?.message || message;
-    } catch {
-     
-    }
-
+      const ct = res.headers.get("content-type") || "";
+      if (ct.includes("application/json")) {
+        const err = await res.json();
+        message = err?.message || JSON.stringify(err) || message;
+      } else {
+        const text = await res.text();
+        message = text || message;
+      }
+    } catch {}
     throw new Error(message);
   }
 
-  
   if (res.status === 204) return null;
 
- 
-  return res.json();
+  const ct = res.headers.get("content-type") || "";
+  if (ct.includes("application/json")) return res.json();
+
+  const text = await res.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    return text;
+  }
 }
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export const api = {
- 
-
-  submitTestResult: ({ roomCode, questionId, roomUserId, opinion }) =>
+  submitTestResult: ({ roomCode, userId, questionId, opinion, category }) =>
     request(`/room/test/result`, {
       method: "POST",
-      body: {
-        roomCode,
-        questionId: String(questionId),
-        roomUserId: String(roomUserId),
-        opinion,
-      },
+      body: { roomCode, userId, questionId, opinion, category },
     }),
 
- 
   pollTestResult: ({ roomCode, userId }) =>
-    request(
-      `/room/${encodeURIComponent(roomCode)}/test/result${toQuery({ userId })}`,
-      { method: "GET" }
-    ),
+    request(`/room/${enc(roomCode)}/test/result?userId=${enc(userId)}`),
 
-  postMatchReady: ({ userId, roomCode }) =>
-    request(`/room/match`, {
-      method: "POST",
-      body: { userId: String(userId), roomCode },
-    }),
-
-
-  pollMatchReady: ({ roomCode, userId }) =>
-    request(
-      `/room/${encodeURIComponent(roomCode)}/match${toQuery({ userId })}`,
-      { method: "GET" }
-    ),
-
-  
-  saveAgreedRuleByHost: ({ roomCode, questionId, opinion }) =>
-    request(`/room/leadermismatch`, {
-      method: "POST",
-      body: {
-        roomCode,
-        questionId: String(questionId),
-        opinion,
-      },
-    }),
-
-  postAfterMismatchReady: ({ userId, roomCode }) =>
-    request(`/room/aftermismatch`, {
-      method: "POST",
-      body: { userId: String(userId), roomCode },
-    }),
-
-  pollAfterMismatchReady: ({ roomCode, userId }) =>
-    request(
-      `/room/${encodeURIComponent(roomCode)}/aftermismatch${toQuery({ userId })}`,
-      { method: "GET" }
-    ),
-
- 
-  getTestSummary: ({ roomCode, userId }) =>
-    request(
-      `/room/${encodeURIComponent(roomCode)}/test/summary${toQuery({ userId })}`,
-      { method: "GET" }
-    ),
-
-
-  addRuleInSummaryByHost: ({
+  submitAndWaitTestResult: async ({
     roomCode,
-    questionId,
     userId,
+    questionId,
     opinion,
     category,
-  }) =>
-    request(`/room/test/summary`, {
+  }) => {
+    let res = await api.submitTestResult({
+      roomCode,
+      userId,
+      questionId,
+      opinion,
+      category,
+    });
+
+    while (res?.status === "WAITING") {
+      await sleep(1200);
+      res = await api.pollTestResult({ roomCode, userId });
+    }
+    return res;
+  },
+
+  startNextMatch: ({ roomCode, userId }) =>
+    request(`/room/match`, {
       method: "POST",
-      body: {
-        roomCode,
-        questionId: String(questionId),
-        userId: String(userId),
-        opinion,
-        category,
-      },
+      body: { roomCode, userId },
     }),
 
-  
-    
-  updateRuleInSummaryByHost: ({ roomCode, questionId, userId, opinion }) =>
-    request(`/room/${encodeURIComponent(roomCode)}/test/summary`, {
-      method: "PUT",
-      body: {
-        questionId: String(questionId),
-        userId: String(userId),
-        opinion,
-      },
-    }),
-
-  goToFinalPageByHost: ({ roomCode, userId }) =>
-    request(`/room/test/summary`, {
+  confirmRule: ({ roomCode, userId, questionId, opinion, category }) =>
+    request(`/room/rule/confirm`, {
       method: "POST",
-      body: { roomCode, userId: String(userId) },
+      body: { roomCode, userId, questionId, opinion, category },
     }),
 
+  startNextMismatch: ({ roomCode, userId }) =>
+    request(`/room/rule/confirm/mismatch`, {
+      method: "POST",
+      body: { roomCode, userId },
+    }),
+
+  // 룰 요약(최종 룰 목록도 여기서 내려옴)
+  getRuleSummary: ({ roomCode, userId }) =>
+    request(`/room/${enc(roomCode)}/test/summary?userId=${enc(userId)}`),
+
+  // Final 페이지에서도 동일 API 재사용
   getFinalRules: ({ roomCode, userId }) =>
-    request(
-      `/room/${encodeURIComponent(roomCode)}/test/final${toQuery({ userId })}`,
-      { method: "GET" }
-    ),
+    request(`/room/${enc(roomCode)}/test/summary?userId=${enc(userId)}`),
 
-  
-  selectHouseIcon: ({ roomCode, userId }) =>
-    request(`/room/test/move`, {
+  addRuleToSummary: ({ roomCode, userId, questionId, opinion }) =>
+    request(`/room/test/summary`, {
       method: "POST",
-      body: { roomCode, userId: String(userId) },
+      body: { roomCode, userId, questionId, opinion: [opinion] },
     }),
 
-  
-  getBoardRoomInfo: ({ roomCode }) =>
-    request(`/room/${encodeURIComponent(roomCode)}/board/roomInfo`, {
-      method: "GET",
-    }),
-
-
-  getBoardFinalRules: ({ roomCode }) =>
-    request(`/room/${encodeURIComponent(roomCode)}/board/final`, {
-      method: "GET",
-    }),
-
-  
-  goEditRulesFromBoardByHost: ({ roomCode, userId }) =>
-    request(`/room/${encodeURIComponent(roomCode)}/board/final`, {
-      method: "POST",
-      body: { userId: String(userId) },
-    }),
-
-  updateRoomNameByHost: ({ roomCode, updateRname }) =>
-    request(`/room/${encodeURIComponent(roomCode)}/board/updateRname`, {
+  updateSummaryRuleById: ({ roomCode, userId, ruleId, opinion }) =>
+    request(`/room/test/summary/${enc(ruleId)}`, {
       method: "PUT",
-      body: { updateRname },
+      body: { roomCode, userId, opinion: [opinion] },
     }),
 
-  
-  deleteRoomByHost: ({ roomCode, userId }) =>
-    request(`/room/${encodeURIComponent(roomCode)}`, {
-      method: "DELETE",
-      body: { userId: String(userId) },
-    }),
-
-  
-  createOpinion: ({ roomCode, content }) =>
-    request(`/room/opinions/create`, {
+  goFinalPage: ({ roomCode, userId }) =>
+    request(`/room/test/summary/complete`, {
       method: "POST",
-      body: { content, roomCode },
-    }),
-
-  getOpinions: ({ roomCode }) =>
-    request(`/room/${encodeURIComponent(roomCode)}/opinions`, {
-      method: "GET",
+      body: { roomCode, userId },
     }),
 };

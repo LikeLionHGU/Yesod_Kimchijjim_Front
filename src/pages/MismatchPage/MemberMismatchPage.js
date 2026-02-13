@@ -1,19 +1,18 @@
-import { useEffect, useMemo, useState } from "react";
+
+import { useEffect, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import exclamation_mark from "../../assets/exclamation_mark.svg";
 import { api } from "../../utils/api";
 import { QUESTION_DATA } from "../../constants/questions";
-import { useRoom } from "../../context/RoomContext";
 
 function MemberMismatchPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { roomCode } = useRoom();
 
   useEffect(() => {
-    if (!state?.questionId) navigate("/test", { replace: true });
+    if (!state?.questionId) navigate("/room/test", { replace: true });
   }, [state, navigate]);
 
   const questionId = state?.questionId;
@@ -26,49 +25,53 @@ function MemberMismatchPage() {
     [questionId]
   );
 
-  const [answers, setAnswers] = useState([]);
+  const answers = Array.isArray(state?.data) ? state.data : [];
+  const hasNavigatedRef = useRef(false);
 
-  // 답변 목록 가져오기
-  useEffect(() => {
-    if (!roomCode || !questionId) return;
+  
+useEffect(() => {
+  const roomCode = sessionStorage.getItem("currentRoomCode") || "";
+  const userIdStr = sessionStorage.getItem("userId") || "";
+  const userId = userIdStr ? Number(userIdStr) : null;
 
-    let mounted = true;
+  console.log("[MemberMismatch] INIT", { roomCode, userId, questionId });
 
-    (async () => {
-      try {
-        const data = await api.getResult({ roomId: roomCode, questionId });
-        if (!mounted) return;
+  if (!roomCode || !userId || !questionId) {
+    console.warn("[MemberMismatch] roomCode/userId/questionId missing");
+    return;
+  }
 
-        setAnswers(data?.answers ?? []);
-      } catch (e) {
-        setAnswers([]);
+  const t = setInterval(async () => {
+    try {
+      console.log("[MemberMismatch] polling... questionId = ", questionId);
+
+      const res = await api.pollTestResult({ roomCode, userId });
+      console.log("[MemberMismatch] pollTestResult status = ", res?.status, "data=", res?.data);
+
+      if (res?.status === "AFTER_MISMATCH" && !hasNavigatedRef.current) {
+        hasNavigatedRef.current = true;
+
+        const agreed = Array.isArray(res?.data) ? res.data[0] : "";
+
+        navigate("/test/after-mismatch", {
+          state: {
+            questionId,
+            nextIndex,
+            totalQuestions,
+            questionIndex,
+            agreedRuleText: agreed, 
+          },
+          replace: true,
+        });
       }
-    })();
+    } catch (e) {
+      console.error("[MemberMismatch] pollTestResult failed:", e?.message || e);
+    }
+  }, 1200);
 
-    return () => {
-      mounted = false;
-    };
-  }, [roomCode, questionId]);
+  return () => clearInterval(t);
+}, [questionId, navigate, nextIndex, totalQuestions, questionIndex]);
 
-  // agreedRuleText 생기면 AfterMismatch로 이동
-  useEffect(() => {
-    if (!roomCode || !questionId) return;
-
-    const t = setInterval(async () => {
-      try {
-        const data = await api.getResult({ roomId: roomCode, questionId });
-
-        if (data?.agreedRuleText) {
-          navigate("/test/after-mismatch", {
-            state: { questionId, nextIndex, totalQuestions, questionIndex },
-            replace: true,
-          });
-        }
-      } catch (e) {}
-    }, 2000);
-
-    return () => clearInterval(t);
-  }, [roomCode, questionId, navigate, nextIndex, totalQuestions, questionIndex]);
 
   return (
     <Wrapper>
@@ -98,7 +101,7 @@ function MemberMismatchPage() {
 
 export default MemberMismatchPage;
 
-/* ===== CSS ===== */
+
 
 const Wrapper = styled.div`
   min-height: 100vh;

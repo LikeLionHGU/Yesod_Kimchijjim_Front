@@ -13,6 +13,8 @@ import { GoogleOAuthProvider, GoogleLogin, useGoogleLogin } from "@react-oauth/g
 //설치 : npm install @react-oauth/google axios
 
 
+console.log("프론트엔드에서 사용하는 Client ID:", process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID);
+
 const LandingPage = () => {
 
     const navigate = useNavigate();
@@ -24,6 +26,7 @@ const LandingPage = () => {
 
         navigate("/loading", {state:{idToken:idToken}});
     }; 
+
 
     const handleLoginError = () => {
         console.log("Login Failed");
