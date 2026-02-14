@@ -1,4 +1,5 @@
 import react, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import BoardIcon from "../../assets/boardpageIcon.svg";
@@ -7,12 +8,13 @@ import pencilIcon from "../../assets/Pencil.svg";
 import passPage from "../../assets/passpage.svg";
 import EditRoomModal from "./EditRoomModal";
 
-const BoardTopSection = ({userName, roomName, memberCount, rules, onUpdateRoom, onDeleteRoom}) => {
+const BoardTopSection = ({userName, roomName, memberCount, rules, isLeader, onUpdateRoom, onDeleteRoom}) => {
+
+  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(0);
   const ITEMS_PER_PAGE = 5;
 
-  const isLeader = sessionStorage.getItem("isLeader") === "true";
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const openEditModal = () => setIsEditModalOpen(true);
   const closeEditmodal = () => setIsEditModalOpen(false);
@@ -27,6 +29,10 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, onUpdateRoom, 
     onDeleteRoom();
     console.log("방 삭제 요청");
     //백엔드 연결 (방 삭제 관련)
+  };
+
+  const handleGoEditRule = () => {
+    navigate("/test/result", {state:{isFromBoardEdit: true}});
   };
 
   //규칙들
@@ -82,7 +88,7 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, onUpdateRoom, 
 
             <SectionTitleGroup>
               <SectionLabel>방 규칙</SectionLabel>
-              {isLeader && <TextButton>규칙 수정하기</TextButton>}
+              {isLeader && <TextButton onClick={handleGoEditRule}>규칙 수정하기</TextButton>}
             </SectionTitleGroup>
 
             <RuleListContainer>

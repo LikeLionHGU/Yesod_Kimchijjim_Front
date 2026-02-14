@@ -31,6 +31,7 @@ import MismatchPage from "./pages/MismatchPage/MismatchPage";
 import AfterMismatchPage from "./pages/AfterMismatchPage/AfterMismatchPage";
 import ResultPage from "./pages/ResultPage/ResultPage";
 import FinalResultPage from "./pages/FinalResultPage/FinalResultPage";
+import LeaderResultPage from "./pages/ResultPage/LeaderResultPage";
 
 function App() {
   return (
@@ -89,6 +90,7 @@ function App() {
 
           
           <Route path="/board" element={<BoardPage />} />
+          <Route path="/room/edit-rules" element={<LeaderResultPage/>}/>
 
           
           <Route path="*" element={<Navigate to="/" replace />} />

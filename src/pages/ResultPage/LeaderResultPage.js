@@ -6,12 +6,15 @@ import Button from "../../components/common/Button";
 import Pencil from "../../assets/Pencil_purple.svg";
 import { api } from "../../utils/api";
 import { QUESTION_DATA } from "../../constants/questions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useRoom } from "../../context/RoomContext";
 
 function LeaderResultPage() {
   const navigate = useNavigate();
+  const location = useLocation(); //추가됨
   const room = useRoom();
+
+  const isFromBoardEdit = location.state?.isFromBoardEdit; //추가됨
 
   const roomCode =
     room?.roomCode || sessionStorage.getItem("currentRoomCode") || "";
@@ -78,8 +81,8 @@ function LeaderResultPage() {
           setRules(mapServerDataToRules(res?.data));
         }
 
-        if (res?.status === "COMPLETE") {
-          navigate("/test/final", { replace: true });
+        if (res?.status === "COMPLETE" && !isFromBoardEdit) {
+          navigate("/test/final", { replace: true }); //complete이후 &&c추가 
         }
       } catch (e) {
         console.error("[LeaderResult] getRuleSummary failed:", e?.message || e);
@@ -159,6 +162,11 @@ function LeaderResultPage() {
   // 최종 완료
   const handleGoFinal = async () => {
     if (!roomCode || !userId) return;
+
+    if(location.state?.isFromBoardEdit) {
+      navigate("/board");
+      return;
+    }
 
     setIsSaving(true);
     try {
@@ -265,7 +273,7 @@ function LeaderResultPage() {
 
       <BottomArea>
         <Button onClick={handleGoFinal} disabled={disableFinal || isSaving}>
-          다음으로
+          {location.state?.isFromBoardEdit ? "수정완료" : "다음으로"}
         </Button>
 
       </BottomArea>
