@@ -3,6 +3,10 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import { RoomProvider } from "./context/RoomContext";
 
+//헤더 푸터
+import Header from "./pages/HeaderPage/HeaderPage";
+import Footer from "./pages/FooterPage/FooterPage";
+
 // 공용/메인
 import LandingPage from "./pages/LandingPage/LandingPage";
 import BoardPage from "./pages/BoardPage/BoardPage";
@@ -32,6 +36,8 @@ function App() {
   return (
     <RoomProvider>
       <BrowserRouter>
+        <Header />
+
         <Routes>
           
           <Route path="/" element={<LandingPage />} />
@@ -87,6 +93,9 @@ function App() {
           
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+
+        <Footer/>
+        
       </BrowserRouter>
     </RoomProvider>
   );
