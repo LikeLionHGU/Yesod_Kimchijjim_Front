@@ -6,6 +6,8 @@ import BoardIcon from "../../assets/boardpageIcon.svg";
 import peopleICon from "../../assets/peopleIcon.svg";
 import pencilIcon from "../../assets/Pencil.svg";
 import passPage from "../../assets/passpage.svg";
+import rightPassPageIcon from "../../assets/rightPassPage.svg";
+import leftPassPageIcon from "../../assets/leftPassPage.svg";
 import EditRoomModal from "./EditRoomModal";
 
 const BoardTopSection = ({userName, roomName, memberCount, rules, isLeader, onUpdateRoom, onDeleteRoom}) => {
@@ -93,8 +95,9 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, isLeader, onUp
 
             <RuleListContainer>
               <PassBtn onClick={handleprevPage}
-                $disabled={currentPage ===0}
-                src = {passPage}/>
+                disabled={currentPage === 0}>
+                <img src={leftPassPageIcon} />
+                </PassBtn>
 
               <RuleList>
                 {currentRules && currentRules.length > 0 ? (
@@ -106,8 +109,9 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, isLeader, onUp
               </RuleList>
 
               <PassBtn onClick={handleNextPage}
-                $disabled={currentPage === totalPages - 1}
-                src={passPage}/>
+                disabled={currentPage === totalPages - 1}>
+                <img src={rightPassPageIcon} />
+                </PassBtn>
 
             </RuleListContainer>
             
@@ -344,9 +348,22 @@ const DotContainer = styled.div`
 const PassBtn = styled.button`
   background: none;
   border: none;
-  width: 8px;
-  height: 14px;
   cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:disabled{
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  img{
+    width: 8px;
+    height: 13px;
+    display: block;
+  }
 `;
 
 const RuleListContainer = styled.div`
