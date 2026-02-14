@@ -2,6 +2,8 @@ import react, { useState } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
+import ImsiLogoIcon from "../../assets/ImsiLogo.svg";
+
 //로고 아이콘 추가하기
 //로그인 누르면 랜딩페이지로 가는데, 이거 어찌할까  
 //스타일에 로고 사이즈 넣기 
@@ -40,7 +42,7 @@ function Header() {
         <HeaderContainer>
             <HeaderContent>
                 <LeftSection onClick={!isTesting ? () => navigate("/") : undefined}>
-                    <Logo src={로고이미지} />
+                    <Logo src={ImsiLogoIcon} />
                 </LeftSection>
 
                 <RightSection>
@@ -84,7 +86,7 @@ const LeftSection = styled.div`
 `;
 
 const Logo = styled.img`
-    width:
+    width: 92px;
     height: auto;
 `;
 

@@ -1,6 +1,7 @@
 import react from "react";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
+import ImsiLogoIcon from "../../assets/ImsiLogo.svg";
 //로고 아이콘 추가하기
 
 function Footer () {
@@ -8,7 +9,7 @@ function Footer () {
         <FooterContainer>
             <FooterContent>
                 <LeftSection>
-                    <Logo src={로고이미지} />
+                    <Logo src={ImsiLogoIcon} />
                     <Slogan>서로 다른 수면 성향을 돕는 룸메이트 수면 소통 플랫폼</Slogan>
                     <Description>
                         잠깐만, 우리 잠 얘기부터 해볼까?<br />
@@ -72,7 +73,7 @@ const LeftSection = styled.div`
 `;
 
 const Logo = styled.img`
-    width:
+    width: 165px;
     margin-bottom: 12px;
 `;
 
