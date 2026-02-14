@@ -53,15 +53,15 @@ export default Footer;
 
 const FooterContainer = styled.div`
     width: 100%;
-    background-coloer: #3E3E4A;
+    background-color: #3E3E4A;
     padding: 60px 224px 88px 157px;
-    border-sizing: border-box;
+    box-sizing: border-box;
 `;
 
 const FooterContent = styled.div`
     max-width: 1440px;
     margin: 0 auto;
-    display: flelx;
+    display: flex;
     justify-content: space-between;
     align-items: flex-start;
 `;
