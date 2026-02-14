@@ -86,20 +86,20 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, onUpdateRoom, 
             </SectionTitleGroup>
 
             <RuleListContainer>
-              <passBtn onClick={handleprevPage}
+              <PassBtn onClick={handleprevPage}
                 $disabled={currentPage ===0}
                 src = {passPage}/>
 
               <RuleList>
                 {currentRules && currentRules.length > 0 ? (
                   currentRules.map((rule, index) => (
-                    <RuleItem key={rule.id || index}>{rule.content}</RuleItem>
+                    <RuleItem key={rule.id || index}>{rule.rule}</RuleItem>
 
                   ))
                 ) : (<RuleItem>아직 정해진 규칙이 없어요</RuleItem>)}
               </RuleList>
 
-              <passBtn onClick={handleNextPage}
+              <PassBtn onClick={handleNextPage}
                 $disabled={currentPage === totalPages - 1}
                 src={passPage}/>
 
@@ -335,7 +335,7 @@ const DotContainer = styled.div`
   padding-bottom: 20px;
 `;
 
-const passBtn = styled.button`
+const PassBtn = styled.button`
   background: none;
   border: none;
   width: 8px;
