@@ -14,6 +14,7 @@ const BoardPage = () => {
 
   const roomCode = sessionStorage.getItem("currentRoomCode");
   const token = localStorage.getItem("idToken");
+  const userId = sessionStorage.getItem("userId");
 
   // 방 데이터 불러오기 get
   const fetchBoardData = async () => {
@@ -25,23 +26,46 @@ const BoardPage = () => {
     }
 
     try{
-      const [infoRes, rulesRes] = await Promise.all([
-        axios.get(`${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}/info`, { withCredentials: true }),
-        axios.get(`${process.env.REACT_APP_HOST_URL}/room/${roomCode}/test/summary`, { withCredentials: true })
-      ]);
+      const infoRes = await axios.get(`${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}/info`, { withCredentials: true });
+      console.log("방 정보 성공: ", infoRes.data);
 
-      console.log("방 정보:", infoRes.data);
-      console.log("규칙 정보:", rulesRes.data);
+      setRoomInfo(infoRes.data);
+    } catch (error) {
+      console.log("방 정보 로딩 실패:", error);
+    }
 
-      setRoomInfo( infoRes.data );
-      setRules( rulesRes.data );
+    try{
+      const rulesRes = await axios.get(`${process.env.REACT_APP_HOST_URL}/room/${roomCode}/test/summary`, { 
+        params: {userId: userId},
+        withCredentials: true });
+      console.log("규칙 정보 성공:", rulesRes.data);
 
-      } catch (error) {
-        console.error("보드 데이터 로딩 실패:", error);
-      } finally{
-        setLoading(false);
-      }
-    };
+      setRules(rulesRes.data.data || []);
+    } catch(error) {
+      console.log("규칙 데이터 로딩 실패", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+    // try{
+    //   const [infoRes, rulesRes] = await Promise.all([
+    //     axios.get(`${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}/info`, { withCredentials: true }),
+    //     axios.get(`${process.env.REACT_APP_HOST_URL}/room/${roomCode}/test/summary`, { withCredentials: true })
+    //   ]);
+
+    //   console.log("방 정보:", infoRes.data);
+    //   console.log("규칙 정보:", rulesRes.data);
+
+    //   setRoomInfo( infoRes.data );
+    //   setRules( rulesRes.data );
+
+    //   } catch (error) {
+    //     console.error("보드 데이터 로딩 실패:", error);
+    //   } finally{
+    //     setLoading(false);
+    //   }
+    // };
 
     useEffect(()=>{
       fetchBoardData();
@@ -61,7 +85,7 @@ const BoardPage = () => {
 
         await axios.put(`${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}`, 
           {roomName: newName,
-            maxPeople: roomInfo.maxPeople,
+            maxPeople: roomInfo.roomInfo.maxPeople,
             hostNickname: roomInfo.hostNickname
           },
           {withCredentials: true}
@@ -100,8 +124,8 @@ const BoardPage = () => {
       <TopArea>
         <BoardTopSection
           userName={roomInfo?.nickname} //백엔드확인
-          roomName={roomInfo?.roomName} //백엔드확인
-          memberCount={roomInfo?.maxPeople} //백엔드확인
+          roomName={roomInfo?.roomInfo?.roomName} //백엔드확인
+          memberCount={roomInfo?.roomInfo?.maxPeople} //백엔드확인
           rules={rules}
           onUpdateRoom={handleUpdateRoomName}
           onDeleteRoom={handleDeleteRoom}
@@ -122,6 +146,8 @@ const PageContainer = styled.div`
     min-height: 100vh;
     background: ${Colors.white};
     display: flex;
+    flex-direction: column;
+    align-items: center;
 
     padding-top: 43px;
     padding-bottom: 269px;
@@ -133,8 +159,13 @@ const PageContainer = styled.div`
 
 const TopArea = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 const BottomArea = styled.div`
   width: 100%;
+  max-width: 1200px;
+  margin-top: 80px;
+  box-sizing: border-box;
 `;
