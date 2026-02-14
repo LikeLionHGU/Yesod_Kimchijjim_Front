@@ -582,8 +582,8 @@ const TABS = {
 const TOPICS = [
   { key: "NOISE", label: "소음", icon: "🔈" },
   { key: "LIGHT", label: "빛", icon: "💡" },
-  { key: "LIFE", label: "생활 패턴", icon: "🪄" },
-  { key: "HABIT", label: "습관", icon: "🧾" },
+  { key: "LIFE", label: "생활 패턴", icon: "🧹" },
+  { key: "HABIT", label: "습관", icon: "🔁" },
 ];
 
 const RECOMMEND_TEXT = {
