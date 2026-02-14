@@ -65,6 +65,11 @@ const FooterContent = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    
+    @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 30px; 
+    }
 `;
 
 const LeftSection = styled.div`
@@ -124,6 +129,7 @@ const TeamTable = styled.table`
     font-weight: 400;
     line-height: 17px;
     vertical-align: top; //이름이 두 줄일 때 제목이 위로
+    white-space: nowrap;
   }
   
   td {
@@ -132,5 +138,6 @@ const TeamTable = styled.table`
     font-style: normal;
     font-weight: 500;
     line-height: 17px;
+    white-space: nowrap;
   }
 `;
