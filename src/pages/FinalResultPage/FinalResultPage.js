@@ -103,8 +103,8 @@ function FinalResultPage() {
     <Wrapper>
       <CaptureArea ref={captureRef}>
         <Header>
-          <Title>우리 방 규칙</Title>
-          <SubTitle>최종 확정본</SubTitle>
+          <Title>규칙이 완성되었어요!</Title>
+          <SubTitle>우리방의 규칙을 사진으로 저장하고 공유해보세요</SubTitle>
         </Header>
 
         <RuleList>
@@ -133,7 +133,7 @@ function FinalResultPage() {
         </SmallBtn>
 
         <Button onClick={handleMoveToBoard} disabled={rules === null || error}>
-          규칙 저장하기
+          메인 페이지
         </Button>
       </Bottom>
     </Wrapper>

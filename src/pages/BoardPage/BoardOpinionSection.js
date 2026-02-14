@@ -1,6 +1,8 @@
+
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
+import { api } from "../../utils/api";
 
 const TABS = {
   RECOMMEND: "RECOMMEND",
@@ -10,8 +12,8 @@ const TABS = {
 const TOPICS = [
   { key: "NOISE", label: "소음", icon: "🔈" },
   { key: "LIGHT", label: "빛", icon: "💡" },
-  { key: "LIFE", label: "생활 패턴", icon: "🪄" },
-  { key: "HABIT", label: "습관", icon: "🧾" },
+  { key: "LIFE", label: "생활 패턴", icon: "🧹" },
+  { key: "HABIT", label: "습관", icon: "🔁" },
 ];
 
 const RECOMMEND_TEXT = {
@@ -37,76 +39,94 @@ const RECOMMEND_TEXT = {
   ],
 };
 
-
-
 function BoardOpinionSection() {
-  const roomId = localStorage.getItem("roomId") || "unknown";
-  const storageKey = useMemo(() => `yesod:opinions:${roomId}`, [roomId]);
+  const roomCode = sessionStorage.getItem("currentRoomCode") || "";
+  const nickname = sessionStorage.getItem("nickname") || "익명";
 
-  const nickname = localStorage.getItem("nickname") || "익명";
+
+  const myUserIdStr = sessionStorage.getItem("userId") || "";
+  const myUserId = myUserIdStr ? Number(myUserIdStr) : null;
+
+  
 
 
   const [items, setItems] = useState([]);
 
-
   const [tab, setTab] = useState(TABS.RECOMMEND);
-  const [selectedTopic, setSelectedTopic] = useState(null); 
+  const [selectedTopic, setSelectedTopic] = useState(null);
   const [selectedRecommend, setSelectedRecommend] = useState("");
   const [directText, setDirectText] = useState("");
 
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(storageKey);
-      const parsed = raw ? JSON.parse(raw) : [];
-      setItems(Array.isArray(parsed) ? parsed : []);
-    } catch (e) {
-      setItems([]);
-    }
-  }, [storageKey]);
+  const [isSending, setIsSending] = useState(false);
 
-  const persist = (next) => {
-    setItems(next);
+  const mappedItems = useMemo(() => {
+    
+    return (items || []).map((it) => ({
+      id: it.id,
+      nickname: it.nickname || "익명",
+      text: it.content ?? "",
+      
+      createdAt: mergeDateTime(it.createdDate, it.createdTime),
+      
+      type: "DIRECT",
+    }));
+  }, [items]);
+
+  const fetchOpinions = async () => {
+    if (!roomCode) return;
     try {
-      localStorage.setItem(storageKey, JSON.stringify(next));
-    } catch (e) {}
+      const res = await api.getOpinions({ roomCode });
+      
+      const list = Array.isArray(res) ? res : res?.data;
+      setItems(Array.isArray(list) ? list : []);
+    } catch (e) {
+      console.error("[BoardOpinionSection] getOpinions failed:", e?.message || e);
+    }
   };
 
-  const addItem = (text, meta = {}) => {
-    const content = String(text || "").trim();
-    if (!content) return;
+  useEffect(() => {
+    if (!roomCode) return;
 
-    const nextItem = {
-      id: Date.now(),
-      nickname,
-      text: content,
-      createdAt: new Date().toISOString(),
-      ...meta,
+    let mounted = true;
+
+    const run = async () => {
+      if (!mounted) return;
+      await fetchOpinions();
     };
 
-    const next = [nextItem, ...items];
-    persist(next);
-  };
+    run();
+    const t = setInterval(run, 2500);
 
-  const handleRemove = (id) => {
-    const next = items.filter((it) => it.id !== id);
-    persist(next);
-  };
+    return () => {
+      mounted = false;
+      clearInterval(t);
+    };
+  }, [roomCode]);
 
+  const handleSend = async () => {
+    if (!roomCode || isSending) return;
 
+    const content =
+      tab === TABS.RECOMMEND ? String(selectedRecommend || "").trim() : String(directText || "").trim();
 
-  const handleSend = () => {
-    if (tab === TABS.RECOMMEND) {
-      if (!selectedTopic || !selectedRecommend.trim()) return;
-      addItem(selectedRecommend, { type: "RECOMMEND", topicKey: selectedTopic });
-      setSelectedRecommend("");
+    if (!content) return;
 
-      return;
+    setIsSending(true);
+    try {
+      await api.createOpinion({ roomCode, content });
+
+      
+      if (tab === TABS.RECOMMEND) setSelectedRecommend("");
+      else setDirectText("");
+
+      
+      await fetchOpinions();
+    } catch (e) {
+      console.error("[BoardOpinionSection] createOpinion failed:", e?.message || e);
+      alert("의견 등록에 실패했어요. 잠시 후 다시 시도해 주세요.");
+    } finally {
+      setIsSending(false);
     }
-
-
-    if (!directText.trim()) return;
-    addItem(directText, { type: "DIRECT" });
-    setDirectText("");
   };
 
   const canSend =
@@ -121,47 +141,57 @@ function BoardOpinionSection() {
     }
   };
 
-
-
   return (
     <Grid>
-     
+      {/*의견*/}
       <BoardCard>
         <HeaderRow>
           <SectionTitle>의견 보드</SectionTitle>
-          <SmallHint>Enter로 등록 · Shift+Enter 줄바꿈</SmallHint>
+          <SmallHint>----------</SmallHint>
         </HeaderRow>
 
-        {items.length === 0 ? (
+        {mappedItems.length === 0 ? (
           <Empty>아직 의견이 없어요</Empty>
         ) : (
+          // <List>
+          //   {mappedItems.map((it) => (
+          //     <Item key={it.id}>
+          //       <ItemTop>
+          //         <Name>{it.nickname || "익명"}</Name>
+          //         <Right>
+          //           <TimeText>{it.createdAt}</TimeText>
+                    
+          //         </Right>
+          //       </ItemTop>
+
+          //       <ItemText>{it.text}</ItemText>
+          //     </Item>
+          //   ))}
+          // </List>
           <List>
-            {items.map((it) => (
-              <Item key={it.id}>
-                <ItemTop>
-                  <Name>{it.nickname || "익명"}</Name>
-                  <Right>
-                    <TimeText>{formatKoreanTime(it.createdAt)}</TimeText>
-                    <DeleteBtn type="button" onClick={() => handleRemove(it.id)}>
-                      삭제
-                    </DeleteBtn>
-                  </Right>
-                </ItemTop>
+  {items.map((it) => {
+    const isMine =
+      myUserId != null && Number(it.authorId) === Number(myUserId);
 
-                {it.type === "RECOMMEND" && it.topicKey ? (
-                  <MetaPill>
-                    {topicLabel(it.topicKey)}
-                  </MetaPill>
-                ) : null}
+    return (
+      <Item key={it.id} $mine={isMine}>
+        <ItemTop>
+          <Name>{it.nickname || "익명"}</Name>
+          <Right>
+            <TimeText>{it.createdDate} {it.createdTime}</TimeText>
+          </Right>
+        </ItemTop>
 
-                <ItemText>{it.text}</ItemText>
-              </Item>
-            ))}
-          </List>
+        <ItemText>{it.content}</ItemText>
+      </Item>
+    );
+  })}
+</List>
+
         )}
       </BoardCard>
 
-
+      
       <WriteCard>
         <WriteTitle>의견 남기기</WriteTitle>
 
@@ -182,10 +212,6 @@ function BoardOpinionSection() {
           </TabBtn>
         </Tabs>
 
-        <NickRow>
-          <NickLabel>작성자</NickLabel>
-          <NickValue>{nickname}</NickValue>
-        </NickRow>
 
         {tab === TABS.RECOMMEND ? (
           <>
@@ -213,10 +239,7 @@ function BoardOpinionSection() {
             </BlockTitle>
 
             <RecommendList>
-              {(selectedTopic
-                ? RECOMMEND_TEXT[selectedTopic] || []
-                : RECOMMEND_TEXT.NOISE
-              ).map((txt) => (
+              {(selectedTopic ? RECOMMEND_TEXT[selectedTopic] || [] : RECOMMEND_TEXT.NOISE).map((txt) => (
                 <RecommendBtn
                   key={txt}
                   type="button"
@@ -241,8 +264,12 @@ function BoardOpinionSection() {
         )}
 
         <SendWrap>
-          <SendBtn type="button" onClick={handleSend} disabled={!canSend}>
-            전송하기
+          <SendBtn
+            type="button"
+            onClick={handleSend}
+            disabled={!canSend || isSending || !roomCode}
+          >
+            {isSending ? "전송 중..." : "전송하기"}
           </SendBtn>
         </SendWrap>
       </WriteCard>
@@ -252,29 +279,24 @@ function BoardOpinionSection() {
 
 export default BoardOpinionSection;
 
-
-
-function formatKoreanTime(iso) {
+function mergeDateTime(createdDate, createdTime) {
+  
+  if (!createdDate && !createdTime) return "";
+  const d = String(createdDate || "");
+  const t = String(createdTime || "");
+ 
   try {
-    const d = new Date(iso);
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const dd = String(d.getDate()).padStart(2, "0");
-    const hh = String(d.getHours()).padStart(2, "0");
-    const mi = String(d.getMinutes()).padStart(2, "0");
-    return `${mm}.${dd} ${hh}:${mi}`;
+    if (d && t) {
+      const mm = d.split("-")[1] || "";
+      const dd = d.split("-")[2] || "";
+      const hhmm = t.slice(0, 5);
+      return `${mm}.${dd} ${hhmm}`;
+    }
+    return `${d} ${t}`.trim();
   } catch {
-    return "";
+    return `${d} ${t}`.trim();
   }
 }
-
-
-
-function topicLabel(key) {
-  const found = TOPICS.find((t) => t.key === key);
-  return found ? `${found.icon} ${found.label}` : key;
-}
-
-
 
 
 
@@ -355,10 +377,13 @@ const List = styled.div`
   }
 `;
 
+
+
 const Item = styled.div`
   border-radius: 14px;
-  background: ${Colors.backgroundColor};
   padding: 14px 16px;
+
+  background: ${({ $mine }) => ($mine ? Colors.fixWhite : Colors.boxShadowPurple)};
 `;
 
 const ItemTop = styled.div`
@@ -385,27 +410,6 @@ const TimeText = styled.div`
   color: ${Colors.fixGray};
 `;
 
-const DeleteBtn = styled.button`
-  border: none;
-  background: transparent;
-  color: ${Colors.mainPurple};
-  font-weight: 800;
-  cursor: pointer;
-`;
-
-const MetaPill = styled.div`
-  margin-top: 10px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  color: ${Colors.mainPurple};
-  background: ${Colors.fixWhite};
-  border: 1px solid ${Colors.boxShadowPurple};
-`;
-
 const ItemText = styled.div`
   margin-top: 10px;
   font-size: 14px;
@@ -414,8 +418,6 @@ const ItemText = styled.div`
   white-space: pre-wrap;
   word-break: break-word;
 `;
-
-
 
 const WriteTitle = styled.h3`
   margin: 0 0 12px;
@@ -442,29 +444,6 @@ const TabBtn = styled.button`
     $active ? `2px solid ${Colors.mainPurple}` : "2px solid transparent"};
 `;
 
-const NickRow = styled.div`
-  margin-top: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 12px;
-  background: ${Colors.detailWhite};
-  border: 1px solid ${Colors.borderLine};
-`;
-
-const NickLabel = styled.div`
-  font-size: 13px;
-  font-weight: 700;
-  color: ${Colors.fixGray};
-`;
-
-const NickValue = styled.div`
-  font-size: 14px;
-  font-weight: 900;
-  color: ${Colors.black};
-`;
 
 const BlockTitle = styled.div`
   margin-top: 14px;
@@ -483,8 +462,8 @@ const TopicGrid = styled.div`
 const TopicBtn = styled.button`
   height: 46px;
   border-radius: 12px;
-  border: 1px solid ${({ $active }) =>
-    $active ? Colors.mainPurple : Colors.borderLine};
+  border: 1px solid
+    ${({ $active }) => ($active ? Colors.mainPurple : Colors.borderLine)};
   background: ${Colors.white};
   cursor: pointer;
   font-weight: 800;
@@ -513,8 +492,8 @@ const RecommendList = styled.div`
 const RecommendBtn = styled.button`
   height: 46px;
   border-radius: 12px;
-  border: 1px solid ${({ $active }) =>
-    $active ? Colors.mainPurple : Colors.borderLine};
+  border: 1px solid
+    ${({ $active }) => ($active ? Colors.mainPurple : Colors.borderLine)};
   background: ${Colors.white};
   cursor: pointer;
   font-weight: 700;
@@ -537,7 +516,7 @@ const DirectInput = styled.textarea`
   font-size: 14px;
   outline: none;
   resize: none;
-  background: ${Colors.detailWhite};
+  background: ${Colors.fixWhite};
   line-height: 1.4;
 
   &:focus {

@@ -114,7 +114,7 @@ function LeaderMismatchPage() {
       </MainCard>
 
       <GuideWrap>
-        <GuideTitle>대화 가이드</GuideTitle>
+        <GuideTitle>💡대화 가이드</GuideTitle>
         <GuideList>
           <li>각자 가장 불편했던 순간을 공유해보세요</li>
           <li>서로의 입장을 고려해 중간 지점을 정해봐요</li>

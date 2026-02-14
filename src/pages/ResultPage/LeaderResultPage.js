@@ -265,10 +265,9 @@ function LeaderResultPage() {
 
       <BottomArea>
         <Button onClick={handleGoFinal} disabled={disableFinal || isSaving}>
-          완료하고 최종으로
+          다음으로
         </Button>
 
-        <Hint>현재 상태: {status === "COMPLETE" ? "완료" : "수정 중"}</Hint>
       </BottomArea>
     </Wrapper>
   );
@@ -496,9 +495,4 @@ const BottomArea = styled.div`
   @media (max-width: 780px) {
     width: calc(100% - 32px);
   }
-`;
-
-const Hint = styled.div`
-  font-size: 12px;
-  color: ${Colors.mainPurple};
 `;

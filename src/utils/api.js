@@ -41,6 +41,7 @@ async function request(path, { method = "GET", body } = {}) {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export const api = {
+  // Test flow 
   submitTestResult: ({ roomCode, userId, questionId, opinion, category }) =>
     request(`/room/test/result`, {
       method: "POST",
@@ -73,10 +74,7 @@ export const api = {
   },
 
   startNextMatch: ({ roomCode, userId }) =>
-    request(`/room/match`, {
-      method: "POST",
-      body: { roomCode, userId },
-    }),
+    request(`/room/match`, { method: "POST", body: { roomCode, userId } }),
 
   confirmRule: ({ roomCode, userId, questionId, opinion, category }) =>
     request(`/room/rule/confirm`, {
@@ -114,5 +112,17 @@ export const api = {
     request(`/room/test/summary/complete`, {
       method: "POST",
       body: { roomCode, userId },
+    }),
+
+  // Board opinionSection
+  // 전체 의견 불러오기
+  getOpinions: ({ roomCode }) =>
+    request(`/room/${enc(roomCode)}/opinions`, { method: "GET" }),
+
+  // 의견 등록
+  createOpinion: ({ roomCode, content }) =>
+    request(`/room/opinions/create`, {
+      method: "POST",
+      body: { roomCode, content },
     }),
 };
