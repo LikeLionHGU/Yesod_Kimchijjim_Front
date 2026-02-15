@@ -1,18 +1,22 @@
 import react, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import BoardIcon from "../../assets/boardpageIcon.svg";
 import peopleICon from "../../assets/peopleIcon.svg";
 import pencilIcon from "../../assets/Pencil.svg";
 import passPage from "../../assets/passpage.svg";
+import rightPassPageIcon from "../../assets/rightPassPage.svg";
+import leftPassPageIcon from "../../assets/leftPassPage.svg";
 import EditRoomModal from "./EditRoomModal";
 
-const BoardTopSection = ({userName, roomName, memberCount, rules, onUpdateRoom, onDeleteRoom}) => {
+const BoardTopSection = ({userName, roomName, memberCount, rules, isLeader, onUpdateRoom, onDeleteRoom}) => {
+
+  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(0);
   const ITEMS_PER_PAGE = 5;
 
-  const isLeader = sessionStorage.getItem("isLeader") === "true";
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const openEditModal = () => setIsEditModalOpen(true);
   const closeEditmodal = () => setIsEditModalOpen(false);
@@ -27,6 +31,10 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, onUpdateRoom, 
     onDeleteRoom();
     console.log("방 삭제 요청");
     //백엔드 연결 (방 삭제 관련)
+  };
+
+  const handleGoEditRule = () => {
+    navigate("/test/result", {state:{isFromBoardEdit: true}});
   };
 
   //규칙들
@@ -82,13 +90,14 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, onUpdateRoom, 
 
             <SectionTitleGroup>
               <SectionLabel>방 규칙</SectionLabel>
-              {isLeader && <TextButton>규칙 수정하기</TextButton>}
+              {isLeader && <TextButton onClick={handleGoEditRule}>규칙 수정하기</TextButton>}
             </SectionTitleGroup>
 
             <RuleListContainer>
               <PassBtn onClick={handleprevPage}
-                $disabled={currentPage ===0}
-                src = {passPage}/>
+                disabled={currentPage === 0}>
+                <img src={leftPassPageIcon} />
+                </PassBtn>
 
               <RuleList>
                 {currentRules && currentRules.length > 0 ? (
@@ -100,8 +109,9 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, onUpdateRoom, 
               </RuleList>
 
               <PassBtn onClick={handleNextPage}
-                $disabled={currentPage === totalPages - 1}
-                src={passPage}/>
+                disabled={currentPage === totalPages - 1}>
+                <img src={rightPassPageIcon} />
+                </PassBtn>
 
             </RuleListContainer>
             
@@ -338,9 +348,22 @@ const DotContainer = styled.div`
 const PassBtn = styled.button`
   background: none;
   border: none;
-  width: 8px;
-  height: 14px;
   cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:disabled{
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  img{
+    width: 8px;
+    height: 13px;
+    display: block;
+  }
 `;
 
 const RuleListContainer = styled.div`
