@@ -286,17 +286,29 @@ const RuleList = styled.div`
 const RuleItem = styled.div`
   background-color: ${Colors.white};
   display: flex;
-  height: 54px;
+  align-items: center;
+
+  width: 100%;
+  min-height: 54px;
+
   padding: 16px 15px;
   border-radius: 12.591px;
   color: ${Colors.black};
-
   font-family: ${Colors.font};
   font-size: 19px;
   font-style: normal;
   font-weight: 500;
   line-height: 21.405px;
   text-align: left;
+  box-sizing: border-box;
+  line-height: 1.3;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2; //2줄까지만 보여주고 넘치면 ...처리
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word; //긴 단어가 박스 뚫고 나가지 않게
 `;
 
 const TextButton = styled.button`
