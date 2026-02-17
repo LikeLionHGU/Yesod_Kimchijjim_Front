@@ -1,7 +1,7 @@
 import react from "react";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
-import ImsiLogoIcon from "../../assets/ImsiLogo.svg";
+import WhiteLogoIcon from "../../assets/whiteLogoIcon.svg";
 //로고 아이콘 추가하기
 
 function Footer () {
@@ -9,14 +9,13 @@ function Footer () {
         <FooterContainer>
             <FooterContent>
                 <LeftSection>
-                    <Logo src={ImsiLogoIcon} />
-                    <Slogan>서로 다른 수면 성향을 돕는 룸메이트 수면 소통 플랫폼</Slogan>
+                    <Logo src={WhiteLogoIcon} />
+                    <Slogan>서로 다른 수면 성향 간 합의를 돕는 룸메이트 수면 소통 플랫폼</Slogan>
                     <Description>
                         잠깐만, 우리 잠 얘기부터 해볼까?<br />
                         잠깐만은 말로 꺼내기 어려웠던 수면 기준을 대신 전해주고,<br />
                         서로 편안한 밤을 보낼 수 있도록 돕는 룸메이트 수면 합의 서비스입니다.
                     </Description>
-                    <Detail>© 2026 zzamkanman. All rights reserved.</Detail>
                 </LeftSection>
 
                 <RightSection>
@@ -44,6 +43,7 @@ function Footer () {
                             </tr>
                         </tbody>
                     </TeamTable>
+                    <Detail>© 2026 zzamkanman. All rights reserved.</Detail>
                 </RightSection>
             </FooterContent>
         </FooterContainer>
@@ -54,8 +54,8 @@ export default Footer;
 
 const FooterContainer = styled.div`
     width: 100%;
-    background-color: #3E3E4A;
-    padding: 60px 224px 88px 157px;
+    background-color: #303030;
+    padding: 64px 157px 47px 157px;
     box-sizing: border-box;
 `;
 
@@ -78,8 +78,8 @@ const LeftSection = styled.div`
 `;
 
 const Logo = styled.img`
-    width: 165px;
-    margin-bottom: 12px;
+    width: 235px;
+    margin-bottom: 25px;
 `;
 
 const Slogan = styled.p`
@@ -89,17 +89,16 @@ const Slogan = styled.p`
     font-style: normal;
     font-weight: 500;
     line-height: 17px;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 `;
 
 const Description = styled.p`
     color: #EBEBEB;
-    font-family: ${Colors.font};
+    font-family: ${Colors.fixGray};
     font-size: 9px;
     font-style: normal;
     font-weight: 500;
     line-height: 17px;
-    margin-bottom: 4px;
 `;
 
 const Detail = styled.p`
@@ -109,6 +108,7 @@ const Detail = styled.p`
     font-style: normal;
     font-weight: 500;
     line-height: 17px;
+    margin-top: 27px;
 `;
 
 const RightSection = styled.div`

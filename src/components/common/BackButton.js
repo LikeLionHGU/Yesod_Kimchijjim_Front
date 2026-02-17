@@ -6,7 +6,7 @@ import BackIcon from "../../assets/backicon.svg";
 
 const BackButtonStyle = styled.button`
     position: absolute;
-    top: 90px;
+    top: 29px;
     left: calc(50% - 468px - 56px - 39px); 
     @media (max-width:1200px){
         left:20px;
@@ -22,7 +22,7 @@ const BackButtonStyle = styled.button`
     align-items: center;
     border: none;
     cursor: pointer;
-    z-index: 100;
+    z-index: 10;
 
     &:hover{
         opacity: 0.5;
