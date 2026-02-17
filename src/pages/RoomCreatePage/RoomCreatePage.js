@@ -6,7 +6,6 @@ import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
 import GoBackPage from "../../components/common/BackButton";
 import axios from "axios";
-import TitleSection from "../../components/common/TitleSection";
 import DoorIcon from "../../assets/doorIcon.svg";
 import { useRoom } from "../../context/RoomContext";
 
@@ -19,8 +18,47 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   //padding-top: 43px;
-  //padding-bottom: 269px;
+  padding-bottom: 236px;
   position: relative;
+`;
+
+const TitleGroup = styled.div`
+    text-align: center;
+    margin-bottom: 64px;
+`;
+
+const TitleIcon = styled.div`
+    margin-top: 73px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 28px;
+
+    img{
+      width: 69px;
+      height: auto;
+    }
+`;
+
+const Title = styled.p`
+    color: ${Colors.black};
+    text-align: center;
+    font-family: ${Colors.font};
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 15px;
+`;
+
+const SubTitle = styled.p`
+    color: ${Colors.detailBlack};
+    text-align: center;
+    font-family: ${Colors.font};
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    margin-bottom: 0;
+    margin-top: 0;
 `;
 
 const RowWrapper = styled.div`
@@ -301,11 +339,13 @@ const RoomCreatePage = () => {
   return (
     <PageContainer>
       <GoBackPage />
-      <TitleSection
-        iconSrc={DoorIcon}
-        titleText={"방 만들기"}
-        subTitleText={"룸메이트와 함께 사용할 방을 만들어보세요"}
-      />
+      <TitleGroup>
+        <TitleIcon>
+          <img src={DoorIcon} />
+        </TitleIcon>
+        <Title>방 만들기</Title>
+        <SubTitle>룸메이트와 함께 사용할 방을 만들어보세요</SubTitle>
+      </TitleGroup>
 
       <Card>
         {/*내 이름*/}
