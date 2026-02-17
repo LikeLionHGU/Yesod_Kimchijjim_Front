@@ -68,6 +68,7 @@ const HeaderContainer = styled.div`
     height: 61px;
     width: 100%;
     background-color: ${Colors.white};
+    box-shadow: 0 2px 9.4px 0 ${Colors.boxShadowBlack};
     padding: 0 157px;
     box-sizing: border-box;
     position: sticky;

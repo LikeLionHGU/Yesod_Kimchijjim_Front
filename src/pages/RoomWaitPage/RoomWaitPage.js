@@ -5,7 +5,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import styled from "styled-components";
 import GoBackPage from "../../components/common/BackButton";
-import NoIconTitleSection from "../../components/common/NoIconTitleSection";
 import WaitPageIcon from "../../assets/waitPageIcon.svg";
 
 const RoomWaitPage = () => {
@@ -75,10 +74,6 @@ const RoomWaitPage = () => {
   return (
     <PageContainer>
       <GoBackPage />
-      {/* <NoIconTitleSection
-        titleText={"대기실"}
-        subTitleText={"모든 룸메이트가 입장하길 기다리고 있어요"}
-      /> */}
       <TitleGroup>
         <Title>대기실</Title>
         <SubTitle>모든 룸메이트가 입장하길 기다리고 있어요</SubTitle>
@@ -104,7 +99,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   //padding-top: 43px;
-  //padding-bottom: 269px;
+  padding-bottom: 186px;
   position: relative;
   box-sizing: border-box;
 `;
@@ -121,7 +116,7 @@ const Title = styled.p`
     font-size: 30px;
     font-style: normal;
     font-weight: 700;
-    margin-top: 65px;
+    margin-top: 121px;
     margin-bottom: 15px;
 `;
 
