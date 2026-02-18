@@ -7,10 +7,10 @@ const TitleGroup = styled.div`
 `;
 
 const TitleIcon = styled.div`
-    margin-top: 133px;
+    margin-top: 73px;
     display: flex;
     justify-content: center;
-    margin-bottom: 31px;
+    margin-bottom: 28px;
 `;
 
 const Title = styled.p`
@@ -20,6 +20,7 @@ const Title = styled.p`
     font-size: 30px;
     font-style: normal;
     font-weight: 700;
+    margin-top: 0;
     margin-bottom: 15px;
 `;
 

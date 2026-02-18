@@ -7,6 +7,8 @@ import NoIconTitleSection from "../../components/common/NoIconTitleSection";
 import GoBackPage from "../../components/common/BackButton";
 import ArrowBtnIcon from "../../assets/arrowbtnIcon.svg";
 import axios from "axios";
+import OpenDoorIcon from "../../assets/opendoorIcon.svg";
+import HomeIcon from "../../assets/homeIcon.svg";
 
 const RoomStartPage = () => {
     const navigate = useNavigate();
@@ -78,12 +80,13 @@ const RoomStartPage = () => {
 
             <CardContainer>
                 <CreateCard onClick={handleRoomCreate}>
+                    <TitleIcon src={HomeIcon} />
                     <CardTitle style={{color:Colors.white}}>방 만들기</CardTitle>
-                    <CardSubText>방을 처음 만든 사람이 규칙 추가 및 수정할 수 있어요</CardSubText>
-                    <CardDetailText>* 방 생성 후에는 이 권한을 변경할 수 없어요</CardDetailText>
+                    <CardSubText>* 방 생성 후에는 이 권한을 변경할 수 없어요</CardSubText>
                 </CreateCard>
 
                 <JoinCard>
+                    <TitleIcon src={OpenDoorIcon}/>
                     <CardTitle style={{ color: Colors.black}}>방 들어가기</CardTitle>
                     <InputWrapper>
                         <CodeInput
@@ -122,8 +125,8 @@ const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 43px;
-    padding-bottom: 269px;
+    //padding-top: 43px;
+    padding-bottom: 429px;
     position: relative;
     box-sizing: border-box;
 `;
@@ -151,7 +154,8 @@ const CardBase = styled.div`
     box-sizing: border-box;
     padding: 0;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-top: 65px;
     align-items: center;
     box-shadow: 0px 0px 15px ${Colors.boxShadowBlack};
     border-radius: 15px;
@@ -160,6 +164,7 @@ const CardBase = styled.div`
     @media (max-width: 950px) {
         width: 100%;
         height: 250px;
+        padding-top: 20px;
     }
 `;
 
@@ -176,42 +181,38 @@ const JoinCard = styled(CardBase)`
     background: ${Colors.white};
 `;
 
+const TitleIcon = styled.img`
+    height: 110px;
+    width: auto;
+    margin-bottom: 16px;
+`;
+
 const CardTitle = styled.p`
     font-family: "Noto Sans KR";
     font-size: 20px;
     font-style: normal;
     font-weight: 700;
     line-height: 30px;
-    margin:0;
+    margin: 0;
 `;
 
 const CardSubText = styled.p`
     font-family: "Noto Sans KR";
-    font-size: 13px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 500;
     color: ${Colors.detailWhite};
     line-height: 27px;
-    margin-top: 97px;
+    margin-top: 1px;
     margin-bottom: 0;
     white-space: nowrap;
-`;
-
-const CardDetailText = styled.p`
-    color: ${Colors.detailWhite};
-    text-align: center;
-    font-family: ${Colors.font};
-    font-size: 10px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 27px;
 `;
 
 const InputWrapper = styled.div`
     position: relative;
     width: 270px;
     height: 57px;
-    margin-top: 18px;
+    margin-top: 8px;
 
     display: flex;
     align-items: center;

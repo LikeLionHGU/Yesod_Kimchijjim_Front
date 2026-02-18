@@ -2,7 +2,8 @@ import react, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
-import ImsiLogoIcon from "../../assets/ImsiLogo.svg";
+import zzamkanmanLogoIcon from "../../assets/zzamkanmanLogo.svg";
+import imgLogoIcon from "../../assets/imgLogo.svg";
 
 //로고 아이콘 추가하기
 //로그인 누르면 랜딩페이지로 가는데, 이거 어찌할까  
@@ -41,8 +42,12 @@ function Header() {
     return (
         <HeaderContainer>
             <HeaderContent>
-                <LeftSection onClick={!isTesting ? () => navigate("/") : undefined}>
-                    <Logo src={ImsiLogoIcon} />
+                <LeftSection
+                    $isTesting={isTesting}
+                    onClick={!isTesting ? () => navigate("/") : undefined}>
+
+                    {isTesting && (<Logo src={imgLogoIcon} $isTesting={isTesting}/>)}
+                    {!isTesting && <Logo src={zzamkanmanLogoIcon} $isTestin={isTesting} />}
                 </LeftSection>
 
                 <RightSection>
@@ -63,17 +68,28 @@ function Header() {
 export default Header;
 
 const HeaderContainer = styled.div`
+    height: 61px;
     width: 100%;
     background-color: ${Colors.white};
-    padding: 8px 157px;
+    box-shadow: 0 2px 9.4px 0 ${Colors.boxShadowBlack};
+    padding: 0 157px;
     box-sizing: border-box;
     position: sticky;
     top: 0;
     z-index: 100;
+
+    @media(max-width: 1024px){
+        padding: 0 40px;
+    }
+
+    @media(max-width: 768px){
+        padding: 0 20px;
+    }
 `;
 
 const HeaderContent = styled.div`
     max-width: 1440px;
+    height: 100%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -82,22 +98,28 @@ const HeaderContent = styled.div`
 
 const LeftSection = styled.div`
     display: flex;
+    align-items: center;
     cursor: ${props => (props.$isTesting ? "default" : "pointer")};
 `;
 
 const Logo = styled.img`
-    width: 92px;
-    height: auto;
+    width: ${props => (props.$isTesting ? "auto" : "122px")};
+    height: ${props => (props.$isTesting ? "41px" : "auto")};
 `;
 
 const RightSection = styled.div`
-  text-align: right;
-  align-items: center;
+    display: flex;
+    align-items: center;
 `;
 
 const BtnGroup = styled.div`
     display: flex;
+    align-items: center;
     gap: 66px;
+
+    @media(max-width: 768px){
+        gap: 20px;
+    }
 `;
 
 const Button = styled.button`
@@ -111,5 +133,5 @@ const Button = styled.button`
     font-size: 15px;
     font-style: normal;
     font-weight: 500;
-    line-height: 27px;    
+    line-height: normal;    
 `;
