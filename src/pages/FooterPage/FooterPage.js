@@ -57,6 +57,14 @@ const FooterContainer = styled.div`
     background-color: #303030;
     padding: 64px 157px 47px 157px;
     box-sizing: border-box;
+
+    @media (max-width: 1024px) {
+    padding: 64px 40px 47px 40px; 
+    }
+
+    @media (max-width: 768px) {
+    padding: 40px 20px 40px 20px;
+    }
 `;
 
 const FooterContent = styled.div`
@@ -113,6 +121,9 @@ const Detail = styled.p`
 
 const RightSection = styled.div`
   text-align: right;
+  @media (max-width: 768px) {
+    text-align: left;
+  }
 `;
 
 const TeamTable = styled.table`
