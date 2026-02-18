@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Colors } from "../../styles/colors";
@@ -45,7 +45,7 @@ const RoomInvitePage = () => {
             <GoBackPage/>
             <TitleGroup>
                 <TitleIcon>
-                    <img src={HomeIcon}/>
+                    <img src={HomeIcon} alt=""/>
                 </TitleIcon>
                 <Title>방이 생성되었습니다</Title>
                 <SubTitle>룸메이트에게 초대 코드를 공유하세요</SubTitle>
@@ -67,7 +67,7 @@ const RoomInvitePage = () => {
                         <Label>방 코드</Label>
                         <CodeInfo><span>{roomCode}</span>
                             <LinkIconWrapper onClick={handleCopyCode}>
-                                <img src={LinkIcon} />
+                                <img src={LinkIcon} alt="" />
                             </LinkIconWrapper></CodeInfo>
                     </InfoGroup>
                 </CodeCard>

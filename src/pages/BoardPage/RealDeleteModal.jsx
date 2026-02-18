@@ -1,4 +1,4 @@
-import React from "react";
+
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import TrashIcon from "../../assets/trashcan.svg";
@@ -10,10 +10,10 @@ const RealDeleteModal = ({onClose, onConfirm}) => {
             <Container onClick={(e) => e.stopPropagation()}>
                 <Content>
                     <IconWrapper>
-                        <img src={TrashIcon} />
+                        <img src={TrashIcon} alt="" />
                     </IconWrapper>
 
-                    <CloseButton src={CloseIcon} onClick={onClose} />
+                    <CloseButton src={CloseIcon} alt="" onClick={onClose} />
 
                     <Title>진짜 삭제하겠습니까?</Title>
                     <Description>방을 삭제하면 모든 정보가 사라지며, 다시 복구할 수 없어요</Description>

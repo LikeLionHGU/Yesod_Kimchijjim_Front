@@ -1,12 +1,8 @@
-import react, { useEffect, useState } from "react";
+import  { useEffect} from "react";
 import styled from "styled-components";
-import { Await, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
-import InfoIconImg from "../../assets/info.svg";
-import NoIconTitleSection from "../../components/common/NoIconTitleSection";
-import GoBackPage from "../../components/common/BackButton";
-import axios from "axios";
-import GoogleIcon from "../../assets/googleIcon.svg";
+
 import { GoogleOAuthProvider, GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 
 //시작 로그인 페이지 

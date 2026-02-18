@@ -1,5 +1,5 @@
 
-import react, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Colors } from "../../styles/colors";
@@ -96,7 +96,7 @@ const RoomJoinPage = () => {
       <GoBackPage />
       <TitleGroup>
         <TitleIcon>
-          <img src={OpenDoorIcon} />
+          <img src={OpenDoorIcon} alt=""/>
         </TitleIcon>
         <Title>방 들어가기</Title>
         <SubTitle>이름을 입력하면 방에 입장할 수 있어요</SubTitle>
@@ -109,7 +109,7 @@ const RoomJoinPage = () => {
 
           {isUserNameError && (
             <ErrorContainer>
-              <IconImage src={InfoIconImg} />
+              <IconImage src={InfoIconImg} alt=""/>
               <ErrorMessage>한국어·영문만 사용 가능하며, 이름은 2~10자로 입력해주세요</ErrorMessage>
             </ErrorContainer>
           )}

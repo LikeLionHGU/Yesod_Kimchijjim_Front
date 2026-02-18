@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
@@ -80,13 +80,13 @@ const RoomStartPage = () => {
 
             <CardContainer>
                 <CreateCard onClick={handleRoomCreate}>
-                    <TitleIcon src={HomeIcon} />
+                    <TitleIcon src={HomeIcon} alt=""/>
                     <CardTitle style={{color:Colors.white}}>방 만들기</CardTitle>
                     <CardSubText>* 방 생성 후에는 이 권한을 변경할 수 없어요</CardSubText>
                 </CreateCard>
 
                 <JoinCard>
-                    <TitleIcon src={OpenDoorIcon}/>
+                    <TitleIcon src={OpenDoorIcon} alt=""/>
                     <CardTitle style={{ color: Colors.black}}>방 들어가기</CardTitle>
                     <InputWrapper>
                         <CodeInput
@@ -99,11 +99,11 @@ const RoomStartPage = () => {
                         
                         <ArrowButton onClick={handleRoomJoin} disabled={!isButtonActive}
                         $isError={isError}>
-                            <img src={ArrowBtnIcon}/>
+                            <img src={ArrowBtnIcon} alt=""/>
                         </ArrowButton>
 
                         {isError && ( <ErrorContainer>
-                            <IconImage src={InfoIconImg} />
+                            <IconImage src={InfoIconImg} alt=""/>
                             <ErrorMessage>잘못된 코드입니다</ErrorMessage>
                         </ErrorContainer> )}
 

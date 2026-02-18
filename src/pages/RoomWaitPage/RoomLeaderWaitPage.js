@@ -1,8 +1,8 @@
-import react, {useState, useEffect} from "react";
+import {useState, useEffect} from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
-import InfoIconImg from "../../assets/info.svg";
+
 import GoBackPage from "../../components/common/BackButton";
 import NoIconTitleSection from "../../components/common/NoIconTitleSection";
 import axios from "axios";

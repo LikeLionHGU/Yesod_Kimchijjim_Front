@@ -1,5 +1,5 @@
 
-import react, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
@@ -341,7 +341,7 @@ const RoomCreatePage = () => {
       <GoBackPage />
       <TitleGroup>
         <TitleIcon>
-          <img src={DoorIcon} />
+          <img src={DoorIcon} alt=""/>
         </TitleIcon>
         <Title>방 만들기</Title>
         <SubTitle>룸메이트와 함께 사용할 방을 만들어보세요</SubTitle>
@@ -355,7 +355,7 @@ const RoomCreatePage = () => {
 
           {isNameError && (
             <ErrorContainer>
-              <IconImage src={InfoIconImg} />
+              <IconImage src={InfoIconImg} alt=""/>
               <ErrorMessage>한국어·영문만 사용 가능하며, 이름은 2~10자로 입력해주세요</ErrorMessage>
             </ErrorContainer>
           )}
