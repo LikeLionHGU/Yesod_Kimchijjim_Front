@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import styled from "styled-components";
 import GoBackPage from "../../components/common/BackButton";
-import NoIconTitleSection from "../../components/common/NoIconTitleSection";
+import WaitPageIcon from "../../assets/waitPageIcon.svg";
 
 const RoomWaitPage = () => {
   const navigate = useNavigate();
@@ -74,10 +74,11 @@ const RoomWaitPage = () => {
   return (
     <PageContainer>
       <GoBackPage />
-      <NoIconTitleSection
-        titleText={"대기실"}
-        subTitleText={"모든 룸메이트가 입장하길 기다리고 있어요"}
-      />
+      <TitleGroup>
+        <Title>대기실</Title>
+        <SubTitle>모든 룸메이트가 입장하길 기다리고 있어요</SubTitle>
+      </TitleGroup>
+      <WaitImg src={WaitPageIcon}/>
       <Card>
         <CodeGroup>
           <Label>방 코드</Label>
@@ -97,10 +98,42 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 43px;
-  padding-bottom: 269px;
+  //padding-top: 43px;
+  padding-bottom: 186px;
   position: relative;
   box-sizing: border-box;
+`;
+
+const TitleGroup = styled.div`
+    text-align: center;
+    margin-bottom: 87px;
+`;
+
+const Title = styled.p`
+    color: ${Colors.black};
+    text-align: center;
+    font-family: ${Colors.font};
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    margin-top: 121px;
+    margin-bottom: 15px;
+`;
+
+const SubTitle = styled.p`
+    color: ${Colors.detailBlack};
+    text-align: center;
+    font-family: ${Colors.font};
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    margin-bottom: 0;
+    margin-top: 0;
+`;
+
+const WaitImg = styled.img`
+  width: 408px;
+  margin-bottom: 87px;
 `;
 
 const Card = styled.div`
@@ -116,8 +149,7 @@ const Card = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: auto;
-  margin-bottom: 19px;
+  margin-bottom: 186px;
 `;
 
 const CodeGroup = styled.div`

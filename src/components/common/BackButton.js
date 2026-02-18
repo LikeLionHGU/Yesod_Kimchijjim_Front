@@ -6,11 +6,17 @@ import BackIcon from "../../assets/backicon.svg";
 
 const BackButtonStyle = styled.button`
     position: absolute;
-    top: 90px;
-    left: calc(50% - 468px - 56px - 39px); 
-    @media (max-width:1200px){
-        left:20px;
+    top: 29px;
+    left: 157px; 
+
+    @media (max-width:1024px){
+        left:40px;
     }
+
+    @media (max-width: 768px){
+        left: 20px;
+    }
+
     border-radius: 11px;
     background: ${Colors.white};
     box-shadow: 0 0 10px 0 ${Colors.boxShadowBlack};
@@ -22,7 +28,7 @@ const BackButtonStyle = styled.button`
     align-items: center;
     border: none;
     cursor: pointer;
-    z-index: 100;
+    z-index: 10;
 
     &:hover{
         opacity: 0.5;

@@ -1,18 +1,23 @@
 import react, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import BoardIcon from "../../assets/boardpageIcon.svg";
 import peopleICon from "../../assets/peopleIcon.svg";
 import pencilIcon from "../../assets/Pencil.svg";
 import passPage from "../../assets/passpage.svg";
+import purplepencilIcon from "../../assets/purplepencilIcon.svg";
+import rightPassPageIcon from "../../assets/rightPassPage.svg";
+import leftPassPageIcon from "../../assets/leftPassPage.svg";
 import EditRoomModal from "./EditRoomModal";
 
-const BoardTopSection = ({userName, roomName, memberCount, rules, onUpdateRoom, onDeleteRoom}) => {
+const BoardTopSection = ({userName, roomName, memberCount, rules, isLeader, onUpdateRoom, onDeleteRoom}) => {
+
+  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(0);
   const ITEMS_PER_PAGE = 5;
 
-  const isLeader = sessionStorage.getItem("isLeader") === "true";
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const openEditModal = () => setIsEditModalOpen(true);
   const closeEditmodal = () => setIsEditModalOpen(false);
@@ -27,6 +32,10 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, onUpdateRoom, 
     onDeleteRoom();
     console.log("방 삭제 요청");
     //백엔드 연결 (방 삭제 관련)
+  };
+
+  const handleGoEditRule = () => {
+    navigate("/test/result", {state:{isFromBoardEdit: true}});
   };
 
   //규칙들
@@ -69,7 +78,7 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, onUpdateRoom, 
 
             <div style={{display: 'flex', gap: '5px', alignItems: 'center'}}>
               <SectionLabel>방 정보</SectionLabel>
-              {isLeader && <IconButton src={pencilIcon} onClick={openEditModal} />}
+              {isLeader && <IconButton src={purplepencilIcon} onClick={openEditModal} />}
             </div>
 
             <RoomInfoBox>
@@ -82,26 +91,30 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, onUpdateRoom, 
 
             <SectionTitleGroup>
               <SectionLabel>방 규칙</SectionLabel>
-              {isLeader && <TextButton>규칙 수정하기</TextButton>}
+              {isLeader && <TextButton onClick={handleGoEditRule}>규칙 수정하기</TextButton>}
             </SectionTitleGroup>
 
             <RuleListContainer>
               <PassBtn onClick={handleprevPage}
-                $disabled={currentPage ===0}
-                src = {passPage}/>
+                disabled={currentPage === 0}>
+                <img src={leftPassPageIcon} />
+                </PassBtn>
 
               <RuleList>
                 {currentRules && currentRules.length > 0 ? (
                   currentRules.map((rule, index) => (
-                    <RuleItem key={rule.id || index}>{rule.rule}</RuleItem>
+                    <RuleItem key={rule.id || index} title = {rule.rule}>
+                      <RuleText>{rule.rule}</RuleText>
+                    </RuleItem>
 
                   ))
                 ) : (<RuleItem>아직 정해진 규칙이 없어요</RuleItem>)}
               </RuleList>
 
               <PassBtn onClick={handleNextPage}
-                $disabled={currentPage === totalPages - 1}
-                src={passPage}/>
+                disabled={currentPage === totalPages - 1}>
+                <img src={rightPassPageIcon} />
+                </PassBtn>
 
             </RuleListContainer>
             
@@ -138,7 +151,7 @@ const TopContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 148px;
+  padding-top: 130px;
 `;
 
 const ContentWrapper = styled.div`
@@ -152,7 +165,6 @@ const ContentWrapper = styled.div`
   @media(max-width: 950px){
     flex-direction: column;
     align-items: center;
-    text-align: center;
   }
 `;
 
@@ -160,10 +172,18 @@ const LeftSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 144px;
+
+  @media(max-width: 950px){
+    align-items: center;
+    gap: 50px;
+  }
 `;
 
 const GreetingGroup = styled.div`
   text-align: left;
+  margin-bottom: 0;
+  
+
 `;
 
 const Title = styled.p`
@@ -188,6 +208,7 @@ const SubTitle = styled.p`
   font-weight: 700;
   line-height: 46px;
   margin-top: 0;
+  margin-bottom: 0;
 `;
 
 const BoardPageIcon = styled.img`
@@ -207,6 +228,7 @@ const RuleCard = styled.div`
   height: 636px;
   background: ${Colors.backgroundColor};
   border-radius: 15px;
+  box-sizing: border-box;
   padding: 16px 41px;
   box-shadow: ${Colors.boxShadowBlack};
   display: flex;
@@ -221,6 +243,7 @@ const CardHeader = styled.p`
   font-weight: 700;
   line-height: 17px; 
   margin-bottom: 50px;
+  margin-top: 26px;
 `;
 
 const SectionTitleGroup = styled.div`
@@ -237,17 +260,20 @@ const SectionLabel = styled.p`
   font-style: normal;
   font-weight: 700;
   line-height: 15px;
+  margin: 0;
 `;
 
 const RoomInfoBox = styled.div`
   display: flex;
-  max-width: 360px;
+  width: 100%;
+  box-sizing: border-box;
   justify-content: space-between;
   align-items: center;
   background-color: ${Colors.white};
   padding: 14px 15px;
   border-radius: 12.592px;
   margin-top: 15px; 
+  margin-bottom: 31px;
 `; 
 
 const RoomName = styled.span`
@@ -271,22 +297,41 @@ const RuleList = styled.div`
   flex-direction: column;
   gap: 11px;
   min-height: 314px;
+  width: 360px;
+  flex: 1;
+  margin: 0 10px;
 `; 
 
 const RuleItem = styled.div`
   background-color: ${Colors.white};
   display: flex;
-  height: 54px;
-  padding: 16px 15px;
-  border-radius: 12.591px;
-  color: ${Colors.black};
+  align-items: center;
 
+  width: 100%;
+  height: 54px;
+  min-height: 54px;
+  max-height: 54px;
+
+  padding: 0 15px;
+  border-radius: 12.591px;
+  box-sizing: border-box;
+`;
+
+const RuleText = styled.div`
+  color: ${Colors.black};
   font-family: ${Colors.font};
-  font-size: 19px;
+  font-size: 17px;
   font-style: normal;
   font-weight: 500;
-  line-height: 21.405px;
-  text-align: left;
+  line-height: 1.3;
+  width: 100%;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 2줄까지만 허용 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word; 
 `;
 
 const TextButton = styled.button`
@@ -332,22 +377,45 @@ const DotContainer = styled.div`
   gap: 8px;
   justify-content: center;
   margin-top: auto;
-  padding-bottom: 20px;
 `;
 
 const PassBtn = styled.button`
   background: none;
   border: none;
-  width: 8px;
-  height: 14px;
   cursor: pointer;
-`;
-
-const RuleListContainer = styled.div`
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &:first-child {
+    left: -25px; 
+  }
+  &:last-child {
+    right: -25px;
+  }
+
+  &:disabled{
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  img{
+    width: 8px;
+    height: 13px;
+    display: block;
+  }
+`;
+
+const RuleListContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
 `; 
 

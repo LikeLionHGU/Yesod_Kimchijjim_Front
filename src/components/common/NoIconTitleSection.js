@@ -13,7 +13,7 @@ const Title = styled.p`
     font-size: 30px;
     font-style: normal;
     font-weight: 700;
-    margin-top: 126px;
+    margin-top: 65px;
     margin-bottom: 15px;
 `;
 

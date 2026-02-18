@@ -67,6 +67,7 @@ const RoomEditModal = ({isOpen, onClose, currentRoomName, onSave, onDelete}) => 
 
             {isDeleteModalOpen && (
                 <DeleteRoomModal
+                    isOpen={isDeleteModalOpen}
                     onClose={()=> setIsDeleteModalOpen(false)}
                     onConfirm={handleFirstDeleteConfirm}/>
             )}

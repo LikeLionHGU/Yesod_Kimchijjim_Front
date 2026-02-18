@@ -2,7 +2,6 @@ import react, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Colors } from "../../styles/colors";
-import TitleSection from "../../components/common/TitleSection";
 import GoBackPage from "../../components/common/BackButton";
 import LinkIcon from "../../assets/linkIcon.svg";
 import HomeIcon from "../../assets/homeIcon.svg";
@@ -44,11 +43,13 @@ const RoomInvitePage = () => {
     return(
         <PageContainer>
             <GoBackPage/>
-            <TitleSection
-                iconSrc={HomeIcon}
-                titleText={"방이 생성되었습니다"}
-                subTitleText={"룸메이트에게 초대 코드를 공유하세요"}
-            />
+            <TitleGroup>
+                <TitleIcon>
+                    <img src={HomeIcon}/>
+                </TitleIcon>
+                <Title>방이 생성되었습니다</Title>
+                <SubTitle>룸메이트에게 초대 코드를 공유하세요</SubTitle>
+            </TitleGroup>
             <CardContainer>
                 <InfoCard>
                     <InfoGroup style={{marginBottom: `48px`}}>
@@ -90,10 +91,49 @@ const PageContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 43px;
-    padding-bottom: 269px;
+    //padding-top: 43px;
+    padding-bottom: 236px;
     position: relative;
     box-sizing: border-box;
+`;
+
+const TitleGroup = styled.div`
+    text-align: center;
+    margin-bottom: 64px;
+`;
+
+const TitleIcon = styled.div`
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 39px;
+
+    img {
+        width: 94px;
+        height: auto;
+    }
+`;
+
+const Title = styled.p`
+    color: ${Colors.black};
+    text-align: center;
+    font-family: ${Colors.font};
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 15px;
+`;
+
+const SubTitle = styled.p`
+    color: ${Colors.detailBlack};
+    text-align: center;
+    font-family: ${Colors.font};
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    margin-bottom: 0;
+    margin-top: 0;
 `;
 
 const CardContainer = styled.div`

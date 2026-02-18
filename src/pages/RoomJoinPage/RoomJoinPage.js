@@ -5,8 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 import InfoIconImg from "../../assets/info.svg";
 import GoBackPage from "../../components/common/BackButton";
-import TitleSection from "../../components/common/TitleSection";
-import DoorIcon from "../../assets/doorIcon.svg";
+import OpenDoorIcon from "../../assets/opendoorIcon.svg";
 import axios from "axios";
 import { useRoom } from "../../context/RoomContext";
 
@@ -95,7 +94,13 @@ const RoomJoinPage = () => {
   return (
     <PageContainer>
       <GoBackPage />
-      <TitleSection iconSrc={DoorIcon} titleText={"방 들어가기"} subTitleText={"이름을 입력하면 방에 입장할 수 있어요"} />
+      <TitleGroup>
+        <TitleIcon>
+          <img src={OpenDoorIcon} />
+        </TitleIcon>
+        <Title>방 들어가기</Title>
+        <SubTitle>이름을 입력하면 방에 입장할 수 있어요</SubTitle>
+      </TitleGroup>
 
       <Card>
         <FormGroup>
@@ -129,10 +134,49 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 43px;
-  padding-bottom: 269px;
+  //padding-top: 43px;
+  padding-bottom: 373px;
   position: relative;
   box-sizing: border-box;
+`;
+
+const TitleGroup = styled.div`
+    text-align: center;
+    margin-bottom: 64px;
+`;
+
+const TitleIcon = styled.div`
+    margin-top: 73px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 28px;
+
+    img{
+      width: 68px;
+      height: auto;
+    }
+`;
+
+const Title = styled.p`
+    color: ${Colors.black};
+    text-align: center;
+    font-family: ${Colors.font};
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 15px;
+`;
+
+const SubTitle = styled.p`
+    color: ${Colors.detailBlack};
+    text-align: center;
+    font-family: ${Colors.font};
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    margin-bottom: 0;
+    margin-top: 0;
 `;
 
 const Card = styled.div`

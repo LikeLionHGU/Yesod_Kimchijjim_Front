@@ -11,6 +11,7 @@ const BoardPage = () => {
   const [roomInfo, setRoomInfo] = useState(null); //내이름,방이름,방인언
   const [rules, setRules] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isLeader, setIsLeader] = useState(false);
 
   const roomCode = sessionStorage.getItem("currentRoomCode");
   const token = localStorage.getItem("idToken");
@@ -41,6 +42,9 @@ const BoardPage = () => {
       console.log("규칙 정보 성공:", rulesRes.data);
 
       setRules(rulesRes.data.data || []);
+
+      setIsLeader(rulesRes.data.amIHost === true);
+
     } catch(error) {
       console.log("규칙 데이터 로딩 실패", error);
     } finally {
@@ -127,6 +131,7 @@ const BoardPage = () => {
           roomName={roomInfo?.roomInfo?.roomName} //백엔드확인
           memberCount={roomInfo?.roomInfo?.maxPeople} //백엔드확인
           rules={rules}
+          isLeader={isLeader}
           onUpdateRoom={handleUpdateRoomName}
           onDeleteRoom={handleDeleteRoom}
         />
@@ -149,7 +154,7 @@ const PageContainer = styled.div`
     flex-direction: column;
     align-items: center;
 
-    padding-top: 43px;
+    //padding-top: 43px;
     padding-bottom: 269px;
 
     position: relative;

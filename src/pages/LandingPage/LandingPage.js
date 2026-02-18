@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import react, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Await, useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
@@ -18,6 +18,20 @@ console.log("프론트엔드에서 사용하는 Client ID:", process.env.REACT_A
 const LandingPage = () => {
 
     const navigate = useNavigate();
+
+    //로그인 하면 보드페이지로 이동하는 
+    useEffect(()=>{
+        const token = localStorage.getItem("idToken");
+        const roomCode = sessionStorage.getItem("currentRoomCode");
+
+        if(token){
+            if(roomCode) {
+                navigate("/board", {replace:true});
+            } else {
+                navigate("/room", {replace:true});
+            }
+        }
+    }, [navigate]);
 
     const handleLoginSuccess = (response) => {
         //구글이 준 응답에서 credential이 idToken
