@@ -42,9 +42,12 @@ function Header() {
     return (
         <HeaderContainer>
             <HeaderContent>
-                <LeftSection onClick={!isTesting ? () => navigate("/") : undefined}>
-                    {isTesting && (<Logo src={imgLogoIcon}/>)}
-                    <Logo src={zzamkanmanLogoIcon} />
+                <LeftSection
+                    $isTesting={isTesting}
+                    onClick={!isTesting ? () => navigate("/") : undefined}>
+
+                    {isTesting && (<Logo src={imgLogoIcon} $isTesting={isTesting}/>)}
+                    {!isTesting && <Logo src={zzamkanmanLogoIcon} $isTestin={isTesting} />}
                 </LeftSection>
 
                 <RightSection>
@@ -100,8 +103,8 @@ const LeftSection = styled.div`
 `;
 
 const Logo = styled.img`
-    width: 122px;
-    height: auto;
+    width: ${props => (props.$isTesting ? "auto" : "122px")};
+    height: ${props => (props.$isTesting ? "41px" : "auto")};
 `;
 
 const RightSection = styled.div`
