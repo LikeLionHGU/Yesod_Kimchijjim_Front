@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {  useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 
-import { GoogleOAuthProvider, GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 //시작 로그인 페이지 
 //설치 : npm install @react-oauth/google axios

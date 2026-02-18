@@ -55,7 +55,7 @@ export default LoadingPage;
 
 //styled-components
 const PageContainer = styled.div`
-    width: 100 %;
+    width: 100%;
     min-height: 100vh;
     background: ${ Colors.backgroundColor };
     display: flex;
