@@ -1,4 +1,4 @@
-import React from "react";
+
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import  { useNavigate } from "react-router-dom";
@@ -44,8 +44,8 @@ const GoBackPage = () => {
     };
 
     return(
-        <BackButtonStyle onClick={handleGoBack}>
-            <img src={BackIcon} width="10" height="16"/>
+        <BackButtonStyle onClick={handleGoBack} aria-label="뒤로가기">
+            <img src={BackIcon} width="10" height="16" alt="뒤로가기"/>
         </BackButtonStyle>
     )
 };

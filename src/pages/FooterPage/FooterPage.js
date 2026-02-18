@@ -1,4 +1,4 @@
-import react from "react";
+
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import WhiteLogoIcon from "../../assets/whiteLogoIcon.svg";

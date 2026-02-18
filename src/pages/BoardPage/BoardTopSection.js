@@ -1,11 +1,11 @@
-import react, {useState} from "react";
+import {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import BoardIcon from "../../assets/boardpageIcon.svg";
 import peopleICon from "../../assets/peopleIcon.svg";
-import pencilIcon from "../../assets/Pencil.svg";
-import passPage from "../../assets/passpage.svg";
+// import pencilIcon from "../../assets/Pencil.svg";
+// import passPage from "../../assets/passpage.svg";
 import purplepencilIcon from "../../assets/purplepencilIcon.svg";
 import rightPassPageIcon from "../../assets/rightPassPage.svg";
 import leftPassPageIcon from "../../assets/leftPassPage.svg";
@@ -68,7 +68,7 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, isLeader, onUp
             <SubTitle>우리방 규칙을 확인하고, 의견을 나눠보세요</SubTitle>
           </GreetingGroup>
 
-          <BoardPageIcon src={BoardIcon}/>
+          <BoardPageIcon src={BoardIcon} alt=""/>
 
         </LeftSection>
 
@@ -78,13 +78,13 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, isLeader, onUp
 
             <div style={{display: 'flex', gap: '5px', alignItems: 'center'}}>
               <SectionLabel>방 정보</SectionLabel>
-              {isLeader && <IconButton src={purplepencilIcon} onClick={openEditModal} />}
+              {isLeader && <IconButton src={purplepencilIcon} alt="" onClick={openEditModal} />}
             </div>
 
             <RoomInfoBox>
               <RoomName>{roomName}</RoomName>
               <MemberCountGroup>
-                <UserIconImg src={peopleICon}/>
+                <UserIconImg src={peopleICon} alt=""/>
                 <Count>{memberCount}</Count>
               </MemberCountGroup>
             </RoomInfoBox>
@@ -97,8 +97,8 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, isLeader, onUp
             <RuleListContainer>
               <PassBtn onClick={handleprevPage}
                 disabled={currentPage === 0}>
-                <img src={leftPassPageIcon} />
-                </PassBtn>
+                <img src={leftPassPageIcon} alt="" />
+                </PassBtn> 
 
               <RuleList>
                 {currentRules && currentRules.length > 0 ? (
@@ -113,7 +113,7 @@ const BoardTopSection = ({userName, roomName, memberCount, rules, isLeader, onUp
 
               <PassBtn onClick={handleNextPage}
                 disabled={currentPage === totalPages - 1}>
-                <img src={rightPassPageIcon} />
+                <img src={rightPassPageIcon} alt="" />
                 </PassBtn>
 
             </RuleListContainer>
