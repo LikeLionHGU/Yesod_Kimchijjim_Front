@@ -10,37 +10,64 @@ import RealDeleteModal from "./RealDeleteModal";
 const RoomEditModal = ({isOpen, onClose, currentRoomName, onSave, onDelete}) => {
     const [newRoomName, setNewRoomName] = useState(currentRoomName);
 
-    const[isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-    const[isFinalDeleteModalOpen, setIsFinalDeleteModalOpen] = useState(false);
+    //0:수정모달, 1: 삭제 경고, 2: 진짜 삭제
+    const [modalStep, setModalStep] = useState(0);
 
     const handleSave = () => {
-        //백엔드 연결 (방이름 저장관련)
-        onSave(newRoomName);
-        onClose();
+      onSave(newRoomName);
+      onClose();
     };
 
     const handleDeleteClick = () => {
-        setIsDeleteModalOpen(true);
-        //방 삭제 관련
+      setModalStep(1);
     };
 
-    const handleFirstDeleteConfirm = () =>{
-        setIsDeleteModalOpen(false);
-        setIsFinalDeleteModalOpen(true);
-    }; 
+    const handleFirstDeleteConfirm = () => {
+      setModalStep(2);
+    };
 
     const handleFinalDeleteConfirm = () => {
-        onDelete();
-        //백엔드에 삭제 요청
-        setIsFinalDeleteModalOpen(false);
-        onClose(); //전체 모달 닫기
+      onDelete();
+      setModalStep(0);
+      onClose();
     };
+
+    const handleCloseAll = () => {
+      setModalStep(0);
+      onClose();
+    }
+    // const[isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+    // const[isFinalDeleteModalOpen, setIsFinalDeleteModalOpen] = useState(false);
+
+    // const handleSave = () => {
+    //     //백엔드 연결 (방이름 저장관련)
+    //     onSave(newRoomName);
+    //     onClose();
+    // };
+
+    // const handleDeleteClick = () => {
+    //     setIsDeleteModalOpen(true);
+    //     //방 삭제 관련
+    // };
+
+    // const handleFirstDeleteConfirm = () =>{
+    //     setIsDeleteModalOpen(false);
+    //     setIsFinalDeleteModalOpen(true);
+    // }; 
+
+    // const handleFinalDeleteConfirm = () => {
+    //     onDelete();
+    //     //백엔드에 삭제 요청
+    //     setIsFinalDeleteModalOpen(false);
+    //     onClose(); //전체 모달 닫기
+    // };
 
     if(!isOpen) return null;
 
     return(
-        <ModalOverlay onClick={onClose}>
+        <ModalOverlay onClick={handleCloseAll}>
+          {modalStep === 0 && (
             <ModalContainer onClick={(e) => e.stopPropagation()}>
                 <TopGroup>
                     <ModalIcon src={TitlePencil} />
@@ -64,17 +91,18 @@ const RoomEditModal = ({isOpen, onClose, currentRoomName, onSave, onDelete}) => 
 
                 <DeleteButton onClick={handleDeleteClick}>방 삭제</DeleteButton>
             </ModalContainer>
+          )}
 
-            {isDeleteModalOpen && (
+            {modalStep === 1 && (
                 <DeleteRoomModal
-                    isOpen={isDeleteModalOpen}
-                    onClose={()=> setIsDeleteModalOpen(false)}
+                    isOpen={true}
+                    onClose={()=> setModalStep(0)}
                     onConfirm={handleFirstDeleteConfirm}/>
             )}
 
-            {isFinalDeleteModalOpen && (
+            {modalStep === 2 && (
                 <RealDeleteModal
-                    onClose={()=> setIsFinalDeleteModalOpen(false)}
+                    onClose={()=> setModalStep(0)}
                     onConfirm={handleFinalDeleteConfirm}
                 />
             )}
