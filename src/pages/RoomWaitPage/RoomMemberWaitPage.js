@@ -22,7 +22,7 @@ const RoomLeaderWaitPage = () => {
     useEffect(()=>{
         const checkStatus = async() => {
             try{
-                const token = localStorage.getItem("idToken");
+                
                 
                 const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}/waiting`, {
                     withCredentials: true
@@ -95,32 +95,6 @@ const PageContainer = styled.div`
     box-sizing: border-box;
 `;
 
-const TitleGroup = styled.div`
-    text-align: center;
-    margin-top: 164px;
-`;
-
-const Title = styled.p`
-    color: ${Colors.detailBlack};
-    text-align: center;
-    font-family: ${Colors.font};
-    font-size: 30px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 30px;
-    margin-bottom: 15px;
-`;
-
-const SubTitle = styled.p`
-    color: ${Colors.detailBlack};
-    text-align: center;
-    font-family: ${Colors.font};
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    margin-bottom: 0;
-    margin-top: 0;
-`;
 
 const Card = styled.div`
     border-radius: 15px;
@@ -176,29 +150,4 @@ const ButtonGroup = styled.div`
     gap: 10px;
     margin-top: auto;
     margin-bottom: 186px;
-`;
-
-const TestStartBtn = styled.button`
-    border-radius: 15px;
-    background: ${props => props.$isActive ? `${Colors.mainPurple}` : `${Colors.mainPurple}`};
-    opacity: ${props => props.$isActive ? 1 : 0.5};
-    box-shadow: 0 0 15px 0 ${Colors.boxShadowBlack}; 
-    width: 556px;
-    height: 86px;
-    border: none;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    color: ${Colors.white};
-    font-family: ${Colors.font};
-    font-size: 25px;
-    font-weight: 700;
-    cursor: ${props => props.$isActive ? 'pointer':'default'};
-    transition: all 0.2s;
-
-    &:hover{
-        opacity: ${props => props.$isActive ? 0.7: 0.5};
-    };
 `;

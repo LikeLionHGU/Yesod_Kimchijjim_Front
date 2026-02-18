@@ -54,7 +54,7 @@ const RoomLeaderWaitPage = () => {
 //     navigate("/room/test")
 //    };
 
-   return(
+   return( 
     <PageContainer>
         <GoBackPage/>
         <NoIconTitleSection

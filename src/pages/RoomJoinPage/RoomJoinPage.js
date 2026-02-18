@@ -101,7 +101,7 @@ const RoomJoinPage = () => {
         <Title>방 들어가기</Title>
         <SubTitle>이름을 입력하면 방에 입장할 수 있어요</SubTitle>
       </TitleGroup>
-
+  
       <Card>
         <FormGroup>
           <Label>내 이름</Label>
