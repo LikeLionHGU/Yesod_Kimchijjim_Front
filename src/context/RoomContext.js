@@ -1,4 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { ensurePushSubscribed } from "../utils/push";
+import { api } from "../utils/api";
+
+
 
 const RoomContext = createContext(null);
 
@@ -11,6 +15,21 @@ export function RoomProvider({ children }) {
   const [roomCode, setRoomCodeState] = useState("");
   const [userId, setUserIdState] = useState(null);
   const [amIHost, setAmIHostState] = useState(false);
+
+
+useEffect(() => {
+  (async () => {
+    try {
+      await ensurePushSubscribed({
+        apiSubscribe: api.subscribePush,
+      });
+      console.log("[push] subscribed globally");
+    } catch (e) {
+      console.log("[push] subscribe skipped:", e?.message || e);
+    }
+  })();
+}, []);
+
 
   // 최초 1회: sessionStorage에서 불러오기
   useEffect(() => {

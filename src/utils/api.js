@@ -125,4 +125,12 @@ export const api = {
       method: "POST",
       body: { roomCode, content },
     }),
+
+
+
+  subscribePush: (subscriptionJson) =>
+   request(`/api/push/subscribe`, {
+    method: "POST",
+    body: subscriptionJson,
+  }),
 };
