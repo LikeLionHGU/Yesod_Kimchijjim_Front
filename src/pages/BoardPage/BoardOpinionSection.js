@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import { api } from "../../utils/api";
+import { ensurePushSubscribed } from "../../utils/push";
+
 
 const TABS = {
   RECOMMEND: "RECOMMEND",
@@ -83,6 +85,7 @@ function BoardOpinionSection() {
       console.error("[BoardOpinionSection] getOpinions failed:", e?.message || e);
     }
   };
+  
 
   useEffect(() => {
     if (!roomCode) return;
@@ -546,3 +549,5 @@ const SendBtn = styled.button`
     cursor: not-allowed;
   }
 `;
+
+
