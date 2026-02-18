@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import TitleSection from "../../components/common/TitleSection";

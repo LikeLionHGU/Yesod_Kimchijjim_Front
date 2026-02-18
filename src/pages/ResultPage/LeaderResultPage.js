@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 import { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";

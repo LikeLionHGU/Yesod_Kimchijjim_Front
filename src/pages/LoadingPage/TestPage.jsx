@@ -41,7 +41,7 @@ const TestPage = () => {
 
                 console.log("서버 응답:", response.data);
 
-                if(response.data == 1){
+                if(response.data === 1){
                     setAuthResult("인증성공!");
 
                     const userInfo = localStorage.getItem("userInfo");
@@ -108,7 +108,7 @@ export default TestPage;
 
 //styled-components
 const PageContainer = styled.div`
-    width: 100 %;
+    width: 100%;
     min-height: 100vh;
     background: ${Colors.backgroundColor};
     display: flex;
