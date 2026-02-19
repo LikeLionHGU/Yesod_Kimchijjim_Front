@@ -165,8 +165,7 @@ const CardBase = styled.div`
 
     @media (max-width: 950px) {
         width: 100%;
-        height: 250px;
-        padding-top: 20px;
+        height: 270px;
     }
 `;
 
@@ -177,10 +176,18 @@ const CreateCard = styled(CardBase)`
     &:hover{
         background: ${Colors.hoverPurple};
     }
+
+    @media (max-width: 950px) {
+        padding-top: 30px;
+    }
 `;
 
 const JoinCard = styled(CardBase)`
     background: ${Colors.white};
+
+    @media (max-width: 950px) {
+        padding-top: 20px;
+    }
 `;
 
 const TitleIcon = styled.img`

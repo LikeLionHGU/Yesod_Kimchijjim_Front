@@ -190,6 +190,13 @@ const Card = styled.div`
   gap: 0;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 625px) {
+    width: 320px;     
+    padding: 40px 20px;
+    height: auto;
+    min-height: 170px;
+  }
 `;
 
 const FormGroup = styled.div`
@@ -197,6 +204,7 @@ const FormGroup = styled.div`
   flex-direction: column;
   gap: 10px;
   position: relative;
+  width: 100%;
 `;
 
 const Label = styled.label`
@@ -227,6 +235,11 @@ const Input = styled.input`
     border: 2px solid
       ${(props) => (props.$hasError ? `${Colors.errorColor}` : `${Colors.mainPurple}`)};
   }
+
+  @media (max-width: 625px) {
+    width: 100%; 
+    padding: 15px 20px;
+  }
 `;
 
 const IconImage = styled.img`
@@ -251,6 +264,10 @@ const ErrorMessage = styled.span`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
+  @media (max-width: 625px) {
+      font-size: 9px;
+  }
 `;
 
 const CreateButtonWrapper = styled.div`
