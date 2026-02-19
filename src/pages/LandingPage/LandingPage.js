@@ -73,24 +73,25 @@ const LandingPage = () => {
         <GoogleOAuthProvider clientId={`${process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID}`}>
 
             <PageWrapper>
-                <FirstSection>
+
+                <HeroWrapper>
+                    <HeroBackground />
+
                     <ContentContainer>
                         <FirstTextGroup>
-                            <FirstTitle>서로 다른 수면 성향 간 합의를<br/>돕는 룸메이트 수면 소통 플랫폼</FirstTitle>
+                            <FirstTitle>서로 다른 수면 성향 간 합의를<br />돕는 룸메이트 수면 소통 플랫폼</FirstTitle>
                             <LoginButtonWrapper>
-                                <GoogleLogin
-                                    onSuccess={handleLoginSuccess}
-                                    onError={handleLoginError}
-                                />
+                                <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginError} />
                             </LoginButtonWrapper>
                         </FirstTextGroup>
                         <FirstTalkIcon>
-                            <img src={talkIcon} alt=""/>
+                            <img src={talkIcon} alt="" />
                         </FirstTalkIcon>
                     </ContentContainer>
+
                     <ScrollIcon src={downIcon} alt="" />
 
-                </FirstSection>
+                </HeroWrapper>
 
                 {/* 2 주요 기능 구역*/}
                 <SecondSection>
@@ -215,47 +216,78 @@ const ContentContainer = styled.div`
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
-    padding: 0;
+    //padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
 
-    @media (max-width: 768px) {
+    position: relative; //추가
+    z-index: 1; //추가
+
+    @media (max-width: 950px) {
         flex-direction: column;
         text-align: center;
+        align-items: center;
+        justify-content: center;
         gap: 40px;
     }
 `;
 
 /* 1. 메인 보라색 구역 */
-const FirstSection = styled.div`
+const HeroWrapper = styled.div`
+    position: relative; 
     width: 100%;
-    min-height: max(835px, 58vw);
-
+    min-height: 835px;
     background-color: #F6F5FC;
-    background-image: url(${purplefront}), url(${purpleback});
-    background-position: center 0px, center 106px;
-    background-size: 100% auto, 100% auto;
-    background-repeat: no-repeat, no-repeat;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+    @media (max-width: 1024px) {
+        min-height: 700px;
+    }
+
+    @media (max-width: 768px) {
+        min-height: 800px; 
+    }
+`;
+
+const HeroBackground = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; 
+    background-image: url(${purplefront}), url(${purpleback});
+    background-repeat: no-repeat, no-repeat;
+    
+    background-position: center bottom, center bottom;
+    background-size: 100% auto, 100% auto;
+
+    @media (max-width: 1490px) {
+        background-size: cover, cover; 
+    }
+    
+    @media (max-width: 768px) {
+        background-position: center bottom, center bottom;
+        background-size: cover, cover;
+    }
 `;
 
 const FirstTextGroup = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 150px;
-    margin-left: 107px;
+    margin-left: 97px;
     gap: 249px;
     
-    @media (max-width: 768px) {
-        margin-top: 50px;
-        margin-left:0;
-        gap: 50px;
+    @media (max-width: 1210px) {
         align-items: center;
+        gap: 150px;
+    }
+
+    @media (max-width: 950px) {
+        margin-top: 80px;
+        margin-left: 0;
+        gap: 60px;
     }
 `;
 
@@ -267,14 +299,21 @@ const FirstTitle = styled.h1`
     line-height: 53px;
     margin: 0;
 
-    @media (max-width: 768px) {
-        font-size: 28px;
-        line-height: 1.4;
+    @media (max-width: 1210px) {
+        font-size: 26px;
+        text-align: center;
     }
 `;
 
 const LoginButtonWrapper = styled.div`
     width: fit-content;
+
+    @media (max-width: 1210px) {
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+
+    }
 `;
 
 const FirstTalkIcon = styled.div`
@@ -283,8 +322,22 @@ const FirstTalkIcon = styled.div`
     margin-top: 45px;
     align-self: flex-start;
 
-    @media (max-width: 768px) {
+    margin-right: 30px;
+
+    img {
         width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    @media (max-width: 1210px) {
+        width: 450px;
+        margin-right: 0;
+    }
+
+    @media (max-width: 950px) {
+        width: 80%;
+        max-width: 400px;
         margin-top: 20px;
         align-self: center;
     }
@@ -294,16 +347,15 @@ const ScrollIcon = styled.img`
     width: 32px;
     height: auto;
     position: absolute;
-    bottom: -16px;
+    bottom: -5px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10;
-    // display: block;
-    // margin: 0 auto;
-    // margin-bottom: 80px;
-    // position: relative;
-    z-index: 10;
-`
+    z-index: 1;
+
+    @media (max-width: 1024px) {
+        bottom: -30px;
+    }
+`;
 
 /* 공통 섹션 제목 */
 const SectionTitle = styled.h2`
@@ -312,6 +364,8 @@ const SectionTitle = styled.h2`
     color: ${Colors.black};
     text-align: center;
     margin: 0 0 7px 0;
+
+    @media (max-width: 768px) { font-size: 22px; }
 `;
 
 const SectionSubTitle = styled.p`
@@ -319,12 +373,20 @@ const SectionSubTitle = styled.p`
     color: ${Colors.detailBlack};
     text-align: center;
     margin: 0 0 55px 0;
+
+    @media (max-width: 768px) { 
+        font-size: 15px; 
+        margin-bottom: 35px;
+    }
 `;
 
 /* 2. 주요 기능 구역 */
 const SecondSection = styled.div`
     padding: 90px 156px;
     background-color: #F6F5FC;
+
+    @media (max-width: 1024px) { padding: 80px 40px; }
+    @media (max-width: 768px) { padding: 60px 20px; }
 `;
 
 const CardGrid = styled.div`
@@ -333,6 +395,10 @@ const CardGrid = styled.div`
     display: flex;
     gap: 20px;
     justify-content: center;
+
+    @media (max-width: 1360px) {
+        flex-wrap: wrap;
+    }
 
     @media (max-width: 768px) {
         flex-direction: column;
@@ -346,23 +412,22 @@ const FeatureCard = styled.div`
     padding: 0 0 23px 23px;
     width: 100%;
     max-width: 365px;
-    //min-height: 200px;
     height: 192px;
 
     box-sizing: border-box;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.10);
-    //display: flex;
-    //flex-direction: column;
 
-    //justify-content: space-between;
     position: relative;
     overflow: hidden;
+
+    @media (max-width: 768px) {
+        max-width: 100%;
+    }
 `;
 
 const CardIcon = styled.img`
     width: ${(props) => props.$width || "65px"};
     height: auto;
-    //align-self: flex-end;
 
     position: absolute;
     z-index: 1;
@@ -375,7 +440,6 @@ const CardTextGroup = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
-    //align-self: flex-start;
     text-align: left;
 
     position: absolute;
@@ -407,6 +471,8 @@ const ThirdSection = styled.div`
     background-color: white;
     max-width: 1200px;
     margin: 0 auto;
+
+    @media (max-width: 768px) { padding: 60px 20px; }
 `;
 
 const StepBlock = styled.div`
@@ -415,22 +481,30 @@ const StepBlock = styled.div`
     flex-direction: ${props => props.$reverse ? 'row-reverse' : 'row'};
     justify-content: space-between;
     
-    margin-top: 87px; /* 제목과의 간격 */
-    margin-bottom: 150px; /* 블록과 블록 사이의 넉넉한 간격 */
+    margin-top: 87px;
+    margin-bottom: 150px; 
     gap: 52px;
 
     @media (max-width: 950px) {
-        flex-direction: column; /* 모바일에서는 무조건 세로 배치 */
+        flex-direction: column;
         align-items: center;
         text-align: center;
+        margin-bottom: 80px;
     }
 `;
 
 const TextColumn = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 115px; /* 1번 텍스트와 2번 텍스트 사이 간격 */
+    gap: 115px;
     width: 300px;
+
+    @media (max-width: 950px) {
+        gap: 50px;
+        width: 100%;
+        align-items: center;
+        margin-bottom: 40px;
+    }
 `;
 
 const ImageColumn = styled.div`
@@ -438,6 +512,24 @@ const ImageColumn = styled.div`
     position: relative; 
     width: 100%;
     min-height: 500px; 
+
+    @media (max-width: 1024px) {
+        transform: scale(0.8);
+        transform-origin: top center;
+        min-height: 400px;
+    }
+
+    @media (max-width: 950px) {
+        transform: scale(0.6);
+        min-height: 350px;
+        display: flex;
+        justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+        transform: scale(0.5); 
+        min-height: 250px;
+    }
 `;
 
 const ExImg1 = styled.img`
@@ -448,6 +540,11 @@ const ExImg1 = styled.img`
     width: 350px;
     height: auto;
     border-radius: 11px;
+
+    @media (max-width: 950px) { 
+        left: 50%; 
+        transform: translateX(-292px); 
+    }
 `;
 
 const ExImg2 = styled.img`
@@ -458,6 +555,11 @@ const ExImg2 = styled.img`
     width: 435px;
     height: auto;
     border-radius: 11px;
+
+    @media (max-width: 950px) { 
+        left: 50%; 
+        transform: translateX(-142px); 
+    }
 `;
 
 const ExImg3 = styled.img`
@@ -468,6 +570,11 @@ const ExImg3 = styled.img`
     width: 290px;
     height: auto;
     border-radius: 11px;
+
+    @media (max-width: 950px) { 
+        left: 50%; 
+        transform: translateX(-291px); 
+    }
 `;
 
 const ExImg4 = styled.img`
@@ -478,6 +585,11 @@ const ExImg4 = styled.img`
     width: 482px;
     height: auto;
     border-radius: 11px;
+
+    @media (max-width: 950px) { 
+        left: 50%; 
+        transform: translateX(-191px); 
+    }
 `;
 
 const StepText = styled.div`
@@ -530,16 +642,24 @@ const StepDesc = styled.p`
 const FourthSection = styled.div`
     padding: 80px 115px;
     background-color: #F6F5FC;
+
+    @media (max-width: 1024px) { padding: 80px 40px; }
+    @media (max-width: 768px) { padding: 60px 20px; }
 `;
 
 const ValueGrid = styled(CardGrid)`
     gap: 105px;
     margin-top: 83px;
+
+    @media (max-width: 1024px) { gap: 50px; }
+    @media (max-width: 768px) { gap: 40px; margin-top: 40px; }
 `;
 
 const ValueIcon = styled.img`
     width: 182px;
     height: auto;
+
+    @media (max-width: 768px) { width: 140px; }
 `;
 
 const ValueItem = styled.div`
@@ -550,6 +670,8 @@ const ValueItem = styled.div`
     
     width: 100%;
     max-width: 305px;
+
+    @media (max-width: 768px) { max-width: 100%; }
 `;
 
 const ValueTitle = styled.h3`
@@ -574,6 +696,10 @@ const FinalSection = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 21px;
+
+    @media (max-width: 768px) {
+        padding: 60px 20px 20px 20px;
+    }
 `;
 
 const FinalTitle = styled.h2`
@@ -583,6 +709,8 @@ const FinalTitle = styled.h2`
     line-height: 27px
     text-align: center;
     margin: 0;
+
+    @media (max-width: 768px) { font-size: 22px; line-height: 1.4; }
 `;
 
 const BottomSection = styled.div`
