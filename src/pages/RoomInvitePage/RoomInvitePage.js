@@ -306,6 +306,7 @@ const CodeInfo = styled.div`
     align-items: center;
 
     width: 366px;
+
     height: 74px;
     border-radius: 11px;
     background: ${Colors.fixWhite};
@@ -318,6 +319,14 @@ const CodeInfo = styled.div`
     font-weight: 700;
     color: ${Colors.black};
     letter-spacing: 5px;
+
+    @media (max-width: 950px) {
+        width: 250px;
+        height: 60px; 
+        padding: 10px 20px; 
+        font-size: 22px; 
+        letter-spacing: 3px;
+    }
 `;
 
 const LinkIconWrapper = styled.div`
