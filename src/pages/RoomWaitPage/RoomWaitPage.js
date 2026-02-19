@@ -363,6 +363,10 @@ const Card = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 186px;
+
+  @media (max-width: 625px) {
+    width: 300px;     
+  }
 `;
 
 const CodeGroup = styled.div`
