@@ -88,9 +88,9 @@ const LandingPage = () => {
                             <img src={talkIcon} alt=""/>
                         </FirstTalkIcon>
                     </ContentContainer>
-                </FirstSection>
+                    <ScrollIcon src={downIcon} alt="" />
 
-                <ScrollIcon src={downIcon} alt=""/>
+                </FirstSection>
 
                 {/* 2 주요 기능 구역*/}
                 <SecondSection>
@@ -99,21 +99,21 @@ const LandingPage = () => {
 
                     <CardGrid>
                         <FeatureCard>
-                            <CardIcon src={functionIcon1} $width = "91px" alt=""/>
+                            <CardIcon src={functionIcon1} $width = "91px" $top="16px" $right="18px" alt=""/>
                             <CardTextGroup>
                                 <CardTitle>질문 기반 테스트</CardTitle>
                                 <CardDesc>각자의 수면 기준을 카드형 질문으로 확인하고,<br />자동으로 규칙을 생성해요</CardDesc>
                             </CardTextGroup>
                         </FeatureCard>
                         <FeatureCard>
-                            <CardIcon src={functionIcon2} $width="125px" alt="" />
+                            <CardIcon src={functionIcon2} $width="125px" $top="5px" $right="7.5px"  alt="" />
                             <CardTextGroup>
                                 <CardTitle>자동 중재 기능</CardTitle>
                                 <CardDesc>의견이 다를 때, 잠깐만이 대화를 정리하고<br />중간 지점을 찾도록 도와줘요</CardDesc>
                             </CardTextGroup>
                         </FeatureCard>
                         <FeatureCard>
-                            <CardIcon src={functionIcon3} $width="101px" alt="" />
+                            <CardIcon src={functionIcon3} $width="101px" $top="10px" $right="11.68px"  alt="" />
                             <CardTextGroup>
                                 <CardTitle>알림 보내기</CardTitle>
                                 <CardDesc>학기 중 생기는 불편한 부분을<br/>의견보드에 공유할 수 있어요</CardDesc>
@@ -122,47 +122,47 @@ const LandingPage = () => {
                     </CardGrid>
                 </SecondSection>
 
-                {/* 3 사용 방법 구역*/}
                 <ThirdSection>
                     <SectionTitle>사용 방법</SectionTitle>
                     <SectionSubTitle>4단계로 만드는 우리방의 수면 규칙</SectionSubTitle>
 
-                    {/* Step 1 & 2 (지그재그 레이아웃) */}
-                    <StepRow>
-                        <StepText>
-                            <StepNumber>1</StepNumber>
-                            <StepTitle>방 만들기</StepTitle>
-                            <StepDesc>룸메이트와 함께 사용할<br/>방을 만드세요</StepDesc>
-                        </StepText>
-                        <StepImagePlaceHolder> {/* 화면 목업 이미지 1 */} </StepImagePlaceHolder>
-                    </StepRow>
+                    <StepBlock>
+                        <TextColumn>
+                            <StepText>
+                                <StepNumber>1</StepNumber>
+                                <StepTitle>방 만들기</StepTitle>
+                                <StepDesc>룸메이트와 함께 사용할<br />방을 만드세요</StepDesc>
+                            </StepText>
+                            <StepText>
+                                <StepNumber>2</StepNumber>
+                                <StepTitle>테스트 진행</StepTitle>
+                                <StepDesc>룸메이트와 동시에 접속하여<br /> 실시간으로 기준을 맞춰가요</StepDesc>
+                            </StepText>
+                        </TextColumn>
+                        <ImageColumn>
+                            <ExImg1 src={exampleImg1} alt=""/>
+                            <ExImg2 src={exampleImg2} alt=""/>
+                        </ImageColumn>
+                    </StepBlock>
 
-                    <StepRow>
-                        <StepText>
-                            <StepNumber>2</StepNumber>
-                            <StepTitle>테스트 진행</StepTitle>
-                            <StepDesc>룸메이트와 동시에 접속하여<br /> 실시간으로 기준을 맞춰가요</StepDesc>
-                        </StepText>
-                        <StepImagePlaceHolder> {/* 화면 목업 이미지 1 */} </StepImagePlaceHolder>
-                    </StepRow>
-
-                    <StepRow $reverse>
-                        <StepText>
-                            <StepNumber>3</StepNumber>
-                            <StepTitle>규칙 확정하기</StepTitle>
-                            <StepDesc>우리방의 성향을 통합한 <br/>규칙을 확정한 후 리마인드해줘요</StepDesc>
-                        </StepText>
-                        <StepImagePlaceHolder> {/* 화면 목업 이미지 2 */} </StepImagePlaceHolder>
-                    </StepRow>
-
-                    <StepRow $reverse>
-                        <StepText>
-                            <StepNumber>4</StepNumber>
-                            <StepTitle>알림 활용</StepTitle>
-                            <StepDesc>생활 중 이야기 하고 싶은 것이<br/>있다면 잠깐만이 대신 전해줘요</StepDesc>
-                        </StepText>
-                        <StepImagePlaceHolder> {/* 화면 목업 이미지 2 */} </StepImagePlaceHolder>
-                    </StepRow>
+                    <StepBlock $reverse>
+                        <TextColumn>
+                            <StepText>
+                                <StepNumber>3</StepNumber>
+                                <StepTitle>규칙 확정하기</StepTitle>
+                                <StepDesc>우리방의 성향을 통합한 <br />규칙을 확정한 후 리마인드해줘요</StepDesc>
+                            </StepText>
+                            <StepText>
+                                <StepNumber>4</StepNumber>
+                                <StepTitle>알림 활용</StepTitle>
+                                <StepDesc>생활 중 이야기 하고 싶은 것이<br />있다면 잠깐만이 대신 전해줘요</StepDesc>
+                            </StepText>
+                        </TextColumn>
+                        <ImageColumn>
+                            <ExImg3 src={exampleImg3} alt=""/>
+                            <ExImg4 src={exampleImg4} alt=""/>
+                        </ImageColumn>
+                    </StepBlock>
                 </ThirdSection>
 
                 {/* 4️ 핵심 가치 구역*/}
@@ -172,17 +172,17 @@ const LandingPage = () => {
 
                     <ValueGrid>
                         <ValueItem>
-                            {/* 3D 아이콘 1 */}
+                            <ValueIcon src={valueIcon1} alt=""/>
                             <ValueTitle>혼자 No 모두가 함께 참여</ValueTitle>
                             <ValueDesc>누구의 잘못이 아닌,<br/>서로 다른 수면 기준을 실시간으로 보여줘요</ValueDesc>
                         </ValueItem>
                         <ValueItem>
-                            {/* 3D 아이콘 2 */}
+                            <ValueIcon src={valueIcon2} alt="" />                       
                             <ValueTitle>안전한 표현 방식</ValueTitle>
                             <ValueDesc>말로 꺼내기 어려운 기준도<br/>비대면으로 편하게 드러낼 수 있어요</ValueDesc>
                         </ValueItem>
                         <ValueItem>
-                            {/* 3D 아이콘 3 */}
+                            <ValueIcon src={valueIcon3} alt="" />                            
                             <ValueTitle>합의로 이어지는 결과 </ValueTitle>
                             <ValueDesc>결과는 판단이 아니라,<br/>함께 정하는 수면 규칙으로 이어져요</ValueDesc>
                         </ValueItem>
@@ -195,6 +195,7 @@ const LandingPage = () => {
                         <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginError} />
                     </LoginButtonWrapper>
                 </FinalSection>
+                <BottomSection/>
 
             </PageWrapper>
         </GoogleOAuthProvider>
@@ -210,15 +211,14 @@ const PageWrapper = styled.div`
     font-family: ${Colors.font};
 `;
 
-/* 콘텐츠를 가운데로 모아주는 가이드라인 (최대 너비 1200px) */
 const ContentContainer = styled.div`
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
 
     @media (max-width: 768px) {
         flex-direction: column;
@@ -230,23 +230,31 @@ const ContentContainer = styled.div`
 /* 1. 메인 보라색 구역 */
 const FirstSection = styled.div`
     width: 100%;
-    min-height: 700px;
+    min-height: max(835px, 58vw);
+
+    background-color: #F6F5FC;
     background-image: url(${purplefront}), url(${purpleback});
-    background-position: center, center bottom;
-    background-size: 100%, 100%;
+    background-position: center 0px, center 106px;
+    background-size: 100% auto, 100% auto;
     background-repeat: no-repeat, no-repeat;
+
     display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 `;
 
 const FirstTextGroup = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    margin-top: 150px;
+    margin-left: 107px;
+    gap: 249px;
     
     @media (max-width: 768px) {
+        margin-top: 50px;
+        margin-left:0;
+        gap: 50px;
         align-items: center;
     }
 `;
@@ -270,22 +278,31 @@ const LoginButtonWrapper = styled.div`
 `;
 
 const FirstTalkIcon = styled.div`
-    width: 500px;
-    height: 400px;
-    /* img { width: 100%; height: auto; object-fit: contain; } 주석 풀고 사용하세요 */
+    width: 600px;
+    height: auto;
+    margin-top: 45px;
+    align-self: flex-start;
 
     @media (max-width: 768px) {
         width: 100%;
-        height: 300px;
+        margin-top: 20px;
+        align-self: center;
     }
 `;
 
 const ScrollIcon = styled.img`
     width: 32px;
     height: auto;
-    display: block;
-    margin: 0 auto;
-    margin-bottom: 80px;
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    // display: block;
+    // margin: 0 auto;
+    // margin-bottom: 80px;
+    // position: relative;
+    z-index: 10;
 `
 
 /* 공통 섹션 제목 */
@@ -326,31 +343,46 @@ const CardGrid = styled.div`
 const FeatureCard = styled.div`
     background: ${Colors.white};
     border-radius: 15px;
-    padding: 19px 23px 23px 23px;
+    padding: 0 0 23px 23px;
     width: 100%;
     max-width: 365px;
+    //min-height: 200px;
     height: 192px;
+
     box-sizing: border-box;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.10);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    //display: flex;
+    //flex-direction: column;
 
-    justify-content: space-between;
+    //justify-content: space-between;
+    position: relative;
+    overflow: hidden;
 `;
 
 const CardIcon = styled.img`
     width: ${(props) => props.$width || "65px"};
     height: auto;
-    align-self: flex-end;
+    //align-self: flex-end;
+
+    position: absolute;
+    z-index: 1;
+
+    top: ${(props) => props.$top || "0px"};
+    right: ${(props) => props.$right || "0px"};
 `;
 
 const CardTextGroup = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
-    align-self: flex-start;
+    //align-self: flex-start;
     text-align: left;
+
+    position: absolute;
+    left: 23px;
+    bottom: 23px;
+    z-index: 2;
+    width: calc(100% - 46px);
 `;
 
 const CardTitle = styled.h3`
@@ -369,7 +401,7 @@ const CardDesc = styled.p`
     margin: 0;
 `;
 
-/* 3. 사용 방법 구역 (지그재그) */
+/* 3. 사용 방법 구역 */
 const ThirdSection = styled.div`
     padding: 100px 20px;
     background-color: white;
@@ -377,25 +409,81 @@ const ThirdSection = styled.div`
     margin: 0 auto;
 `;
 
-const StepRow = styled.div`
+const StepBlock = styled.div`
     display: flex;
+
     flex-direction: ${props => props.$reverse ? 'row-reverse' : 'row'};
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 80px;
-    gap: 50px;
+    
+    margin-top: 87px; /* 제목과의 간격 */
+    margin-bottom: 150px; /* 블록과 블록 사이의 넉넉한 간격 */
+    gap: 52px;
 
     @media (max-width: 950px) {
         flex-direction: column; /* 모바일에서는 무조건 세로 배치 */
+        align-items: center;
         text-align: center;
     }
+`;
+
+const TextColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 115px; /* 1번 텍스트와 2번 텍스트 사이 간격 */
+    width: 300px;
+`;
+
+const ImageColumn = styled.div`
+    flex: 1;
+    position: relative; 
+    width: 100%;
+    min-height: 500px; 
+`;
+
+const ExImg1 = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 350px;
+    height: auto;
+    border-radius: 11px;
+`;
+
+const ExImg2 = styled.img`
+    position: absolute;
+    top: 144px;
+    left: 312px;
+    z-index: 2;
+    width: 435px;
+    height: auto;
+    border-radius: 11px;
+`;
+
+const ExImg3 = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 290px;
+    height: auto;
+    border-radius: 11px;
+`;
+
+const ExImg4 = styled.img`
+    position: absolute;
+    top: 176px;
+    left: 171px;
+    z-index: 2;
+    width: 482px;
+    height: auto;
+    border-radius: 11px;
 `;
 
 const StepText = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 15px;
 
     @media (max-width: 950px) {
         align-items: center;
@@ -415,34 +503,43 @@ const StepNumber = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 10px;
 `;
 
 const StepTitle = styled.h3`
-    font-size: 22px;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 27px;
+    color: ${Colors.black};
     margin: 0;
 `;
 
 const StepDesc = styled.p`
-    color: ${Colors.detailBlack};
+    color: ${Colors.black};
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px
     margin: 0;
+    margin-top: 19px;
 `;
 
-const StepImagePlaceHolder = styled.div`
-    flex: 1;
-    width: 100%;
-    height: 300px;
-    background-color: #F0F0F0; // 이미지 넣기 전 임시 배경
-    border-radius: 15px;
-`;
 
 /* 4. 핵심 가치 구역 */
 const FourthSection = styled.div`
-    padding: 100px 20px;
-    background-color: #FAFAFA;
+    padding: 80px 115px;
+    background-color: #F6F5FC;
 `;
 
 const ValueGrid = styled(CardGrid)`
-    gap: 40px;
+    gap: 105px;
+    margin-top: 83px;
+`;
+
+const ValueIcon = styled.img`
+    width: 182px;
+    height: auto;
 `;
 
 const ValueItem = styled.div`
@@ -450,34 +547,54 @@ const ValueItem = styled.div`
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 10px;
+    
     width: 100%;
-    max-width: 300px;
+    max-width: 305px;
 `;
 
 const ValueTitle = styled.h3`
-    font-size: 20px;
-    margin: 10px 0 0 0;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 27px; 
+    margin: 28px 0 0 0;
+    color: ${Colors.black};
 `;
 
 const ValueDesc = styled.p`
     color: ${Colors.detailBlack};
     margin: 0;
+    margin-top: 15px;
 `;
 
-/* 5. 하단 CTA 구역 */
 const FinalSection = styled.div`
-    padding: 120px 20px 150px 20px;
-    background: white; // 맨 밑 보라색 곡선은 이미지로 처리하거나 CSS로 처리!
+    padding: 92px 20px 31px 39px;
+    background: white; 
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 21px;
 `;
 
 const FinalTitle = styled.h2`
-    font-size: 28px;
+    font-size: 27px;
+    font-style: normal;
     font-weight: 700;
+    line-height: 27px
     text-align: center;
     margin: 0;
+`;
+
+const BottomSection = styled.div`
+    width: 100%;
+    
+    height: 112px; 
+    
+    background-image: url(${bottomPurpleFront}), url(${bottomPurpleBack});
+    
+    background-position: center top, center top;
+    
+    background-size: 100% auto, 100% auto;
+    
+    background-repeat: no-repeat, no-repeat;
 `;
