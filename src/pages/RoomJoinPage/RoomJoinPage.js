@@ -135,7 +135,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   //padding-top: 43px;
-  //padding-bottom: 373px;
+  padding-bottom: 236px;
   position: relative;
   box-sizing: border-box;
 `;

@@ -26,7 +26,10 @@ function Header() {
         setHasRoom(!!roomCode);
     }, [location.pathname]);
 
-    const isTesting = location.pathname.includes("/room/test"); //테스트 중인지 확인
+    const isTesting =
+        location.pathname === "/room/test" ||
+        location.pathname === "/room/wait" ||
+        location.pathname.startsWith("/test/");
     const isBoardPage = location.pathname === "/board";
     const isLandingPage = location.pathname === "/"; 
 
