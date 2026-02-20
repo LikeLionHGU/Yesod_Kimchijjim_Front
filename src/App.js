@@ -5,6 +5,8 @@ import { RoomProvider } from "./context/RoomContext";
 
 import Style from "./styles/style";
 
+import axios from "axios";
+
 //헤더 푸터
 import Header from "./pages/HeaderPage/HeaderPage";
 import Footer from "./pages/FooterPage/FooterPage";
@@ -34,6 +36,9 @@ import AfterMismatchPage from "./pages/AfterMismatchPage/AfterMismatchPage";
 import ResultPage from "./pages/ResultPage/ResultPage";
 import FinalResultPage from "./pages/FinalResultPage/FinalResultPage";
 import LeaderResultPage from "./pages/ResultPage/LeaderResultPage";
+
+axios.defaults.withCredentials = true;
+
 
 function App() {
   return (

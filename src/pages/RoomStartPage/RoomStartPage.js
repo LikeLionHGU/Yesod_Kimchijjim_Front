@@ -232,7 +232,7 @@ const CodeInput = styled.input`
     width: 100%;
     height: 100%;
     border-radius: 11px;
-    border: 2px solid ${props => props.$isError ? Colors.errorColor : Colors.inputBorder};
+    border: 2px solid ${props => props.$isError ? Colors.errorColor : Colors.inputColor};
     background: ${Colors.white};
     padding: 11px 102px 11px 15px;
     font-family: "Noto Sans KR";
