@@ -1,4 +1,3 @@
-import  { useEffect} from "react";
 import styled from "styled-components";
 import {  useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
@@ -41,19 +40,8 @@ const LandingPage = () => {
 
     const navigate = useNavigate();
 
-    //로그인 하면 보드페이지로 이동하는 
-    useEffect(()=>{
-        const token = localStorage.getItem("idToken");
-        const roomCode = sessionStorage.getItem("currentRoomCode");
-
-        if(token){
-            if(roomCode) {
-                navigate("/board", {replace:true});
-            } else {
-                navigate("/room", {replace:true});
-            }
-        }
-    }, [navigate]);
+    const token = localStorage.getItem("idToken");
+    //const roomCode = sessionStorage.getItem("currentRoomCode");
 
     const handleLoginSuccess = (response) => {
         //구글이 준 응답에서 credential이 idToken
@@ -62,7 +50,6 @@ const LandingPage = () => {
 
         navigate("/loading", {state:{idToken:idToken}});
     }; 
-
 
     const handleLoginError = () => {
         console.log("Login Failed");
@@ -81,7 +68,9 @@ const LandingPage = () => {
                         <FirstTextGroup>
                             <FirstTitle>서로 다른 수면 성향 간 합의를<br />돕는 룸메이트 수면 소통 플랫폼</FirstTitle>
                             <LoginButtonWrapper>
-                                <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginError} />
+                                {!token && (
+                                    <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginError} />
+                                )}
                             </LoginButtonWrapper>
                         </FirstTextGroup>
                         <FirstTalkIcon>
@@ -193,7 +182,9 @@ const LandingPage = () => {
                 <FinalSection>
                     <FinalTitle>우리 방의 수면 규칙을 만들어보세요</FinalTitle>
                     <LoginButtonWrapper>
-                        <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginError} />
+                        {!token && (
+                            <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginError} />
+                        )}
                     </LoginButtonWrapper>
                 </FinalSection>
                 <BottomSection/>
