@@ -9,7 +9,7 @@ const DeleteRoomModal = ({isOpen, onClose, onConfirm}) => {
 
     return(
         <Overlay>
-            <Container>
+            <Container onClick={(e)=>e.stopPropagation()}>
                 <Content>
                     <IconWrapper>
                         <img src = {TrashIcon} alt=""/>

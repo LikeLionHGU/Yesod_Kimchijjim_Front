@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import { RoomProvider } from "./context/RoomContext";
 
+import Style from "./styles/style";
+
 //헤더 푸터
 import Header from "./pages/HeaderPage/HeaderPage";
 import Footer from "./pages/FooterPage/FooterPage";
@@ -36,6 +38,7 @@ import LeaderResultPage from "./pages/ResultPage/LeaderResultPage";
 function App() {
   return (
     <RoomProvider>
+      <Style/>
       <BrowserRouter>
         <Header />
 

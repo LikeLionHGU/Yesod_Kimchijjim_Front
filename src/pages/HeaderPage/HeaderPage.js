@@ -55,7 +55,9 @@ function Header() {
                         <BtnGroup>
                             <Button onClick={() => navigate("/room")}>방 시작하기</Button>
 
-                            {isLoggedIn ? (<Button onClick={handleLogout}>로그아웃</Button>) : (<Button onClick={handleGoogleLogin}>로그인</Button>)}
+                            <Button onClick={() => navigate("/")}>About Us</Button>
+
+                            {isLoggedIn ? (<Button onClick={handleLogout}>로그아웃</Button>) : (<Button onClick={handleGoogleLogin}>Log In</Button>)}
 
                         </BtnGroup>
                     )}
@@ -130,8 +132,12 @@ const Button = styled.button`
 
     color: ${Colors.detailBlack};
     font-family: ${Colors.font};
-    font-size: 15px;
+    font-size: 16.5px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;    
+
+    &:hover{
+        color: ${Colors.hoverPurple};
+    }
 `;

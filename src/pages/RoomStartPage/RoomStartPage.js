@@ -128,7 +128,7 @@ const PageContainer = styled.div`
     flex-direction: column;
     align-items: center;
     //padding-top: 43px;
-    padding-bottom: 429px;
+    //margin-bottom: 429px;
     position: relative;
     box-sizing: border-box;
 `;
@@ -141,6 +141,7 @@ const CardContainer = styled.div`
     width: 100%;
     max-width: 937px;
     margin-top: 0;
+    margin-bottom: 0;
 
     @media (max-width: 950px){
         flex-direction: column;
@@ -231,7 +232,7 @@ const CodeInput = styled.input`
     width: 100%;
     height: 100%;
     border-radius: 11px;
-    border: 1px solid ${props => props.$isError ? Colors.errorColor : Colors.borderLine};
+    border: 2px solid ${props => props.$isError ? Colors.errorColor : Colors.inputBorder};
     background: ${Colors.white};
     padding: 11px 102px 11px 15px;
     font-family: "Noto Sans KR";

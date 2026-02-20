@@ -680,7 +680,7 @@ const ValueTitle = styled.h3`
     font-weight: 700;
     line-height: 27px; 
     margin: 28px 0 0 0;
-    color: ${Colors.black};
+    color: ${Colors.detailBlack};
 `;
 
 const ValueDesc = styled.p`
