@@ -18,20 +18,20 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   //padding-top: 43px;
-  padding-bottom: 236px;
+  //padding-bottom: 236px;
   position: relative;
 `;
 
 const TitleGroup = styled.div`
     text-align: center;
-    margin-bottom: 64px;
+    margin-bottom: 50px;
 `;
 
 const TitleIcon = styled.div`
-    margin-top: 73px;
+    margin-top: 47px;
     display: flex;
     justify-content: center;
-    margin-bottom: 28px;
+    margin-bottom: 10px;
 
     img{
       width: 69px;
@@ -47,7 +47,7 @@ const Title = styled.p`
     font-style: normal;
     font-weight: 700;
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 7px;
 `;
 
 const SubTitle = styled.p`
@@ -131,7 +131,7 @@ const Input = styled.input`
   border-radius: 11px;
   border: solid
     ${(props) =>
-      props.$hasError ? `2px ${Colors.errorColor}` : `1px ${Colors.borderLine}`};
+      props.$hasError ? `2px ${Colors.errorColor}` : `2px ${Colors.inputBorder}`};
   background: ${Colors.white};
   font-size: 15px;
   outline: none;
@@ -191,10 +191,10 @@ const MemberButton = styled.button`
   border-radius: 11px;
   border: solid
     ${(props) =>
-      props.$isSelected ? `2px ${Colors.mainPurple}` : `1px ${Colors.borderLine}`};
+      props.$isSelected ? `2px ${Colors.mainPurple}` : `2px ${Colors.inputBorder}`};
   background: ${Colors.white};
 
-  color: ${(props) => (props.$isSelected ? `${Colors.mainPurple}` : `${Colors.borderLine}`)};
+  color: ${(props) => (props.$isSelected ? `${Colors.mainPurple}` : `${Colors.inputBorder}`)};
   font-family: "Noto Sans KR";
   font-size: 15px;
   font-style: normal;
@@ -202,7 +202,7 @@ const MemberButton = styled.button`
   line-height: 15px;
 
   &:hover {
-    border: solid ${Colors.mainPurple} ${(props) => (props.$isSelected ? `2px` : `1px`)};
+    border: solid ${Colors.mainPurple} 2px;
     color: ${Colors.mainPurple};
     opacity: ${(props) => (props.$isSelected ? `1` : `0.7`)};
     cursor: pointer;

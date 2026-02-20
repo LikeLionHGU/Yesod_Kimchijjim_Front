@@ -14,7 +14,7 @@ const Title = styled.p`
     font-style: normal;
     font-weight: 700;
     margin-top: 65px;
-    margin-bottom: 15px;
+    margin-bottom: 7px;
 `;
 
 const SubTitle = styled.p`

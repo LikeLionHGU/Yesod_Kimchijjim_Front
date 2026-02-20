@@ -135,21 +135,21 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   //padding-top: 43px;
-  padding-bottom: 373px;
+  //padding-bottom: 373px;
   position: relative;
   box-sizing: border-box;
 `;
 
 const TitleGroup = styled.div`
     text-align: center;
-    margin-bottom: 64px;
+    margin-bottom: 50px;
 `;
 
 const TitleIcon = styled.div`
-    margin-top: 73px;
+    margin-top: 47px;
     display: flex;
     justify-content: center;
-    margin-bottom: 28px;
+    margin-bottom: 10px;
 
     img{
       width: 68px;
@@ -165,7 +165,7 @@ const Title = styled.p`
     font-style: normal;
     font-weight: 700;
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 7px;
 `;
 
 const SubTitle = styled.p`

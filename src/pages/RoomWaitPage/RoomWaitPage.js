@@ -312,14 +312,14 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   //padding-top: 43px;
-  padding-bottom: 186px;
+  //padding-bottom: 186px;
   position: relative;
   box-sizing: border-box;
 `;
 
 const TitleGroup = styled.div`
   text-align: center;
-  margin-bottom: 87px;
+  margin-bottom: 55px;
 `;
 
 const Title = styled.p`
@@ -329,8 +329,8 @@ const Title = styled.p`
   font-size: 30px;
   font-style: normal;
   font-weight: 700;
-  margin-top: 121px;
-  margin-bottom: 15px;
+  margin-top: 65px;
+  margin-bottom: 7px;
 `;
 
 const SubTitle = styled.p`
@@ -346,7 +346,7 @@ const SubTitle = styled.p`
 
 const WaitImg = styled.img`
   width: 408px;
-  margin-bottom: 87px;
+  margin-bottom: 65px;
 `;
 
 const Card = styled.div`
