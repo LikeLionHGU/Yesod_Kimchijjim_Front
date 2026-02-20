@@ -18,7 +18,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   //padding-top: 43px;
-  //padding-bottom: 236px;
+  padding-bottom: 236px;
   position: relative;
 `;
 

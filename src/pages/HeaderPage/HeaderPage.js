@@ -16,17 +16,27 @@ function Header() {
     const location = useLocation();
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [hasRoom, setHasRoom] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("idToken");
+        const roomCode = sessionStorage.getItem("currentRoomCode");
+
         setIsLoggedIn(!!token);
+        setHasRoom(!!roomCode);
     }, [location.pathname]);
 
     const isTesting = location.pathname.includes("/room/test"); //테스트 중인지 확인
+    const isBoardPage = location.pathname === "/board";
+    const isLandingPage = location.pathname === "/"; 
 
-    const handleGoogleLogin = () => {
-        //랜딩페이지로 이동
-        navigate("/");
+    const handleStartRoomClick = () => {
+        if (!isLoggedIn){
+            alert("로그인이 필요한 서비스입니다. 먼저 로그인을 해주세요");
+            return;
+        }
+
+        navigate("/room");
     };
 
     const handleLogout = () => {
@@ -35,8 +45,23 @@ function Header() {
         sessionStorage.removeItem("currentRoomCode");
 
         setIsLoggedIn(false);
+        setHasRoom(false);
 
         navigate("/");
+    };
+
+    const handleLogoClick = () => {
+        if(isTesting) return;
+
+        if(isLoggedIn && hasRoom){
+            if(isBoardPage){ //로그인했고, 방 있고, 보드페이지 일 때 -> 새로고침
+                window.location.reload();
+            } else {
+                navigate("/board"); //로그인했고, 방 있고, 보드페이지가 아니라면 -> 보드페이지로 
+            }
+        } else{
+            navigate("/"); //로그인을 안했거나, 했는데 방이 없거나 일 때 -> 어떻게 할까?
+        }
     };
 
     return (
@@ -44,21 +69,38 @@ function Header() {
             <HeaderContent>
                 <LeftSection
                     $isTesting={isTesting}
-                    onClick={!isTesting ? () => navigate("/") : undefined}>
+                    onClick={handleLogoClick}>
 
-                    {isTesting && (<Logo src={imgLogoIcon} $isTesting={isTesting}/>)}
-                    {!isTesting && <Logo src={zzamkanmanLogoIcon} $isTestin={isTesting} />}
+                    {isTesting ? (
+                        <Logo src={imgLogoIcon} $isTesting={isTesting} />
+                    ) : (
+                        <Logo src={zzamkanmanLogoIcon} $isTesting={isTesting} />
+                    )}
                 </LeftSection>
 
                 <RightSection>
                     {!isTesting && (
                         <BtnGroup>
-                            <Button onClick={() => navigate("/room")}>방 시작하기</Button>
+                            {isLoggedIn && hasRoom ? (
+                                <>
+                                    {isBoardPage && (
+                                        <Button onClick={() => navigate("/")}>About Us</Button>
+                                    )}
+                                    <Button onClick={handleLogout}>Log Out</Button>
+                                </>
+                            ) : (
+                                     <>
+                                        {isLandingPage ? (
+                                            <Button onClick={handleStartRoomClick}>방 시작하기</Button>
+                                        ) : (
+                                            <Button onClick={() => navigate("/")}>About Us</Button>
+                                        )}
 
-                            <Button onClick={() => navigate("/")}>About Us</Button>
-
-                            {isLoggedIn ? (<Button onClick={handleLogout}>로그아웃</Button>) : (<Button onClick={handleGoogleLogin}>Log In</Button>)}
-
+                                        {isLoggedIn && (
+                                            <Button onClick={handleLogout}>Log Out</Button>
+                                        )}
+                                    </>
+                            )}
                         </BtnGroup>
                     )}
                 </RightSection>
@@ -139,5 +181,9 @@ const Button = styled.button`
 
     &:hover{
         color: ${Colors.hoverPurple};
+    }
+
+    @media(max-width: 768px){
+        font-size: 14px;
     }
 `;
