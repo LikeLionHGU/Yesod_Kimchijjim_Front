@@ -131,7 +131,7 @@ const Input = styled.input`
   border-radius: 11px;
   border: solid
     ${(props) =>
-      props.$hasError ? `2px ${Colors.errorColor}` : `2px ${Colors.inputBorder}`};
+      props.$hasError ? `2px ${Colors.errorColor}` : `2px ${Colors.inputColor}`};
   background: ${Colors.white};
   font-size: 15px;
   outline: none;
@@ -140,6 +140,10 @@ const Input = styled.input`
   &:focus {
     border: 2px solid
       ${(props) => (props.$hasError ? `${Colors.errorColor}` : `${Colors.mainPurple}`)};
+  }
+
+  &:hover{
+    border: 2px solid ${props => props.$isError ? Colors.errorColor : Colors.mainPurple};
   }
 
   @media (max-width: 950px) {
@@ -191,10 +195,10 @@ const MemberButton = styled.button`
   border-radius: 11px;
   border: solid
     ${(props) =>
-      props.$isSelected ? `2px ${Colors.mainPurple}` : `2px ${Colors.inputBorder}`};
+      props.$isSelected ? `2px ${Colors.mainPurple}` : `2px ${Colors.inputColor}`};
   background: ${Colors.white};
 
-  color: ${(props) => (props.$isSelected ? `${Colors.mainPurple}` : `${Colors.inputBorder}`)};
+  color: ${(props) => (props.$isSelected ? `${Colors.mainPurple}` : `${Colors.inputColor}`)};
   font-family: "Noto Sans KR";
   font-size: 15px;
   font-style: normal;

@@ -223,9 +223,9 @@ const Input = styled.input`
   width: 365px;
   height: 55px;
   border-radius: 11px;
-  border: solid
+  border: solid 2px
     ${(props) =>
-      props.$hasError ? `2px ${Colors.errorColor}` : `1px ${Colors.borderLine}`};
+      props.$hasError ? `${Colors.errorColor}` : `${Colors.inputColor}`};
   background: ${Colors.white};
   font-size: 15px;
   outline: none;
