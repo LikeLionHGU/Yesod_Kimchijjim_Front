@@ -29,7 +29,7 @@ const LoadingPage = () => {
 
                 localStorage.setItem("idToken", idToken);
                 
-                const userRoomCode = response?.data?.roomCode; //백엔드가 주는 방코드, 로그인 응답에 방 코드 어떻게 주는지 물어보기 
+                const userRoomCode = response?.roomCode; //백엔드가 주는 방코드, 로그인 응답에 방 코드 어떻게 주는지 물어보기 
 
                 if(userRoomCode){
                     sessionStorage.setItem("currentRoomCode", userRoomCode);
