@@ -6,6 +6,7 @@ import { Colors } from "../../styles/colors";
 import exclamation_mark from "../../assets/exclamation_mark.svg";
 import { api } from "../../utils/api";
 import { QUESTION_DATA } from "../../constants/questions";
+import ProgressBar from "../../components/common/ProgressBar";
 
 function LeaderMismatchPage() {
   const navigate = useNavigate();
@@ -90,6 +91,7 @@ function LeaderMismatchPage() {
 
   return (
     <Wrapper>
+      <ProgressBar total={totalQuestions} current={questionIndex + 1} />
       <TopIcon src={exclamation_mark} alt="!" />
       <Title>의견 차이가 있어요</Title>
       <SubTitle>서로 만족할 수 있는 중간 지점을 찾아봐요</SubTitle>
@@ -146,20 +148,31 @@ export default LeaderMismatchPage;
 
 
 
+// const Wrapper = styled.div`
+//   min-height: 100vh;
+//   background: ${Colors.backgroundColor};
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   padding-top: 120px;
+//   padding-bottom: 80px;
+// `;
+
 const Wrapper = styled.div`
   min-height: 100vh;
   background: ${Colors.backgroundColor};
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 120px;
-  padding-bottom: 80px;
+
+  padding: 120px 0 170px;
+  box-sizing: border-box;
 `;
 
 const TopIcon = styled.img`
-  width: 80px;
-  height: 80px;
-  margin-bottom: 31px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 20px;
 `;
 
 const Title = styled.h1`
@@ -177,8 +190,17 @@ const SubTitle = styled.p`
   text-align: center;
 `;
 
+// const MainCard = styled.div`
+//   width: 746px;
+//   border-radius: 15px;
+//   background: ${Colors.white};
+//   box-shadow: 0 0 15px rgba(163, 163, 253, 0.3);
+//   padding: 28px;
+//   box-sizing: border-box;
+// `;
+
 const MainCard = styled.div`
-  width: 746px;
+  width: min(746px, calc(100% - 40px));
   border-radius: 15px;
   background: ${Colors.white};
   box-shadow: 0 0 15px rgba(163, 163, 253, 0.3);
@@ -241,8 +263,14 @@ const AnswerBox = styled.div`
   box-sizing: border-box;
 `;
 
+// const GuideWrap = styled.div`
+//   width: 746px;
+//   margin-top: 24px;
+// `;
+
+
 const GuideWrap = styled.div`
-  width: 746px;
+  width: min(746px, calc(100% - 40px));
   margin-top: 24px;
 `;
 
@@ -262,7 +290,7 @@ const GuideList = styled.ul`
 
 const InputCard = styled.div`
   width: 746px;
-  height: 132px;
+  height: 101px;
   margin-top: 24px;
   border-radius: 15px;
   background: ${Colors.white};
@@ -270,39 +298,73 @@ const InputCard = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  padding: 0 28px;
   box-sizing: border-box;
 `;
+
+// const RuleInput = styled.input`
+//   flex: 1;
+//   border: none;
+//   outline: none;
+//   font-size: 14px;
+//   color: ${Colors.black};
+//   background: transparent;
+//   padding-right: 16px;
+
+//   &::placeholder {
+//     color: ${Colors.fixGray};
+//   }
+// `;
 
 const RuleInput = styled.input`
   flex: 1;
   border: none;
   outline: none;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 500;
   color: ${Colors.black};
   background: transparent;
   padding-right: 16px;
 
   &::placeholder {
     color: ${Colors.fixGray};
+    font-weight: 500;
   }
 `;
 
+// const DoneButton = styled.button`
+//   display: flex;
+//   min-width: 175px;
+//   height: 55px;
+//   padding: 12px 24px;
+//   justify-content: center;
+//   align-items: center;
+//   border: none;
+//   border-radius: 12px;
+//   background: ${Colors.mainPurple};
+//   color: ${Colors.white};
+//   font-weight: 800;
+//   cursor: pointer;
+//   white-space: nowrap;
+
+//   opacity: ${({ disabled }) => (disabled ? 0.3 : 1)};
+//   pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+// `;
+
 const DoneButton = styled.button`
-  display: flex;
   min-width: 175px;
   height: 55px;
   padding: 12px 24px;
-  justify-content: center;
-  align-items: center;
   border: none;
   border-radius: 12px;
-  background: ${Colors.mainPurple};
-  color: ${Colors.white};
-  font-weight: 800;
-  cursor: pointer;
-  white-space: nowrap;
 
-  opacity: ${({ disabled }) => (disabled ? 0.3 : 1)};
-  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+  background: ${({ disabled }) =>
+    disabled ? Colors.detailWhite : Colors.mainPurple};
+
+  color: ${({ disabled }) =>
+    disabled ? Colors.fixGray : Colors.white}; 
+
+  font-weight: 800;
+  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
+  white-space: nowrap;
 `;

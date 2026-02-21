@@ -7,10 +7,12 @@ import Button from "../../components/common/Button";
 import check from "../../assets/check.svg";
 import { QUESTION_DATA } from "../../constants/questions";
 import { api } from "../../utils/api";
+import ProgressBar from "../../components/common/ProgressBar";
 
 function AfterMismatchPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
+
 
   const roomCode = sessionStorage.getItem("currentRoomCode") || "";
   const userIdStr = sessionStorage.getItem("userId") || "";
@@ -23,6 +25,9 @@ function AfterMismatchPage() {
   const questionId = state?.questionId;
   const nextIndex = state?.nextIndex ?? 0;
   const totalQuestions = state?.totalQuestions ?? QUESTION_DATA.length;
+
+  const questionIndex = state?.questionIndex ?? nextIndex - 1;
+  const progressCurrent = Math.min(totalQuestions, questionIndex + 1);
 
   const questionMeta = useMemo(
     () => QUESTION_DATA.find((q) => q.id === questionId),
@@ -149,6 +154,7 @@ function AfterMismatchPage() {
 
   return (
     <Wrapper>
+      <ProgressBar total={totalQuestions} current={progressCurrent} />
       <TopIcon src={check} alt="check" />
       <Title>규칙을 합의했어요</Title>
       <SubTitle>규칙은 테스트가 끝난 뒤에도 수정할 수 있어요</SubTitle>
@@ -170,13 +176,23 @@ function AfterMismatchPage() {
 
 export default AfterMismatchPage;
 
+// const Wrapper = styled.div`
+//   min-height: 100vh;
+//   background: ${Colors.backgroundColor};
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   padding-top: 120px;
+//   padding-bottom: 80px;
+// `;
+
 const Wrapper = styled.div`
   min-height: 100vh;
   background: ${Colors.backgroundColor};
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 120px;
+  padding-top: 40px;
   padding-bottom: 80px;
 `;
 
@@ -201,8 +217,21 @@ const SubTitle = styled.p`
   font-size: 14px;
 `;
 
+// const RuleCard = styled.div`
+//   width: 746px;
+//   border-radius: 15px;
+//   background: ${Colors.white};
+//   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
+//   display: flex;
+//   align-items: center;
+//   gap: 16px;
+//   padding: 24px;
+//   box-sizing: border-box;
+// `;
+
 const RuleCard = styled.div`
   width: 746px;
+  max-width: calc(100% - 40px);
   border-radius: 15px;
   background: ${Colors.white};
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
@@ -228,8 +257,18 @@ const RuleText = styled.div`
   color: ${Colors.black};
 `;
 
+// const ButtonWrap = styled.div`
+//   width: 746px;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: flex-end;
+//   gap: 8px;
+//   margin-top: 20px;
+// `;
+
 const ButtonWrap = styled.div`
   width: 746px;
+  max-width: calc(100% - 40px);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
