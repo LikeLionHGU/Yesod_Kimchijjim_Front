@@ -4,8 +4,6 @@ import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import BoardIcon from "../../assets/boardpageIcon.svg";
 import peopleICon from "../../assets/peopleIcon.svg";
-// import pencilIcon from "../../assets/Pencil.svg";
-// import passPage from "../../assets/passpage.svg";
 import purplepencilIcon from "../../assets/purplepencilIcon.svg";
 import rightPassPageIcon from "../../assets/rightPassPage.svg";
 import leftPassPageIcon from "../../assets/leftPassPage.svg";
@@ -152,6 +150,13 @@ const TopContainer = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 130px;
+  box-sizing: border-box;
+
+  @media(max-width: 950px){
+    padding-top: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -175,7 +180,8 @@ const LeftSection = styled.div`
 
   @media(max-width: 950px){
     align-items: center;
-    gap: 50px;
+    gap: 40px;
+    width: 100%;
   }
 `;
 
@@ -194,6 +200,11 @@ const Title = styled.p`
   font-weight: 700;
   line-height: 46px;
   margin: 0;
+
+  @media(max-width: 768px){
+    font-size: 24px;
+    line-height: 34px;
+  }
 `;
 
 const Name = styled.span`
@@ -209,18 +220,33 @@ const SubTitle = styled.p`
   line-height: 46px;
   margin-top: 0;
   margin-bottom: 0;
+
+  @media(max-width: 768px){
+    font-size: 20px;
+    line-height: 30px;
+  }
 `;
 
 const BoardPageIcon = styled.img`
   width: 332px;
   height: 328px;
   align-self: center;
+
+  @media(max-width: 768px){
+    width: 220px;
+    height: auto;
+  }
 `;
 
 const RightSection = styled.div`
   flex: 1;
   display: flex;
   justify-content: flex-end;
+
+  @media(max-width: 950px){
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 const RuleCard = styled.div`
@@ -233,6 +259,11 @@ const RuleCard = styled.div`
   box-shadow: ${Colors.boxShadowBlack};
   display: flex;
   flex-direction: column;
+
+  @media(max-width: 768px){
+    padding: 20px 25px;
+    min-height: 550px;
+  }
 `;
 
 const CardHeader = styled.p`
@@ -244,6 +275,10 @@ const CardHeader = styled.p`
   line-height: 17px; 
   margin-bottom: 50px;
   margin-top: 26px;
+
+  @media(max-width: 768px){
+    margin-bottom: 30px;
+  }
 `;
 
 const SectionTitleGroup = styled.div`
@@ -326,12 +361,19 @@ const RuleText = styled.div`
   line-height: 1.3;
   width: 100%;
 
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* 2줄까지만 허용 */
-  -webkit-box-orient: vertical;
+  // display: -webkit-box;
+  // -webkit-line-clamp: 2; /* 2줄까지만 허용 */
+  // -webkit-box-orient: vertical;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+  // word-break: break-word; 
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  word-break: break-word; 
+
+  @media(max-width: 768px){
+    font-size: 15px; /* 모바일 글씨 축소 */
+  }
 `;
 
 const TextButton = styled.button`
@@ -393,10 +435,10 @@ const PassBtn = styled.button`
   transform: translateY(-50%);
 
   &:first-child {
-    left: -25px; 
+    left: 0; 
   }
   &:last-child {
-    right: -25px;
+    right: 0;
   }
 
   &:disabled{

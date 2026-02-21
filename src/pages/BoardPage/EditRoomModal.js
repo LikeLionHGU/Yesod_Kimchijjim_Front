@@ -69,10 +69,10 @@ const RoomEditModal = ({isOpen, onClose, currentRoomName, onSave, onDelete}) => 
         <ModalOverlay onClick={handleCloseAll}>
           {modalStep === 0 && (
             <ModalContainer onClick={(e) => e.stopPropagation()}>
+                <CloseButton src={closeIcon} onClick={onClose} />
                 <TopGroup>
                     <ModalIcon src={TitlePencil} />
                     <ModalTitle>방 정보 수정하기</ModalTitle>
-                    <CloseButton src={closeIcon} onClick={onClose} />
                 </TopGroup>
 
                 <InputGroup>
@@ -131,7 +131,7 @@ const ModalContainer = styled.div`
   background: ${Colors.white};
   border-radius: 15px;
   width: 555px;
-  padding: 43px 97px 19px 98px;
+  padding: 54px 97px 35px 98px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -164,8 +164,8 @@ const ModalTitle = styled.p`
 
 const CloseButton = styled.img`
   position: absolute;
-  top: -34px; // 위치 조정 필요
-  right: -34px; // 위치 조정 필요
+  top: 34px; // 위치 조정 필요
+  right: 34px; // 위치 조정 필요
   width: 32px;
   cursor: pointer;
 `;
@@ -183,12 +183,13 @@ const Label = styled.p`
   font-weight: 700;
   lign-height: 15px;
   margin-bottom: 15px; 
+  margin-top: 0;
 `;
 
 const InputWrapper = styled.div`
   position: relative;
   width: 100%;
-  margin-bottom: 36px;
+  //margin-bottom: 36px;
 `;
 
 const Input = styled.input`
@@ -200,6 +201,7 @@ const Input = styled.input`
   font-size: 19px;
 
   box-sizing: border-box;
+  border: none;
 `;
 
 const EditIcon = styled.img`
@@ -223,8 +225,7 @@ const SaveButton = styled.button`
   margin-bottom: 9px;
 
   &:hover {
-    opacity: 0.3;
-  }
+    background: ${Colors.hoverPurple};
 `;
 
 const DeleteButton = styled.button`
