@@ -222,7 +222,7 @@ const SubTitle = styled.p`
   margin-bottom: 0;
 
   @media(max-width: 768px){
-    font-size: 20px;
+    font-size: 17px;
     line-height: 30px;
   }
 `;
@@ -250,8 +250,13 @@ const RightSection = styled.div`
 `;
 
 const RuleCard = styled.div`
-  width: 460px;
-  height: 636px;
+  //width: 460px;
+  //height: 636px;
+  width: 100%; //추가
+  max-width: 460px; //추가
+  height: auto; //추가
+  min-height: 636px; //추가
+
   background: ${Colors.backgroundColor};
   border-radius: 15px;
   box-sizing: border-box;
@@ -332,9 +337,11 @@ const RuleList = styled.div`
   flex-direction: column;
   gap: 11px;
   min-height: 314px;
-  width: 360px;
+  //width: 360px;
+  width: 100%;
   flex: 1;
-  margin: 0 10px;
+  //margin: 0 10px;
+  margin: 0;
 `; 
 
 const RuleItem = styled.div`
@@ -459,5 +466,10 @@ const RuleListContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  border-sizing: border-box;
+  padding: 0 25px; //추가
+  @media(max-width: 768px){
+    padding: 0 20px; //추가
+  }
 `; 
 

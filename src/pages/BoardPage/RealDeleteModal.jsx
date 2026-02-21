@@ -42,19 +42,34 @@ const Overlay = styled.div`
     justify-content: center;
     align-items: center;
     z-index: 10000;
+
+    padding: 0 20px;
+    box-sizing: border-box;
 `;
 
 const Container = styled.div`
     background: white;
-    width: 555px;
-    height: 336px;
+
+    //width: 555px;
+    //height: 336px;
+    width: 100%;
+    max-width: 55px;
+    height: auto;
+    min-height: 336px;
+
     padding: 54px 94px 44px 94px;
+    box-sizing: border-box;
     border-radius: 15px;
     background: ${Colors.white};
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media (max-width: 600px) {
+        padding: 45px 20px 30px 20px;
+        min-height: auto;
+    }
 `;
 
 
@@ -64,6 +79,12 @@ const CloseButton = styled.img`
   right: 34px; 
   width: 32px;
   cursor: pointer;
+  
+  @media (max-width: 600px) {
+      top: 20px;
+      right: 20px;
+      width: 28px;
+  }
 `;
 
 const Content = styled.div`
@@ -71,11 +92,16 @@ const Content = styled.div`
     flex-direction: column;
     align-items: center;
     //margin-top: 54px;
+    width: 100%; //추가
 `;
 
 const IconWrapper = styled.div`
     margin-bottom: 11px;
     weight: 46px;
+    img {
+        width: 100%;
+        height: auto;
+    }
 `;
 
 const Title = styled.p`
@@ -86,6 +112,10 @@ const Title = styled.p`
     margin-top: 0;
     margin-bottom: 11px;
     color: ${Colors.black};
+
+    @media (max-width: 600px) {
+        font-size: 20px;
+    }
 `;
 
 const Description = styled.p`
@@ -95,6 +125,13 @@ const Description = styled.p`
     line-height: 15px;
     margin-bottom: 54px;
     margin-top: 0;
+
+    @media (max-width: 600px) {
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 40px;
+        word-break: keep-all;
+    }
 `;
 
 const ButtonGroup = styled.div`
@@ -102,6 +139,10 @@ const ButtonGroup = styled.div`
     gap: 16px;
     width: 100%;
     justify-content: center;
+
+    @media (max-width: 600px) {
+        gap: 10px;
+    }
 `;
 
 const ButtonBase = styled.button`

@@ -125,17 +125,27 @@ const ModalOverlay = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1000; // 최상단
+  
+  padding: 0 20px; //추가
+  box-sizing: border-box; //추가
 `;
 
 const ModalContainer = styled.div`
   background: ${Colors.white};
   border-radius: 15px;
-  width: 555px;
+  //width: 555px;
+  width: 100%;
+  max-width: 555px;
   padding: 54px 97px 35px 98px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+
+  @media (max-width: 600px) {
+    padding: 40px 20px 25px 20px;
+  }
 `;
 
 const TopGroup = styled.div`
@@ -145,11 +155,19 @@ const TopGroup = styled.div`
   margin-bottom: 33px; 
   position: relative;
   width: 100%;
+
+  @media (max-width: 600px) {
+    margin-bottom: 25px;
+  }
 `;
 
 const ModalIcon = styled.img`
   width: 54px; 
   margin-bottom: 11px;
+
+  @media (max-width: 600px) {
+    width: 45px;
+  }
 `;
 
 const ModalTitle = styled.p`
@@ -160,6 +178,10 @@ const ModalTitle = styled.p`
   font-size: 22px;
   font-weight: 700;
   margin: 0;
+
+  @media (max-width: 600px) {
+    font-size: 19px;
+  }
 `;
 
 const CloseButton = styled.img`
@@ -168,12 +190,22 @@ const CloseButton = styled.img`
   right: 34px; // 위치 조정 필요
   width: 32px;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    top: 20px;
+    right: 20px;
+    width: 28px;
+  }
 `;
 
 const InputGroup = styled.div`
   width: 100%;
   text-align: left;
   margin-bottom: 36px;
+
+  @media (max-width: 600px) {
+    margin-bottom: 25px;
+  }
 `;
 
 const Label = styled.p`
@@ -201,7 +233,20 @@ const Input = styled.input`
   font-size: 19px;
 
   box-sizing: border-box;
-  border: none;
+  border: 2px solid ${Colors.inputColor};
+
+      &:focus{
+          border: 2px solid ${Colors.mainPurple};
+      }
+  
+      &:hover{
+          border: 2px solid ${Colors.mainPurple};
+      }
+
+    @media (max-width: 600px) {
+    height: 50px;
+    font-size: 16px;
+  }
 `;
 
 const EditIcon = styled.img`
@@ -210,6 +255,11 @@ const EditIcon = styled.img`
   top: 50%;
   transform: translateY(-50%);
   width: 25px;
+
+  @media (max-width: 600px) {
+    width: 20px;
+    right: 15px;
+  }
 `;
 
 const SaveButton = styled.button`
@@ -226,6 +276,7 @@ const SaveButton = styled.button`
 
   &:hover {
     background: ${Colors.hoverPurple};
+  }
 `;
 
 const DeleteButton = styled.button`
