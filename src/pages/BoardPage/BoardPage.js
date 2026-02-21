@@ -1,6 +1,7 @@
-// import React, {useState, useEffect} from "react";
-// import axios from 'axios';
-// import { useNavigate, useParams } from "react-router-dom";
+
+// import { useState, useEffect, useCallback } from "react";
+// import axios from "axios";
+// import { useNavigate } from "react-router-dom";
 // import styled from "styled-components";
 // import { Colors } from "../../styles/colors";
 // import BoardTopSection from "./BoardTopSection";
@@ -8,128 +9,113 @@
 
 // const BoardPage = () => {
 //   const navigate = useNavigate();
-//   const [roomInfo, setRoomInfo] = useState(null); //내이름,방이름,방인언
+//   const [roomInfo, setRoomInfo] = useState(null);
 //   const [rules, setRules] = useState([]);
 //   const [loading, setLoading] = useState(true);
 //   const [isLeader, setIsLeader] = useState(false);
 
 //   const roomCode = sessionStorage.getItem("currentRoomCode");
-//   const token = localStorage.getItem("idToken");
 //   const userId = sessionStorage.getItem("userId");
 
-//   // 방 데이터 불러오기 get
-//   const fetchBoardData = async () => {
-
+//   const fetchBoardData = useCallback(async () => {
 //     if (!roomCode) {
 //       alert("방 정보를 찾을 수 없습니다");
 //       navigate("/");
 //       return;
 //     }
 
-//     try{
-//       const infoRes = await axios.get(`${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}/info`, { withCredentials: true });
+//     try {
+//       const infoRes = await axios.get(
+//         `${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}/info`,
+//         { withCredentials: true }
+//       );
 //       console.log("방 정보 성공: ", infoRes.data);
-
 //       setRoomInfo(infoRes.data);
 //     } catch (error) {
 //       console.log("방 정보 로딩 실패:", error);
 //     }
 
-//     try{
-//       const rulesRes = await axios.get(`${process.env.REACT_APP_HOST_URL}/room/${roomCode}/test/summary`, { 
-//         params: {userId: userId},
-//         withCredentials: true });
+//     try {
+//       const rulesRes = await axios.get(
+//         `${process.env.REACT_APP_HOST_URL}/room/${roomCode}/test/summary`,
+//         {
+//           params: { userId: userId },
+//           withCredentials: true,
+//         }
+//       );
 //       console.log("규칙 정보 성공:", rulesRes.data);
 
 //       setRules(rulesRes.data.data || []);
-
 //       setIsLeader(rulesRes.data.amIHost === true);
-
-//     } catch(error) {
+//     } catch (error) {
 //       console.log("규칙 데이터 로딩 실패", error);
 //     } finally {
 //       setLoading(false);
 //     }
+//   }, [roomCode, userId, navigate]);
+
+//   useEffect(() => {
+//     fetchBoardData();
+//   }, [fetchBoardData]);
+
+//   const handleUpdateRoomName = async (newName) => {
+//     try {
+//       if (!roomInfo) {
+//         alert("방 정보를 불러오는 중입니다");
+//         return;
+//       }
+
+//       console.log("이름 수정 요청", newName);
+
+//       const currentRoomCode = sessionStorage.getItem("currentRoomCode");
+
+//       await axios.put(
+//         `${process.env.REACT_APP_HOST_URL}/rooms/${currentRoomCode}`,
+//         {
+//           roomName: newName,
+//           maxPeople: roomInfo.roomInfo.maxPeople,
+//           hostNickname: roomInfo.hostNickname,
+//         },
+//         { withCredentials: true }
+//       );
+
+//       alert("방 이름이 수정되었습니다");
+//       fetchBoardData();
+//     } catch (error) {
+//       console.error("방 수정 실패:", error);
+//       alert("수정에 실패했습니다");
+//     }
 //   };
 
-//     // try{
-//     //   const [infoRes, rulesRes] = await Promise.all([
-//     //     axios.get(`${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}/info`, { withCredentials: true }),
-//     //     axios.get(`${process.env.REACT_APP_HOST_URL}/room/${roomCode}/test/summary`, { withCredentials: true })
-//     //   ]);
+//   const handleDeleteRoom = async () => {
+//     try {
+//       console.log("방 삭제 요청 보냄");
 
-//     //   console.log("방 정보:", infoRes.data);
-//     //   console.log("규칙 정보:", rulesRes.data);
+//       const currentRoomCode = sessionStorage.getItem("currentRoomCode");
 
-//     //   setRoomInfo( infoRes.data );
-//     //   setRules( rulesRes.data );
+//       await axios.delete(
+//         `${process.env.REACT_APP_HOST_URL}/rooms/${currentRoomCode}`,
+//         { withCredentials: true }
+//       );
 
-//     //   } catch (error) {
-//     //     console.error("보드 데이터 로딩 실패:", error);
-//     //   } finally{
-//     //     setLoading(false);
-//     //   }
-//     // };
+//       alert("방이 삭제되었습니다");
+//       sessionStorage.removeItem("currentRoomCode");
+//       navigate("/");
+//     } catch (error) {
+//       console.error("방 삭제 실패:", error);
+//       alert("삭제에 실패했습니다");
+//     }
+//   };
 
-//     useEffect(()=>{
-//       fetchBoardData();
-//     }, []);
+//   if (loading) return <div>로딩 중..</div>;
 
-//     //방 이름 수정하기 (Put)
-//     const handleUpdateRoomName = async(newName) => {
-//       try{
-//         if(!roomInfo) {
-//           alert("방 정보를 불러오는 중입니다");
-//           return;
-//         }
-
-//         console.log("이름 수정 요청", newName);
-
-//         const roomCode = sessionStorage.getItem("currentRoomCode");
-
-//         await axios.put(`${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}`, 
-//           {roomName: newName,
-//             maxPeople: roomInfo.roomInfo.maxPeople,
-//             hostNickname: roomInfo.hostNickname
-//           },
-//           {withCredentials: true}
-//         );
-//         alert("방 이름이 수정되었습니다");
-//         fetchBoardData();
-//       } catch(error) {
-//         console.error("방 수정 실패:", error);
-//         alert("수정에 실패했습니다");
-//       }
-//     };
-
-//     //방 삭제(DELETE)
-//     const handleDeleteRoom = async() => {
-//       try{
-//         console.log("방 삭제 요청 보냄");
-
-//         const roomCode = sessionStorage.getItem("currentRoomCode");
-
-//         await axios.delete(`${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}`, {withCredentials: true});
-
-//         alert("방이 삭제되었습니다");
-//         sessionStorage.removeItem("currentRoomCode");
-//         navigate("/");
-
-//       } catch(error) {
-//         console.error("방 삭제 실패:", error);
-//         alert("삭제에 실패했습니다");
-//       }
-//     };
-
-//     if (loading) return <div>로딩 중..</div>;
-
-//   return(
+//   return (
 //     <PageContainer>
 //       <TopArea>
 //         <BoardTopSection
-//           userName={roomInfo?.nickname} //백엔드확인
-//           roomName={roomInfo?.roomInfo?.roomName} //백엔드확인
-//           memberCount={roomInfo?.roomInfo?.maxPeople} //백엔드확인
+//           userName={roomInfo?.nickname}
+//           roomName={roomInfo?.roomInfo?.roomName}
+//           memberCount={roomInfo?.roomInfo?.maxPeople}
 //           rules={rules}
 //           isLeader={isLeader}
 //           onUpdateRoom={handleUpdateRoomName}
@@ -147,20 +133,16 @@
 // export default BoardPage;
 
 // const PageContainer = styled.div`
-//     width: 100%;
-//     min-height: 100vh;
-//     background: ${Colors.white};
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-
-//     //padding-top: 43px;
-//     padding-bottom: 269px;
-
-//     position: relative;
-//     box-sizing: border-box;
+//   width: 100%;
+//   min-height: 100vh;
+//   background: ${Colors.white};
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   padding-bottom: 269px;
+//   position: relative;
+//   box-sizing: border-box;
 // `;
-
 
 // const TopArea = styled.div`
 //   width: 100%;
@@ -206,7 +188,6 @@ const BoardPage = () => {
         `${process.env.REACT_APP_HOST_URL}/rooms/${roomCode}/info`,
         { withCredentials: true }
       );
-      console.log("방 정보 성공: ", infoRes.data);
       setRoomInfo(infoRes.data);
     } catch (error) {
       console.log("방 정보 로딩 실패:", error);
@@ -220,7 +201,6 @@ const BoardPage = () => {
           withCredentials: true,
         }
       );
-      console.log("규칙 정보 성공:", rulesRes.data);
 
       setRules(rulesRes.data.data || []);
       setIsLeader(rulesRes.data.amIHost === true);
@@ -241,8 +221,6 @@ const BoardPage = () => {
         alert("방 정보를 불러오는 중입니다");
         return;
       }
-
-      console.log("이름 수정 요청", newName);
 
       const currentRoomCode = sessionStorage.getItem("currentRoomCode");
 
@@ -266,14 +244,11 @@ const BoardPage = () => {
 
   const handleDeleteRoom = async () => {
     try {
-      console.log("방 삭제 요청 보냄");
-
       const currentRoomCode = sessionStorage.getItem("currentRoomCode");
 
-      await axios.delete(
-        `${process.env.REACT_APP_HOST_URL}/rooms/${currentRoomCode}`,
-        { withCredentials: true }
-      );
+      await axios.delete(`${process.env.REACT_APP_HOST_URL}/rooms/${currentRoomCode}`, {
+        withCredentials: true,
+      });
 
       alert("방이 삭제되었습니다");
       sessionStorage.removeItem("currentRoomCode");
@@ -289,20 +264,24 @@ const BoardPage = () => {
   return (
     <PageContainer>
       <TopArea>
-        <BoardTopSection
-          userName={roomInfo?.nickname}
-          roomName={roomInfo?.roomInfo?.roomName}
-          memberCount={roomInfo?.roomInfo?.maxPeople}
-          rules={rules}
-          isLeader={isLeader}
-          onUpdateRoom={handleUpdateRoomName}
-          onDeleteRoom={handleDeleteRoom}
-        />
+        <TopInner>
+          <BoardTopSection
+            userName={roomInfo?.nickname}
+            roomName={roomInfo?.roomInfo?.roomName}
+            memberCount={roomInfo?.roomInfo?.maxPeople}
+            rules={rules}
+            isLeader={isLeader}
+            onUpdateRoom={handleUpdateRoomName}
+            onDeleteRoom={handleDeleteRoom}
+          />
+        </TopInner>
       </TopArea>
 
-      <BottomArea>
-        <BoardOpinionSection />
-      </BottomArea>
+      <BottomSection>
+        <BottomInner>
+          <BoardOpinionSection />
+        </BottomInner>
+      </BottomSection>
     </PageContainer>
   );
 };
@@ -316,8 +295,7 @@ const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 269px;
-  position: relative;
+  padding-bottom: clamp(120px, 14vh, 269px);
   box-sizing: border-box;
 `;
 
@@ -327,9 +305,35 @@ const TopArea = styled.div`
   justify-content: center;
 `;
 
-const BottomArea = styled.div`
+const TopInner = styled.div`
   width: 100%;
   max-width: 1200px;
-  margin-top: 80px;
+  padding: 0 24px;
   box-sizing: border-box;
+
+  @media (max-width: 900px) {
+    padding: 0 16px;
+  }
+`;
+
+const BottomSection = styled.section`
+  width: 100%;
+  background: ${Colors.fixWhite};
+  padding: 56px 0 90px;
+
+  @media (max-width: 900px) {
+    padding: 36px 0 70px;
+  }
+`;
+
+const BottomInner = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 24px;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  @media (max-width: 900px) {
+    padding: 0 16px;
+  }
 `;
