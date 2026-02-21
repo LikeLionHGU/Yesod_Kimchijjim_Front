@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import {  useNavigate } from "react-router-dom";
 import { Colors } from "../../styles/colors";
@@ -41,7 +42,15 @@ const LandingPage = () => {
     const navigate = useNavigate();
 
     const token = localStorage.getItem("idToken");
-    //const roomCode = sessionStorage.getItem("currentRoomCode");
+
+    useEffect(() => {
+
+        if (token) {
+            console.log("이미 토큰이 있네요! 로딩 페이지로 이동합니다.");
+
+            navigate("/loading", { state: { idToken: token } });
+        }
+    }, [navigate, token]);
 
     const handleLoginSuccess = (response) => {
         //구글이 준 응답에서 credential이 idToken
