@@ -1191,7 +1191,6 @@ function BoardOpinionSection() {
       <BoardCard>
         <HeaderRow>
           <SectionTitle>의견 보드</SectionTitle>
-          <SmallHint>----------</SmallHint>
         </HeaderRow>
 
         {mappedItems.length === 0 ? (
@@ -1369,11 +1368,6 @@ const SectionTitle = styled.h3`
   font-size: 18px;
   font-weight: 800;
   color: ${Colors.black};
-`;
-
-const SmallHint = styled.div`
-  font-size: 12px;
-  color: ${Colors.fixGray};
 `;
 
 const Empty = styled.div`
