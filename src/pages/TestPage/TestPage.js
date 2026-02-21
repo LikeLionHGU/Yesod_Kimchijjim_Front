@@ -287,14 +287,28 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const ButtonWrap = styled.div`
+// const ButtonWrap = styled.div`
   
-  width: min(936px, calc(100% - 40px));
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 24px;
-`;
+//   width: min(936px, calc(100% - 40px));
+//   display: flex;
+//   justify-content: flex-end;
+//   margin-top: 24px;
+// `;
 
+const ButtonWrap = styled.div`
+  width: 100%;
+  max-width: 980px;
+  margin: 24px auto 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; 
+  gap: 12px;
+
+  @media (max-width: 640px) {
+    align-items: stretch; 
+  }
+`;
 // const VoteText = styled.div`
 //   margin-top: 16px;
 //   font-size: 14px;
@@ -310,6 +324,11 @@ const VoteText = styled.div`
   color: ${Colors.mainPurple};
   text-align: center;
   width: 100%;
+  line-height: 1.35;
+
+  @media (max-width: 640px) {
+    font-size: 14px;
+  }
 `;
 
 const EmptyText = styled.div`

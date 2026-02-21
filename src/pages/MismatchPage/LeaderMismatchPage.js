@@ -249,6 +249,10 @@ const AnswersWrap = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px 18px;
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const AnswerBox = styled.div`
@@ -288,9 +292,22 @@ const GuideList = styled.ul`
   line-height: 22px;
 `;
 
+// const InputCard = styled.div`
+//   width: 746px;
+//   height: 101px;
+//   margin-top: 24px;
+//   border-radius: 15px;
+//   background: ${Colors.white};
+//   box-shadow: 0 0 15px rgba(163, 163, 253, 0.3);
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   padding: 0 28px;
+//   box-sizing: border-box;
+// `;
+
 const InputCard = styled.div`
-  width: 746px;
-  height: 101px;
+  width: min(746px, calc(100% - 40px));
   margin-top: 24px;
   border-radius: 15px;
   background: ${Colors.white};
@@ -298,8 +315,14 @@ const InputCard = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 28px;
+  gap: 14px;
+  padding: 18px 20px;
   box-sizing: border-box;
+
+  @media (max-width: 520px) {
+    flex-direction: column;
+    align-items: stretch; /* 입력창은 꽉 */
+  }
 `;
 
 // const RuleInput = styled.input`
@@ -316,15 +339,33 @@ const InputCard = styled.div`
 //   }
 // `;
 
+// const RuleInput = styled.input`
+//   flex: 1;
+//   border: none;
+//   outline: none;
+//   font-size: 16px;
+//   font-weight: 500;
+//   color: ${Colors.black};
+//   background: transparent;
+//   padding-right: 16px;
+
+//   &::placeholder {
+//     color: ${Colors.fixGray};
+//     font-weight: 500;
+//   }
+// `;
+
 const RuleInput = styled.input`
-  flex: 1;
+  width: 100%;
   border: none;
   outline: none;
   font-size: 16px;
   font-weight: 500;
   color: ${Colors.black};
-  background: transparent;
-  padding-right: 16px;
+  background: ${Colors.fixWhite};
+  border-radius: 12px;
+  padding: 14px 14px;
+  box-sizing: border-box;
 
   &::placeholder {
     color: ${Colors.fixGray};
@@ -351,6 +392,24 @@ const RuleInput = styled.input`
 //   pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 // `;
 
+// const DoneButton = styled.button`
+//   min-width: 175px;
+//   height: 55px;
+//   padding: 12px 24px;
+//   border: none;
+//   border-radius: 12px;
+
+//   background: ${({ disabled }) =>
+//     disabled ? Colors.detailWhite : Colors.mainPurple};
+
+//   color: ${({ disabled }) =>
+//     disabled ? Colors.fixGray : Colors.white}; 
+
+//   font-weight: 800;
+//   cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
+//   white-space: nowrap;
+// `;
+
 const DoneButton = styled.button`
   min-width: 175px;
   height: 55px;
@@ -360,11 +419,15 @@ const DoneButton = styled.button`
 
   background: ${({ disabled }) =>
     disabled ? Colors.detailWhite : Colors.mainPurple};
-
-  color: ${({ disabled }) =>
-    disabled ? Colors.fixGray : Colors.white}; 
+  color: ${({ disabled }) => (disabled ? Colors.fixGray : Colors.white)};
 
   font-weight: 800;
   cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
   white-space: nowrap;
+  margin-left: auto;
+
+  @media (max-width: 520px) {
+    width: 100%;
+    margin-left: 0; 
+  }
 `;

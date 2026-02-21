@@ -97,9 +97,7 @@ useEffect(() => {
             <AnswerBox key={idx}>{t}</AnswerBox>
           ))}
         </AnswersWrap>
-        <MainCard>
-  ...
-</MainCard>
+      </MainCard>
 
 <GuideWrap>
   <GuideTitle>💡대화 가이드</GuideTitle>
@@ -109,7 +107,6 @@ useEffect(() => {
     <li>실행 가능한 규칙 문장으로 정리해보세요</li>
   </GuideList>
 </GuideWrap>
-      </MainCard>
     </Wrapper>
   );
 }
@@ -150,7 +147,7 @@ const SubTitle = styled.p`
 `;
 
 const MainCard = styled.div`
-  width: 746px;
+  width: min(746px, calc(100% - 40px));
   border-radius: 15px;
   background: ${Colors.white};
   box-shadow: 0 0 15px rgba(163, 163, 253, 0.3);
@@ -199,6 +196,10 @@ const AnswersWrap = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px 18px;
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const AnswerBox = styled.div`
