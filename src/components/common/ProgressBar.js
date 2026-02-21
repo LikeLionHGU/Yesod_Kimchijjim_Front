@@ -15,17 +15,41 @@ const ProgressBar = ({ total, current }) => {
 
 export default ProgressBar;
 
+// const ProgressContainer = styled.div`
+//   display: flex;
+//   gap: 8px;
+//   margin-bottom: 40px;
+// `;
+
+// const Bar = styled.div`
+//   width: 60px;
+//   height: 7px;
+//   border-radius: 2px;
+//   background-color: ${({ $active }) =>
+//     $active ? Colors.mainPurple : Colors.detailWhite};
+//   transition: background-color 0.3s;
+// `;
+
+
 const ProgressContainer = styled.div`
+  width: min(936px, calc(100% - 40px));
   display: flex;
-  gap: 8px;
-  margin-bottom: 40px;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 28px;
+  box-sizing: border-box;
 `;
 
 const Bar = styled.div`
-  width: 60px;
-  height: 7px;
-  border-radius: 2px;
+  width: 120px;
+  height: 6px;
+  border-radius: 999px;
   background-color: ${({ $active }) =>
     $active ? Colors.mainPurple : Colors.detailWhite};
-  transition: background-color 0.3s;
+  transition: background-color 0.2s;
+
+  /* 모바일에서 자동으로 줄어들게 */
+  flex: 1;
+  max-width: 120px;
+  min-width: 40px;
 `;
