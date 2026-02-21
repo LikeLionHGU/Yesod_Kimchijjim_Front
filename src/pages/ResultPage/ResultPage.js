@@ -21,7 +21,10 @@ function ResultPage() {
     (async () => {
       try {
         const res = await api.getRuleSummary({ roomCode, userId });
-        setAmIHost(Boolean(res?.amIHost));
+
+        const hostCheck = res?.data?.amIHost ?? res?.amIHost ?? false;
+        
+        setAmIHost(Boolean(hostCheck) || Boolean(room?.amIHost));
       } catch (e) {
         console.error("[ResultPage] getRuleSummary failed:", e?.message || e);
       } finally {
