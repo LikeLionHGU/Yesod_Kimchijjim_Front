@@ -126,7 +126,7 @@ const Description = styled.p`
     margin-top: 0;
 
     @media (max-width: 600px) {
-        font-size: 14px;
+        font-size: 12px;
         line-height: 20px;
         margin-bottom: 40px;
         word-break: keep-all;

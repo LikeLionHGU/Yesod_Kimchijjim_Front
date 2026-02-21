@@ -443,10 +443,10 @@ const PassBtn = styled.button`
   transform: translateY(-50%);
 
   &:first-child {
-    left: -25px; 
+    left: -20px; 
   }
   &:last-child {
-    right: -25px;
+    right: -20px;
   }
 
   &:disabled{
