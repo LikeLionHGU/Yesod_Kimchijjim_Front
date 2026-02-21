@@ -12,7 +12,9 @@ function ResultPage() {
   const userIdStr = room?.userId || sessionStorage.getItem("userId") || "";
   const userId = userIdStr ? Number(userIdStr) : null;
 
-  const [amIHost, setAmIHost] = useState(Boolean(room?.amIHost));
+  const isRoomHost = room?.amIHost;
+
+  const [amIHost, setAmIHost] = useState(Boolean(isRoomHost));
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -21,14 +23,17 @@ function ResultPage() {
     (async () => {
       try {
         const res = await api.getRuleSummary({ roomCode, userId });
-        setAmIHost(Boolean(res?.amIHost));
+
+        const hostCheck = res?.data?.amIHost ?? res?.amIHost ?? false;
+        
+        setAmIHost(Boolean(hostCheck) || Boolean(room?.amIHost));
       } catch (e) {
         console.error("[ResultPage] getRuleSummary failed:", e?.message || e);
       } finally {
         setReady(true);
       }
     })();
-  }, [roomCode, userId]);
+  }, [roomCode, userId, room?.amIHost]);
 
   if (!ready) return null;
 
