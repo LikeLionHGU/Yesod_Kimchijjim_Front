@@ -23,7 +23,6 @@
 //     const startIndex = location.state?.startIndex;
 //     if (typeof startIndex === "number") {
 //       setCurrentIndex(startIndex);
-//       // navigate("/room/test", { replace: true });
 //     }
 //   }, [location.state]);
 
@@ -67,17 +66,6 @@
 //     }
 //   };
 
-//   // const handleNextScreen = (res) => {
-//   // if (!res) return;
-
-//   // if (res.status === "WAITING") {
-//   //   setVoteStatus({
-//   //     current: res.currentVotes,
-//   //     total: 4,
-//   //   });
-//   //   return;
-//   // }
-
 //   const handleNextScreen = useCallback(
 //     (res) => {
 //       if (!res) return;
@@ -97,7 +85,6 @@
 //         amIHost: res?.amIHost,
 //       };
 
-//       // 방장이 규칙 확정해서 GO_AFTER_MISMATCH 신호가 들어온 경우
 //       if (res.status === "AFTER_MISMATCH") {
 //         const agreed = Array.isArray(res?.data) ? res.data[0] : "";
 //         navigate("/test/after-mismatch", {
@@ -187,142 +174,56 @@
 //     );
 //   }
 
-// //   return (
-// //     <Wrapper>
-// //       <ProgressBar total={totalQuestions} current={currentIndex + 1} />
+//   return (
+//     <Wrapper>
+//       <ProgressBar total={totalQuestions} current={currentIndex + 1} />
 
-// //       <QuestionCard
-// //         category={currentQuestion.category}
-// //         question={currentQuestion.question}
-// //         options={currentQuestion.options}
-// //         selectedOption={selectedOptionIds}
-// //         onSelect={handleSelect}
-// //         isMultiSelect={isMultiSelect}
-// //       />
+//       <QuestionCard
+//         category={currentQuestion.category}
+//         question={currentQuestion.question}
+//         options={currentQuestion.options}
+//         selectedOption={selectedOptionIds}
+//         onSelect={handleSelect}
+//         isMultiSelect={isMultiSelect}
+//       />
 
-// //       {/* {hasSubmitted && (
-// //         <VoteText>
-// //           {voteStatus ? (
-// //             <>
-// //               {voteStatus.current}번째로 투표했어요!
-// //               <br />
-// //               모두 투표하면 자동으로 넘어가요!
-// //             </>
-// //           ) : (
-// //             <>
-// //               투표를 제출했어요!
-// //               <br />
-// //               다른 사람들의 투표를 기다리는 중이에요.
-// //             </>
-// //           )}
-// //         </VoteText>
-// //       )}
+//       <CtaWrap>
+//         <ButtonRow>
+//           <Button
+//             onClick={handleSubmit}
+//             disabled={
+//               selectedOptionIds.length === 0 || isSubmitting || hasSubmitted
+//             }
+//           >
+//             선택 완료
+//           </Button>
+//         </ButtonRow>
 
-// //       <ButtonWrap>
-// //         <Button
-// //           onClick={handleSubmit}
-// //           disabled={selectedOptionIds.length === 0 || isSubmitting || hasSubmitted}
-// //         >
-// //           {hasSubmitted ? "투표 완료!" : "선택 완료"}
-// //         </Button>
-// //       </ButtonWrap> */}
-// //       <ButtonWrap>
-// //   <Button
-// //     onClick={handleSubmit}
-// //     disabled={selectedOptionIds.length === 0 || isSubmitting || hasSubmitted}
-// //   >
-// //     선택 완료
-// //   </Button>
-
-// //   {hasSubmitted && (
-// //     <VoteText>
-// //       {voteStatus ? (
-// //         <>
-// //           {voteStatus.current}번째로 투표했어요!
-// //           <br />
-// //           모두 투표하면 자동으로 넘어가요!
-// //         </>
-// //       ) : (
-// //         <>
-// //           투표를 제출했어요!
-// //           <br />
-// //           다른 사람들의 투표를 기다리는 중이에요.
-// //         </>
-// //       )}
-// //     </VoteText>
-// //   )}
-// // </ButtonWrap>
-// //     </Wrapper>
-// //   );
-// // }
-
-// return (
-//   <Wrapper>
-//     <ProgressBar total={totalQuestions} current={currentIndex + 1} />
-
-//     <QuestionCard
-//       category={currentQuestion.category}
-//       question={currentQuestion.question}
-//       options={currentQuestion.options}
-//       selectedOption={selectedOptionIds}
-//       onSelect={handleSelect}
-//       isMultiSelect={isMultiSelect}
-//     />
-
-//     <CtaWrap>
-//       <ButtonRow>
-//         <Button
-//           onClick={handleSubmit}
-//           disabled={selectedOptionIds.length === 0 || isSubmitting || hasSubmitted}
-//           $fullWidthOnMobile
-//         >
-//           선택 완료
-//         </Button>
-//       </ButtonRow>
-
-
-//       {hasSubmitted && (
-//         <VoteText>
-//           {voteStatus ? (
-//             <>
-//               {voteStatus.current}번째로 투표했어요!
-//               <br />
-//               모두 투표하면 자동으로 넘어가요!
-//             </>
-//           ) : (
-//             <>
-//               투표를 제출했어요!
-//               <br />
-//               다른 사람들의 투표를 기다리는 중이에요.
-//             </>
-//           )}
-//         </VoteText>
-//       )}
-//     </CtaWrap>
-//   </Wrapper>
-// );
+//         {hasSubmitted && (
+//           <VoteText>
+//             {voteStatus ? (
+//               <>
+//                 {voteStatus.current}번째로 투표했어요!
+//                 <br />
+//                 모두 투표하면 자동으로 넘어가요!
+//               </>
+//             ) : (
+//               <>
+//                 투표를 제출했어요!
+//                 <br />
+//                 다른 사람들의 투표를 기다리는 중이에요.
+//               </>
+//             )}
+//           </VoteText>
+//         )}
+//       </CtaWrap>
+//     </Wrapper>
+//   );
+// }
 
 // export default TestPage;
 
-// // const Wrapper = styled.div`
-// //   width: 100%;
-// //   min-height: 100vh;
-// //   padding: 40px 0;
-// //   display: flex;
-// //   flex-direction: column;
-// //   align-items: center;
-// //   background: ${Colors.backgroundColor};
-// // `;
-
-// // const ButtonWrap = styled.div`
-// //   width: 746px;
-// //   display: flex;
-// //   justify-content: center;
-// //   margin-top: 20px;
-// // `;
-
 // const Wrapper = styled.div`
-
 //   width: 100%;
 //   min-height: 100vh;
 //   padding: 40px 0 170px;
@@ -331,44 +232,6 @@
 //   align-items: center;
 //   background: ${Colors.backgroundColor};
 //   box-sizing: border-box;
-// `;
-
-// // const ButtonWrap = styled.div`
-  
-// //   width: min(936px, calc(100% - 40px));
-// //   display: flex;
-// //   justify-content: flex-end;
-// //   margin-top: 24px;
-// // `;
-
-// const ButtonWrap = styled.div`
-//   width: 100%;
-//   max-width: 980px;
-//   margin: 24px auto 0;
-
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-end; 
-//   gap: 12px;
-
-//   @media (max-width: 640px) {
-//     align-items: stretch; 
-//   }
-// `;
-// // const VoteText = styled.div`
-// //   margin-top: 16px;
-// //   font-size: 14px;
-// //   font-weight: 600;
-// //   color: ${Colors.mainPurple};
-// //   text-align: center;
-// // `;
-
-// const VoteText = styled.div`
-//   text-align: center;
-//   font-size: 14px;
-//   font-weight: 700;
-//   color: ${Colors.mainPurple};
-//   line-height: 1.4;
 // `;
 
 // const EmptyText = styled.div`
@@ -401,6 +264,13 @@
 //   }
 // `;
 
+// const VoteText = styled.div`
+//   text-align: center;
+//   font-size: 14px;
+//   font-weight: 700;
+//   color: ${Colors.mainPurple};
+//   line-height: 1.4;
+// `;
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
@@ -668,9 +538,15 @@ const ButtonRow = styled.div`
 `;
 
 const VoteText = styled.div`
-  text-align: center;
   font-size: 14px;
   font-weight: 700;
   color: ${Colors.mainPurple};
   line-height: 1.4;
+  align-self: flex-end;
+  text-align: right;
+
+  @media (max-width: 480px) {
+    align-self: center;
+    text-align: center;
+  }
 `;
