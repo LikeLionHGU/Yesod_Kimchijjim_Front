@@ -265,7 +265,6 @@ const RuleCard = styled.div`
   display: flex;
   flex-direction: column;
 
-  margin: 0 auto;
 
   @media(max-width: 768px){
     padding: 20px 25px;
@@ -444,19 +443,10 @@ const PassBtn = styled.button`
   transform: translateY(-50%);
 
   &:first-child {
-    left: -15px; 
+    left: -5px; 
   }
   &:last-child {
-    right: -15px;
-  }
-
-  @media(max-width: 768px){
-    &:first-child {
-      left: 5px;
-    }
-    &:last-child {
-      right: 5px;
-    }
+    right: -5px;
   }
 
   &:disabled{
@@ -477,7 +467,7 @@ const RuleListContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  border-sizing: border-box;
+  box-sizing: border-box;
   padding: 0 25px; //추가
   @media(max-width: 768px){
     padding: 0 20px; //추가
