@@ -117,19 +117,29 @@ function MatchPage() {
 
 export default MatchPage;
 
+// const Wrapper = styled.div`
+//   min-height: 100vh;
+//   background: ${Colors.backgroundColor};
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   padding-top: 120px;
+//   padding-bottom: 80px;
+// `;
+
 const Wrapper = styled.div`
   min-height: 100vh;
   background: ${Colors.backgroundColor};
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 120px;
-  padding-bottom: 80px;
+  padding: 150px 0 170px;
+  box-sizing: border-box;
 `;
 
 const TopIcon = styled.img`
-  width: 80px;
-  height: 80px;
+  width: 71px;
+  height: 71px;
   margin-bottom: 31px;
 `;
 
@@ -141,8 +151,15 @@ const Title = styled.h1`
   font-weight: 800;
 `;
 
+// const SubTitle = styled.p`
+//   margin: 12px 0 44px;
+//   color: ${Colors.fixGray};
+//   text-align: center;
+//   font-size: 14px;
+// `;
+
 const SubTitle = styled.p`
-  margin: 12px 0 44px;
+  margin: 10px 0 36px;
   color: ${Colors.fixGray};
   text-align: center;
   font-size: 14px;
@@ -155,18 +172,40 @@ const RuleList = styled.div`
   gap: 14px;
 `;
 
+// const RuleCard = styled.div`
+//   width: 746px;
+//   height: 101px;
+//   border-radius: 15px;
+//   background: ${Colors.white};
+//   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
+//   display: flex;
+//   align-items: center;
+//   gap: 16px;
+//   padding: 0 24px;
+//   box-sizing: border-box;
+// `;
+
 const RuleCard = styled.div`
-  width: 746px;
-  height: 101px;
+  width: 100%;
   border-radius: 15px;
   background: ${Colors.white};
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
   display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 0 24px;
+  flex-direction: column;  
+  align-items: flex-start;  
+  gap: 10px;
+  padding: 18px 22px;
   box-sizing: border-box;
 `;
+
+// const Tag = styled.div`
+//   padding: 6px 12px;
+//   border-radius: 999px;
+//   font-size: 12px;
+//   color: ${Colors.white};
+//   background: ${Colors.secondPurple};
+//   white-space: nowrap;
+// `;
 
 const Tag = styled.div`
   padding: 6px 12px;
@@ -174,22 +213,39 @@ const Tag = styled.div`
   font-size: 12px;
   color: ${Colors.white};
   background: ${Colors.secondPurple};
-  white-space: nowrap;
+  display: inline-flex;
 `;
+
+// const RuleText = styled.div`
+//   flex: 1;
+//   font-size: 16px;
+//   color: ${Colors.black};
+// `;
 
 const RuleText = styled.div`
-  flex: 1;
+  width: 100%;
   font-size: 16px;
   color: ${Colors.black};
+  line-height: 1.4;
+  word-break: keep-all;
 `;
 
+// const ButtonWrap = styled.div`
+//   width: 746px;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: flex-end;
+//   gap: 8px;
+//   margin-top: 20px;
+// `;
+
 const ButtonWrap = styled.div`
-  width: 746px;
+  width: min(746px, calc(100% - 40px));
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 8px;
-  margin-top: 20px;
+  gap: 6px;
+  margin-top: 14px; 
 `;
 
 const Hint = styled.div`

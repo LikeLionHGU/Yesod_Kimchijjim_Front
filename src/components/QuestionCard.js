@@ -40,19 +40,39 @@ export default QuestionCard;
 
 /* styled */
 
+// const Card = styled.div`
+//   width: 936px;
+//   min-height: 588px;
+//   background: ${Colors.white};
+//   border-radius: 15px;
+//   padding: 48px;
+//   margin-top: 32px;
+//   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
+
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center; /* 카드 내부 가운데 정렬 */
+//   box-sizing: border-box;
+// `;
+
 const Card = styled.div`
-  width: 936px;
+  width: min(936px, calc(100% - 40px));
   min-height: 588px;
   background: ${Colors.white};
   border-radius: 15px;
   padding: 48px;
-  margin-top: 32px;
+  margin-top: 28px;
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
 
   display: flex;
   flex-direction: column;
-  align-items: center; /* 카드 내부 가운데 정렬 */
+  align-items: center;
   box-sizing: border-box;
+
+  @media (max-width: 480px) {
+    padding: 28px 20px;
+    min-height: auto;
+  }
 `;
 
 const TopRow = styled.div`
@@ -79,11 +99,25 @@ const CategoryPill = styled.div`
   background: ${Colors.secondPurple};
 `;
 
+// const Question = styled.h2`
+//   font-size: 22px;
+//   margin: 24px 0 40px;
+//   color: ${Colors.black};
+//   text-align: center;
+// `;
+
+
 const Question = styled.h2`
+
   font-size: 22px;
-  margin: 24px 0 40px;
+  margin: 22px 0 34px;
   color: ${Colors.black};
   text-align: center;
+
+  @media (max-width: 480px) {
+    font-size: 18px;
+    margin: 18px 0 24px;
+  }
 `;
 
 const Notice = styled.div`
@@ -93,6 +127,14 @@ const Notice = styled.div`
   width: 100%;
   text-align: center;
 `;
+
+// const OptionList = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   gap: 14px;
+//   width: 100%;
+// `;
 
 const OptionList = styled.div`
   display: flex;
