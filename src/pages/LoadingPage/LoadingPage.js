@@ -39,6 +39,7 @@ const LoadingPage = () => {
                 }
             } catch(error) {
                 console.error("로그인 처리 에러:", error);
+                localStorage.removeItem("idToken");
                 alert("로그인 처리 중 오류 발생");
                 navigate("/");
             }
