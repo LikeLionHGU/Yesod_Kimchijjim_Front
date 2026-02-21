@@ -87,7 +87,7 @@ function Header() {
                             {isLoggedIn && hasRoom ? (
                                 <>
                                     {isBoardPage && (
-                                        <Button onClick={() => navigate("/")}>About Us</Button>
+                                        <Button onClick={() => navigate("/", { state: { isManualClick: true } })}>About Us</Button>
                                     )}
                                     <Button onClick={handleLogout}>Log Out</Button>
                                 </>
@@ -96,7 +96,7 @@ function Header() {
                                         {isLandingPage ? (
                                             <Button onClick={handleStartRoomClick}>방 시작하기</Button>
                                         ) : (
-                                            <Button onClick={() => navigate("/")}>About Us</Button>
+                                                <Button onClick={() => navigate("/", { state: { isManualClick: true } })}>About Us</Button>
                                         )}
 
                                         {isLoggedIn && (

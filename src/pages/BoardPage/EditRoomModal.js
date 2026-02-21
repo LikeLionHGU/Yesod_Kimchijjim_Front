@@ -136,6 +136,9 @@ const ModalContainer = styled.div`
   //width: 555px;
   width: 100%;
   max-width: 555px;
+  height: auto; //추가
+  min-height: 421px; //추가
+  
   padding: 54px 97px 35px 98px;
   box-sizing: border-box;
   display: flex;

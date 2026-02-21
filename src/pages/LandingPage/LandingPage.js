@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-import {  useNavigate } from "react-router-dom";
+import {  useNavigate, useLocation } from "react-router-dom";
 import { Colors } from "../../styles/colors";
 
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
@@ -40,17 +40,18 @@ console.log("프론트엔드에서 사용하는 Client ID:", process.env.REACT_A
 const LandingPage = () => {
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const token = localStorage.getItem("idToken");
 
     useEffect(() => {
 
-        if (token) {
+        if (token && !location.state?.isManualClick) {
             console.log("이미 토큰이 있네요! 로딩 페이지로 이동합니다.");
 
             navigate("/loading", { state: { idToken: token } });
         }
-    }, [navigate, token]);
+    }, [navigate, token, location]);
 
     const handleLoginSuccess = (response) => {
         //구글이 준 응답에서 credential이 idToken

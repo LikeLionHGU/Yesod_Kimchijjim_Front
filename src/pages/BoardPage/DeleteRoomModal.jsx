@@ -48,12 +48,11 @@ const Overlay = styled.div`
 `;
 
 const Container = styled.div`
-    background: white;
 
     //width: 555px;
     //height: 336px;
     width: 100%;
-    max-width: 55px;
+    max-width: 555px;
     height: auto;
     min-height: 336px;
 
