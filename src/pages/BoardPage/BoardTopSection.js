@@ -265,6 +265,8 @@ const RuleCard = styled.div`
   display: flex;
   flex-direction: column;
 
+  margin: 0 auto;
+
   @media(max-width: 768px){
     padding: 20px 25px;
     min-height: 550px;
@@ -368,18 +370,18 @@ const RuleText = styled.div`
   line-height: 1.3;
   width: 100%;
 
-  // display: -webkit-box;
-  // -webkit-line-clamp: 2; /* 2줄까지만 허용 */
-  // -webkit-box-orient: vertical;
-  // overflow: hidden;
-  // text-overflow: ellipsis;
-  // word-break: break-word; 
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 2줄까지만 허용 */
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  word-break: break-word; 
+  // white-space: nowrap;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
 
   @media(max-width: 768px){
-    font-size: 15px; /* 모바일 글씨 축소 */
+    font-size: 15px;
   }
 `;
 
@@ -442,10 +444,19 @@ const PassBtn = styled.button`
   transform: translateY(-50%);
 
   &:first-child {
-    left: 0; 
+    left: -15px; 
   }
   &:last-child {
-    right: 0;
+    right: -15px;
+  }
+
+  @media(max-width: 768px){
+    &:first-child {
+      left: 5px;
+    }
+    &:last-child {
+      right: 5px;
+    }
   }
 
   &:disabled{
