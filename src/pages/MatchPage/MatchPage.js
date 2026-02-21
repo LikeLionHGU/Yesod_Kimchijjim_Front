@@ -168,7 +168,7 @@ const SubTitle = styled.p`
 `;
 
 const RuleList = styled.div`
-  width: 746px;
+  width: min(746px, calc(100% - 40px));
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -257,7 +257,7 @@ const Hint = styled.div`
 `;
 
 const EmptyText = styled.div`
-  width: 746px;
+  width: min(746px, calc(100% - 40px));
   text-align: center;
   color: ${Colors.fixGray};
   font-size: 14px;
