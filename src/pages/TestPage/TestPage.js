@@ -200,7 +200,7 @@ function TestPage() {
         isMultiSelect={isMultiSelect}
       />
 
-      {hasSubmitted && (
+      {/* {hasSubmitted && (
         <VoteText>
           {voteStatus ? (
             <>
@@ -225,7 +225,33 @@ function TestPage() {
         >
           {hasSubmitted ? "투표 완료!" : "선택 완료"}
         </Button>
-      </ButtonWrap>
+      </ButtonWrap> */}
+      <ButtonWrap>
+  <Button
+    onClick={handleSubmit}
+    disabled={selectedOptionIds.length === 0 || isSubmitting || hasSubmitted}
+  >
+    선택 완료
+  </Button>
+
+  {hasSubmitted && (
+    <VoteText>
+      {voteStatus ? (
+        <>
+          {voteStatus.current}번째로 투표했어요!
+          <br />
+          모두 투표하면 자동으로 넘어가요!
+        </>
+      ) : (
+        <>
+          투표를 제출했어요!
+          <br />
+          다른 사람들의 투표를 기다리는 중이에요.
+        </>
+      )}
+    </VoteText>
+  )}
+</ButtonWrap>
     </Wrapper>
   );
 }
@@ -269,12 +295,21 @@ const ButtonWrap = styled.div`
   margin-top: 24px;
 `;
 
+// const VoteText = styled.div`
+//   margin-top: 16px;
+//   font-size: 14px;
+//   font-weight: 600;
+//   color: ${Colors.mainPurple};
+//   text-align: center;
+// `;
+
 const VoteText = styled.div`
-  margin-top: 16px;
+  margin-top: 10px;
   font-size: 14px;
   font-weight: 600;
   color: ${Colors.mainPurple};
   text-align: center;
+  width: 100%;
 `;
 
 const EmptyText = styled.div`

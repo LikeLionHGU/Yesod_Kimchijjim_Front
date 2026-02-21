@@ -6,6 +6,8 @@ import { Colors } from "../../styles/colors";
 import exclamation_mark from "../../assets/exclamation_mark.svg";
 import { api } from "../../utils/api";
 import { QUESTION_DATA } from "../../constants/questions";
+import ProgressBar from "../../components/common/ProgressBar";
+
 
 function MemberMismatchPage() {
   const navigate = useNavigate();
@@ -75,6 +77,7 @@ useEffect(() => {
 
   return (
     <Wrapper>
+      <ProgressBar total={totalQuestions} current={questionIndex + 1} />
       <TopIcon src={exclamation_mark} alt="!" />
       <Title>의견 차이가 있어요</Title>
       <SubTitle>방장이 규칙을 정리하고 있어요</SubTitle>
@@ -94,6 +97,18 @@ useEffect(() => {
             <AnswerBox key={idx}>{t}</AnswerBox>
           ))}
         </AnswersWrap>
+        <MainCard>
+  ...
+</MainCard>
+
+<GuideWrap>
+  <GuideTitle>💡대화 가이드</GuideTitle>
+  <GuideList>
+    <li>각자 가장 불편했던 순간을 공유해보세요</li>
+    <li>서로의 입장을 고려해 중간 지점을 정해봐요</li>
+    <li>실행 가능한 규칙 문장으로 정리해보세요</li>
+  </GuideList>
+</GuideWrap>
       </MainCard>
     </Wrapper>
   );
@@ -196,4 +211,23 @@ const AnswerBox = styled.div`
   color: ${Colors.black};
   font-size: 14px;
   box-sizing: border-box;
+`;
+
+const GuideWrap = styled.div`
+  width: min(746px, calc(100% - 40px));
+  margin-top: 24px;
+`;
+
+const GuideTitle = styled.div`
+  font-weight: 800;
+  color: ${Colors.black};
+  margin-bottom: 10px;
+`;
+
+const GuideList = styled.ul`
+  margin: 0;
+  padding-left: 18px;
+  color: ${Colors.fixGray};
+  font-size: 14px;
+  line-height: 22px;
 `;

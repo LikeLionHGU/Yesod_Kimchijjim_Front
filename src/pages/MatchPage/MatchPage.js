@@ -7,6 +7,7 @@ import Button from "../../components/common/Button";
 import check from "../../assets/check.svg";
 import { QUESTION_DATA } from "../../constants/questions";
 import { api } from "../../utils/api";
+import ProgressBar from "../../components/common/ProgressBar";
 
 function MatchPage() {
   const navigate = useNavigate();
@@ -88,6 +89,7 @@ function MatchPage() {
 
   return (
     <Wrapper>
+      <ProgressBar total={totalQuestions} current={nextIndex} />
       <TopIcon src={check} alt="check" />
       <Title>모두의 답변이 일치해요</Title>
       <SubTitle>{questionMeta?.question ?? "규칙을 확인해요"}</SubTitle>
