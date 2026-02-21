@@ -443,10 +443,10 @@ const PassBtn = styled.button`
   transform: translateY(-50%);
 
   &:first-child {
-    left: -5px; 
+    left: -25px; 
   }
   &:last-child {
-    right: -5px;
+    right: -25px;
   }
 
   &:disabled{
@@ -468,9 +468,6 @@ const RuleListContainer = styled.div`
   justify-content: center;
   width: 100%;
   box-sizing: border-box;
-  padding: 0 25px; //추가
-  @media(max-width: 768px){
-    padding: 0 20px; //추가
-  }
+  padding: 0;
 `; 
 
