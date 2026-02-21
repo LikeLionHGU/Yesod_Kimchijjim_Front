@@ -55,9 +55,10 @@ function LeaderResultPage() {
     return found?.id ?? 6;
   };
 
-  const mapServerDataToRules = (dataList) => {
-    return (dataList || []).map((it) => ({
-      id: it.id, // ✅ ruleId
+  const mapServerDataToRules = (res) => {
+    const list = Array.isArray(res) ? res : (res?.data || res?.rules || []);
+    return list.map((it) => ({
+      id: it.id,
       questionId: it.questionId,
       category: getCategoryByQuestionId(it.questionId),
       text: it.rule ?? "",
@@ -78,7 +79,7 @@ function LeaderResultPage() {
         setStatus(res?.status || "MODIFYING");
 
         if (!isEditingRef.current) {
-          setRules(mapServerDataToRules(res?.data));
+          setRules(mapServerDataToRules(res));
         }
 
         if (res?.status === "COMPLETE" && !isFromBoardEdit) {
@@ -124,7 +125,7 @@ function LeaderResultPage() {
       setNewCategory(categories[0] || "기타");
 
       const res = await api.getRuleSummary({ roomCode, userId });
-      setRules(mapServerDataToRules(res?.data));
+      setRules(mapServerDataToRules(res));
     } catch (e) {
       alert("규칙 추가에 실패했어요. 잠시 후 다시 시도해 주세요.");
     } finally {
@@ -151,7 +152,7 @@ function LeaderResultPage() {
       setIsEditing(false);
 
       const res = await api.getRuleSummary({ roomCode, userId });
-      setRules(mapServerDataToRules(res?.data));
+      setRules(mapServerDataToRules(res));
     } catch (e) {
       alert("수정 저장에 실패했어요. 잠시 후 다시 시도해 주세요.");
     } finally {
