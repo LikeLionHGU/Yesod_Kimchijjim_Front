@@ -12,7 +12,9 @@ function ResultPage() {
   const userIdStr = room?.userId || sessionStorage.getItem("userId") || "";
   const userId = userIdStr ? Number(userIdStr) : null;
 
-  const [amIHost, setAmIHost] = useState(Boolean(room?.amIHost));
+  const isRoomHost = room?.amIHost;
+
+  const [amIHost, setAmIHost] = useState(Boolean(isRoomHost));
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -31,7 +33,7 @@ function ResultPage() {
         setReady(true);
       }
     })();
-  }, [roomCode, userId]);
+  }, [roomCode, userId, room?.amIHost]);
 
   if (!ready) return null;
 
