@@ -189,8 +189,8 @@ const StampWrap = styled.div`
   place-items: center;
 
   img {
-    width: 64px;
-    height: 64px;
+    width: 146px;
+    height: 121px;
     display: block;
     object-fit: contain;
   }
@@ -267,6 +267,12 @@ const RuleList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 17px;
+  padding: 0 14px;
+  box-sizing: border-box;
+
+  @media (max-width: 820px) {
+    padding: 0 10px;     
+  }
 `;
 
 const RuleItem = styled.div`
@@ -328,7 +334,7 @@ const HomeBtn = styled.button`
   border: none;
   background: transparent;
   display: inline-flex;
-  lex-direction: column;
+  flex-direction: column;
   align-items: center;
   gap: 6px;
   cursor: pointer;
@@ -340,8 +346,8 @@ const HomeBtn = styled.button`
   pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 
   img {
-    width: 44px;
-    height: 44px;
+    width: 84px;
+    height: 84px;
     display: block;
   }
 
