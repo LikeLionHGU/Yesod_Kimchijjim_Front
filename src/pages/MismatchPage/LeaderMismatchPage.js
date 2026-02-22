@@ -72,7 +72,7 @@ function LeaderMismatchPage() {
 
       setHasSubmittedRule(true);
 
-      // 성공하면 AfterMismatch로 이동 (방장 화면 즉시 표시용 state 포함)
+      // 성공하면 AfterMismatch로 이동
       navigate("/test/after-mismatch", {
         state: {
           questionId,
@@ -158,7 +158,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 
-  padding: 80px 0 120px;
+  padding: 98px 0 120px;
   box-sizing: border-box;
   gap: 16px;
 `;
@@ -290,7 +290,7 @@ const InputCard = styled.div`
 
   @media (max-width: 520px) {
     flex-direction: column;
-    align-items: stretch; /* 입력창은 꽉 */
+    align-items: stretch; 
   }
 `;
 

@@ -105,7 +105,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 80px 0 120px;
+  padding: 98px 0 120px;
   box-sizing: border-box;
   gap: 16px;
 `;
