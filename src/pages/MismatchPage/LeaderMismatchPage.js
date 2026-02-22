@@ -313,24 +313,37 @@ const RuleInput = styled.input`
 
 
 const DoneButton = styled.button`
-  display: flex;                 
-  justify-content: center;       
-  align-items: center;           
-  gap: 10px;                     
-  width: 175px;                
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 175px;
   height: 55px;
-  padding: 12px 62px;          
+  padding: 12px 62px;
   border: none;
   border-radius: 12px;
 
-  background: ${({ disabled }) =>
-    disabled ? Colors.detailWhite : Colors.mainPurple};
-  color: ${({ disabled }) => (disabled ? Colors.fixGray : Colors.white)};
+  background: ${Colors.mainPurple};
+  opacity: ${({ disabled }) => (disabled ? 0.3 : 1)};
+  color: ${Colors.white};
 
   font-weight: 800;
-  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   white-space: nowrap;
   margin-left: auto;
+
+  transition: background-color 0.15s ease, transform 0.05s ease, opacity 0.15s ease;
+
+  &:hover {
+    background-color: ${({ disabled }) =>
+      disabled ? Colors.mainPurple : Colors.hoverPurple};
+  }
+
+  &:active {
+    background-color: ${({ disabled }) =>
+      disabled ? Colors.mainPurple : Colors.hoverPurple};
+    transform: ${({ disabled }) => (disabled ? "none" : "scale(0.98)")};
+  }
 
   @media (max-width: 520px) {
     width: 100%;
