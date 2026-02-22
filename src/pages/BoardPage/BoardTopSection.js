@@ -149,13 +149,15 @@ const TopContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 130px;
+  padding-top: 100px;
+  padding-bottom: 100px;
   box-sizing: border-box;
 
   @media(max-width: 950px){
     padding-top: 60px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 60px;
   }
 `;
 
@@ -284,6 +286,7 @@ const CardHeader = styled.p`
 
   @media(max-width: 768px){
     margin-bottom: 30px;
+    margin-top: 10px;
   }
 `;
 
