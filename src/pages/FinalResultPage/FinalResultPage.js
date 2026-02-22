@@ -222,7 +222,7 @@ const CaptureCard = styled.div`
   box-sizing: border-box;
 
   border: 2px solid ${Colors.mainPurple};
-  box-shadow: 0 10px 28px ${Colors.boxShadowPurple};
+  box-shadow: 0 0 20px ${Colors.boxShadowPurple};
 
   padding: 40px 90px 34px;
 
@@ -273,12 +273,8 @@ const RuleList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 17px;
-  padding: 0 14px;
+  padding: 0;
   box-sizing: border-box;
-
-  @media (max-width: 820px) {
-    padding: 0 10px;     
-  }
 `;
 
 const RuleItem = styled.div`
