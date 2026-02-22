@@ -1,9 +1,9 @@
-
-
 import { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import { api } from "../../utils/api";
+
+const CARD_HEIGHT = 640;
 
 const TABS = {
   RECOMMEND: "RECOMMEND",
@@ -150,18 +150,10 @@ function BoardOpinionSection() {
         <WriteTitle>의견 남기기</WriteTitle>
 
         <Tabs>
-          <TabBtn
-            type="button"
-            $active={tab === TABS.RECOMMEND}
-            onClick={() => setTab(TABS.RECOMMEND)}
-          >
+          <TabBtn type="button" $active={tab === TABS.RECOMMEND} onClick={() => setTab(TABS.RECOMMEND)}>
             문구 추천받기
           </TabBtn>
-          <TabBtn
-            type="button"
-            $active={tab === TABS.DIRECT}
-            onClick={() => setTab(TABS.DIRECT)}
-          >
+          <TabBtn type="button" $active={tab === TABS.DIRECT} onClick={() => setTab(TABS.DIRECT)}>
             직접 입력하기
           </TabBtn>
         </Tabs>
@@ -188,9 +180,7 @@ function BoardOpinionSection() {
                 ))}
               </TopicGrid>
 
-              <BlockTitle style={{ marginTop: 14 }}>
-                아래 추천 문구 중 하나를 선택해주세요
-              </BlockTitle>
+              <BlockTitle style={{ marginTop: 24 }}>아래 추천 문구 중 하나를 선택해주세요</BlockTitle>
 
               <RecommendList>
                 {recommendList.map((txt) => (
@@ -219,11 +209,7 @@ function BoardOpinionSection() {
         </WriteBody>
 
         <SendWrap>
-          <SendBtn
-            type="button"
-            onClick={handleSend}
-            disabled={!canSend || isSending || !roomCode}
-          >
+          <SendBtn type="button" onClick={handleSend} disabled={!canSend || isSending || !roomCode}>
             {isSending ? "전송 중..." : "전송하기"}
           </SendBtn>
         </SendWrap>
@@ -274,11 +260,12 @@ const BoardCard = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  min-height: 520px;
+  height: ${CARD_HEIGHT}px;
+  overflow: hidden;
 
   @media (max-width: 900px) {
     padding: 18px 18px;
-    min-height: 380px;
+    height: 520px;
   }
 `;
 
@@ -287,16 +274,17 @@ const WriteCard = styled.div`
   background: ${Colors.white};
   border-radius: 18px;
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
-  padding: 50px 48px;
+  padding: 26px 26px;
   box-sizing: border-box;
-  border: 1px solid ${Colors.mainPurple};
+  border: 2px solid ${Colors.mainPurple};
   display: flex;
   flex-direction: column;
-  min-height: 520px;
+  height: ${CARD_HEIGHT}px;
+  overflow: hidden;
 
   @media (max-width: 900px) {
     padding: 18px 18px;
-    min-height: 420px;
+    height: 640px;
   }
 `;
 
@@ -329,7 +317,8 @@ const List = styled.div`
   flex-direction: column;
   gap: 12px;
   flex: 1;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding-right: 8px;
 
   &::-webkit-scrollbar {
@@ -398,28 +387,22 @@ const WriteTitle = styled.h3`
 const Tabs = styled.div`
   display: flex;
   gap: 16px;
-  margin-bottom: 10px;
   border-bottom: none;
   padding-bottom: 0;
+  margin-bottom: 10px;
 `;
-
 
 const TabBtn = styled.button`
   border: none;
   background: transparent;
   cursor: pointer;
-  padding: 6px 0;
-  font-weight: 700;
-  font-size: 13px;
+  padding: 8px 0;
+  font-weight: 900;
   color: ${({ $active }) => ($active ? Colors.mainPurple : Colors.fixGray)};
-  border-bottom: ${({ $active }) =>
-    $active ? `2px solid ${Colors.mainPurple}` : "2px solid transparent"};
+  border-bottom: ${({ $active }) => ($active ? `2px solid ${Colors.mainPurple}` : "2px solid transparent")};
 
   &:hover {
     color: ${Colors.mainPurple};
-  }
-
-  &:hover {
     border-bottom: 2px solid ${Colors.mainPurple};
   }
 
@@ -430,9 +413,10 @@ const TabBtn = styled.button`
 `;
 
 const WriteBody = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
 `;
 
 const BlockTitle = styled.div`
@@ -444,11 +428,6 @@ const BlockTitle = styled.div`
 
 const TopicGrid = styled.div`
   margin-top: 10px;
-  width: 100%;
-  max-width: 520px;        
-  margin-left: auto;       
-  margin-right: auto;
-
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -458,12 +437,11 @@ const TopicIcon = styled.span`
   font-size: 14px;
 `;
 
-
 const TopicBtn = styled.button`
-  height: 56px;               
+  height: 56px;
   border-radius: 14px;
-  border: none;
-  background: ${({ $active }) => ($active ? "rgba(101, 63, 210, 0.10)" : Colors.fixwhite)};
+  border: 2px solid ${({ $active }) => ($active ? Colors.mainPurple : "transparent")};
+  background: ${({ $active }) => ($active ? "rgba(101, 63, 210, 0.10)" : Colors.fixWhite)};
   cursor: pointer;
   font-weight: 500;
   font-size: 15px;
@@ -472,69 +450,82 @@ const TopicBtn = styled.button`
   align-items: center;
   justify-content: center;
   gap: 8px;
+  box-sizing: border-box;
 
   &:hover {
-    opacity: 0.7;              
+    opacity: 0.7;
+  }
+  &:active {
+    opacity: 0.7;
   }
 
-  &:active {
-    opacity: 0.7;              
+  &:focus-visible {
+    outline: none;
+    border-color: ${Colors.mainPurple};
   }
 `;
 
 const RecommendList = styled.div`
   margin-top: 10px;
-  width: 100%;
-  max-width: 520px;   
-  margin-left: auto;
-  margin-right: auto;
-
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
 
-
 const RecommendBtn = styled.button`
-  height: 56px;                
+  height: 56px;
   border-radius: 14px;
-  border: none;
-  background: ${({ $active }) => ($active ? "rgba(101, 63, 210, 0.10)" : Colors.fixwhite)};
+  border: 2px solid ${({ $active }) => ($active ? Colors.mainPurple : "transparent")};
+  background: ${({ $active }) => ($active ? "rgba(101, 63, 210, 0.10)" : Colors.fixWhite)};
   cursor: pointer;
   font-weight: 500;
   font-size: 15px;
   color: ${({ $active }) => ($active ? Colors.mainPurple : Colors.fixGray)};
   text-align: left;
   padding: 0 18px;
+  box-sizing: border-box;
 
   &:hover {
-    opacity: 0.7;          
+    opacity: 0.7;
   }
-
   &:active {
     opacity: 0.7;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: ${Colors.mainPurple};
   }
 `;
 
 const DirectInput = styled.textarea`
-  margin-top: 10px;
-  min-height: 120px;
+  margin-top: 12px;
+  flex: 1;
+  min-height: 0;
+
   border-radius: 12px;
-  border: 1px solid ${Colors.borderLine};
-  padding: 12px 12px;
-  font-size: 14px;
+  border: 2px solid transparent;
   outline: none;
+
+  padding: 14px 14px;
+  font-size: 14px;
   resize: none;
+
   background: ${Colors.fixWhite};
   line-height: 1.5;
 
+  &:hover {
+    border: 2px solid ${Colors.mainPurple};
+  }
+
   &:focus {
-    border: 1px solid ${Colors.mainPurple};
+    border: 2px solid ${Colors.mainPurple};
   }
 `;
 
 const SendWrap = styled.div`
-  margin-top: 18px;
+  margin-top: auto;
+  padding-top: 18px;
   display: flex;
   justify-content: flex-end;
 
@@ -543,25 +534,24 @@ const SendWrap = styled.div`
   }
 `;
 
-
 const SendBtn = styled.button`
-  height: 64px;             
-  min-width: 175px;
+  height: 56px;
+  width: 175px;
   padding: 0 28px;
-  border-radius: 16px;
+  border-radius: 14px;
   border: none;
   cursor: pointer;
-  font-weight: 900;
-  font-size: 16px;
+  font-weight: 800;
+  font-size: 15px;
   color: ${Colors.white};
-  background: ${Colors.mainPurple}; 
+  background: ${Colors.mainPurple};
 
   &:hover:not(:disabled) {
-    background: #4A1FC6;    
+    background: #4a1fc6;
   }
 
   &:active:not(:disabled) {
-    background: #4A1FC6;        
+    background: #4a1fc6;
   }
 
   &:disabled {

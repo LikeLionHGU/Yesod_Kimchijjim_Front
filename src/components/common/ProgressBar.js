@@ -28,7 +28,7 @@ const Bar = styled.div`
   height: 7px;
   border-radius: 999px;
   background-color: ${({ $active }) =>
-    $active ? Colors.secondPurple : Colors.White};
+    $active ? Colors.secondPurple : Colors.fixWhite};
   transition: background-color 0.2s;
   flex: 1;            
   max-width: 175px;   

@@ -127,12 +127,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 0 170px;
+  padding: 49px 0 170px;
   box-sizing: border-box;
 `;
 
 const TopSpacer = styled.div`
-  height: 80px;
+  height: 42px;
 `;
 
 const TopIcon = styled.img`
@@ -143,10 +143,12 @@ const TopIcon = styled.img`
 
 const Title = styled.h1`
   margin: 16px 0 0;
-  font-size: 28px;
+  font-size: 30px;
   color: ${Colors.black};
   text-align: center;
-  font-weight: 800;
+  font-weight: 700;
+  line-height: 30px;
+  font-style: normal;
 `;
 
 
@@ -154,7 +156,9 @@ const SubTitle = styled.p`
   margin: 10px 0 36px;
   color: ${Colors.fixGray};
   text-align: center;
-  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
 `;
 
 const RuleList = styled.div`
@@ -184,6 +188,9 @@ const Tag = styled.div`
   padding: 6px 12px;
   border-radius: 999px;
   font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px;
   color: ${Colors.white};
   background: ${Colors.secondPurple};
   display: inline-flex;
@@ -193,9 +200,11 @@ const Tag = styled.div`
 
 const RuleText = styled.div`
   width: 100%;
-  font-size: 16px;
   color: ${Colors.black};
-  line-height: 1.4;
+  line-height: 30px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
   word-break: keep-all;
 `;
 
