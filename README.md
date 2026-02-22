@@ -1,81 +1,83 @@
-#  🦁 LIKELION HANDONG 
+# 잠깐만
 
-## Git Task Cycle ♼
-멋쟁이사자처럼 한동대학교의 구성원은 아래와 같은 컨벤션을 따릅니다. 업데이트 하고 싶은 내용이 있다면 Pull Requests 바랍니다. 
+<span align="center"> <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white"> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"> <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> </span>
+
+>**서로 다른 수면 성향 간 합의를 돕는 룸메이트 수면 소통 플랫폼**
+
+
+<img width="2560" height="1440" alt="" src="https://github.com/LikeLionHGU/Yesod_Kimchijjim_Front/blob/main/src/githubImg/img0.svg" />
+
 
 <br />
-<br />
 
-## 1. 이슈 작성하기
-
-✹ **Git Issue 사용법**
-
-- 작업할 기능에 대한 issue를 작성합니다.
-- issue 제목은 **[타입] - 설명**으로 통일합니다. (ex. [Style] - 텍스트 스타일 추가)
-- Assignees에는 작업을 맡은 사람을 태그합니다.
-- Labels에는 해당 작업과 맞는 유형을 태그합니다.
-- 설명란에는 어떤 작업을 할 예정인지, 관련된 이슈번호가 있는지 참고한 내용이 있는지 등 필요한 내용을 적습니다.
-- 이렇게 issue를 생성하게 되면 #N의 이슈 번호가 생깁니다.
-<br />
-<br />
-
-## 2. 브랜치 만들기
-
-✹  **Git Branch 사용법**
-
-- 각자 생성한 브랜치에서만 작업합니다. (브랜치 생성은 Issue 사용법 참고)
-- 브랜치 이름 구조는 <**본인이름_타입/#이슈번호**> 입니다. (ex. haeun_feat/#1)
-<br />
-<br />
-
-## 3. checkout 해서 브랜치 변경 (중요!! 🧠🫀🧨)
-
-```bash
-git checkout haeun_feat/#1
-```
-<br />
-<br />
-
-## 4. 작업
-
-- 작업합니다
-- 테스크 단위로 커밋합니다
-- pull request를 통해 본인이 작업한 branch를 develop branch에 merge합니다.
-- 코드 리뷰한 후 머지하기 (1명 혹은 2명, 개발 팀장을 정해도 좋아요.)
-
-✹  Commit 메시지 작성법
-
-```bash
-타입 : 짧은 내용(한글로)
-feat : 로그인
-ex)style : 텍스트 디자인시스템 구축
-```
-
-|  |  |  |
-| --- | --- | --- |
-| type | Description | Example |
-| feat | 새로운 기능 추가, 구현 | feat : 로그인 기능 구현 |
-| edit | 단순 오타 수정 | edit : 로그인 캐시 처리 방식 수정 |
-| style | UI작업, 스타일 관련 파일 추가 및 수정 | style : 폰트 등록 |
-| add | asset 파일(이미지, 아이콘 등) 추가 | add : 위젯 이미지 추가 |
-| chore | 파일, 경로를 옮기거나 이름 변경 | chore : feet -> feat 이름 변경 |
-| delete | 덤프 파일 삭제 | delete : Empty.md 파일 삭제 |
-| merge | 브랜치 병합(merge) | merge : pull request #3 from LikeLionHGU/Haeun_Style/#1 |
-| fix | 버그 픽스 | fix : Color 버그 수정 |
-| docs | 문서 작업 | docs : Readme 작성 |
-| refactor | 코드 리팩토링 | refactor : 변수명 수정 |
-| model | 데이터베이스(모델) 작업 | model : 데이터 모델 생성 |
-| init | 프로젝트 생성 | init : 프로젝트 생성 |
-| test | 테스트 케이스 생성 | test: 테스트 케이스 생성 |
-| 빌드관련 |  |  |  
-| build | 재빌드 | build: 동일버전 재빌드(x.xx) |
-| version | 버전 업 | version : 버전(2.0.0) 업데이트 |
+##  💡기능
 
 
 
-✹  Pull Request 제목 작성법
+### 👀 실시간 수면 성향 선택
 
-이름_타입/#이슈번호 → 풀 시킬 브랜치 (ex. Hani_Style/#1 -> dev)
+설문조사를 바탕으로 제작된 5가지 질문에 답하며 서로의 기준 파악
+
+선택지에 없는 원하는 답변이 없는 겨우 다른 의견을 말할 수 있음
+
+<p align="center"> <img src="https://github.com/LikeLionHGU/Yesod_Kimchijjim_Front/blob/main/src/githubImg/img1.svg" width="1280" alt="" /> </p>
 
 
-작성자: @chamroro
+### 🎯 규칙 자동 학정 및 합의 유도
+
+모두의 답변이 일치할 경우, 우리 방의 공동 규칙으로 확정
+
+답변이 엇갈릴 경우, 대화 가이드를 통해 서로의 합의점을 찾아 규칙 확정
+
+<p align="center"> <img src="https://github.com/LikeLionHGU/Yesod_Kimchijjim_Front/blob/main/src/githubImg/img2.svg" width="1280" alt="" /> </p>
+
+
+### 🗒️ 수면 패턴을 고려한 우리 방의 공동 규칙 생성
+
+모든 룸메이트가 합의한 공동 규칙 확인 
+
+이미지 저장 후 공유 가능
+
+규칙 수정 및 추가 가능
+
+<p align="center"> <img src="https://github.com/LikeLionHGU/Yesod_Kimchijjim_Front/blob/main/src/githubImg/img3.svg" width="1280" alt="" /> </p>
+
+
+ ### 🔔 의견 보드
+
+갈등이 생기기 전, 우리 방의 문제 확인
+
+직접 말하기 예민한 표현은 템플릿 문구로 전달 
+
+<p align="center"> <img src="https://github.com/LikeLionHGU/Yesod_Kimchijjim_Front/blob/main/src/githubImg/img4.svg" width="1280" alt="" /> </p>
+
+
+
+ ## ✨잠깐만은 어떻게 다를까요?
+
+<p align="center"> <img src="https://github.com/LikeLionHGU/Yesod_Kimchijjim_Front/blob/main/src/githubImg/img5.svg" width="1280" alt="" /> </p>
+
+
+ <hr />
+ 
+
+## 기술 스택
+
+
+Frontend: React / Styled-Components
+
+State & Utils: React Hooks, Axios
+
+<hr />
+
+## 👨‍💻 팀원
+
+기획자 - 최서연
+
+프론트엔트 - 박형찬, 최세희
+
+백엔드 - 곽동우, 임규민
+
+디자인 - 현하나
+
+we are 예소드 김치찜

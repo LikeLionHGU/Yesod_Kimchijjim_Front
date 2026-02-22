@@ -414,17 +414,17 @@ const Count = styled.span`
 const PageNationDot = styled.div`
     width: 8px;
     height: 8px;
-    background-color: ${props => props.$active ? Colors.mainPurple : Colors.borderLine};
+    background-color: ${props => props.$active ? Colors.secondPurple : Colors.inputColor};
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
     align-self: center;
-    margin-top: 7px;
+    margin-top: 17px;
 `;
 
 const DotContainer = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 7px;
   justify-content: center;
   margin-top: auto;
 `;
@@ -443,10 +443,19 @@ const PassBtn = styled.button`
   transform: translateY(-50%);
 
   &:first-child {
-    left: -15px; 
+    left: -20px; 
   }
   &:last-child {
+    right: -20px;
+  }
+
+  @media(max-width: 768px){
+    &:first-child {
+    left: -15px; 
+    }
+    &:last-child {
     right: -15px;
+    }
   }
 
   &:disabled{
