@@ -143,6 +143,8 @@ function TestPage() {
       return;
     }
 
+
+    setHasSubmitted(true);
     setIsSubmitting(true);
 
     try {
@@ -158,10 +160,11 @@ function TestPage() {
         category: currentQuestion.category,
       });
 
-      setHasSubmitted(true);
+      
       handleNextScreen(res);
     } catch (e) {
       console.error(e);
+       setHasSubmitted(false);
       alert("서버 연결 실패. 잠시 후 다시 시도해 주세요.");
     } finally {
       setIsSubmitting(false);
@@ -180,6 +183,8 @@ function TestPage() {
     <Wrapper>
       <ProgressBar total={totalQuestions} current={currentIndex + 1} />
 
+      <TopSpacer />
+
       <QuestionCard
         category={currentQuestion.category}
         question={currentQuestion.question}
@@ -194,7 +199,7 @@ function TestPage() {
           <Button
             onClick={handleSubmit}
             disabled={
-              selectedOptionIds.length === 0 || isSubmitting
+              selectedOptionIds.length === 0 || isSubmitting || hasSubmitted
             }
           >
             선택 완료
@@ -228,13 +233,18 @@ export default TestPage;
 const Wrapper = styled.div`
   width: 100%;
   min-height: 100vh;
-  padding: 40px 0 170px;
+  padding: 80px 0 170px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background: ${Colors.backgroundColor};
   box-sizing: border-box;
 `;
+
+const TopSpacer = styled.div`
+  height: 148px;
+`;
+
 
 const EmptyText = styled.div`
   margin-top: 80px;
