@@ -169,7 +169,11 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 90px 0 80px;
+  padding: 50px 0 80px;
+
+  @media (max-width: 780px) {
+    padding: 50px 0 64px;
+  }
 `;
 
 const TopArea = styled.div`
@@ -203,6 +207,10 @@ const Title = styled.h1`
   font-weight: 700;
   line-height: 30px;
   color: ${Colors.black};
+
+  @media (max-width: 780px) {
+    font-size: 24px;
+  }
 `;
 
 const SubTitle = styled.p`
@@ -212,6 +220,11 @@ const SubTitle = styled.p`
   font-style: normal;
   font-weight: 500;
   line-height: 30px;
+
+  @media (max-width: 780px) {
+    margin: 10px 0 20px;
+    font-size: 15px;
+  }
 `;
 
 const CaptureCard = styled.div`
@@ -223,7 +236,7 @@ const CaptureCard = styled.div`
   border: 2px solid ${Colors.mainPurple};
   box-shadow: 0 10px 28px ${Colors.boxShadowPurple};
 
-  padding: 28px 28px 34px;
+  padding: 40px 90px 34px;
 
   @media (max-width: 820px) {
     width: calc(100% - 32px);
@@ -247,7 +260,7 @@ const LeftHeader = styled.div`
 `;
 
 const CardTitle = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
   color: ${Colors.black};
 `;
@@ -282,14 +295,14 @@ const RuleList = styled.div`
 
 const RuleItem = styled.div`
   width: 100%;
-  border-radius: 15px;
-  background: ${Colors.fixWhite};
-  box-shadow: 0 8px 22px ${Colors.boxShadowPurple};
-  padding: 18px 20px;
+  border-radius: 16px;
+  background: ${Colors.white};
+  box-shadow: 0 0 10px ${Colors.boxShadowBlack};
+  padding: 16px 18px;
   box-sizing: border-box;
   display: flex;
-  align-items: center;
-  gap: 14px;
+  flex-direction: column;
+  gap: 10px;
 
   @media (max-width: 480px) {
     padding: 14px 14px;

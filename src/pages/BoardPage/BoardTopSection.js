@@ -149,7 +149,7 @@ const TopContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 100px;
+  padding-top: 70px;
   padding-bottom: 100px;
   box-sizing: border-box;
 

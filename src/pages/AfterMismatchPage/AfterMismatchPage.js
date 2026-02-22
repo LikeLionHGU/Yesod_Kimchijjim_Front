@@ -251,7 +251,7 @@ const Tag = styled.div`
 
 const RuleText = styled.div`
   width: 100%;
-  font-size: 20px;
+  font-size: 17px;
   font-style: normal;
   font-weight: 500;
   line-height: 30px;
