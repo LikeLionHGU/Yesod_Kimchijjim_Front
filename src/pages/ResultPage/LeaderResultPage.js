@@ -1081,8 +1081,8 @@ const CategoryPillBtn = styled.button`
   color: ${Colors.white}; 
 
   background: ${({ $active }) =>
-    $active ? Colors.mainPurple : "rgba(141, 132, 255, 0.18)"};
-  color: ${({ $active }) => ($active ? Colors.white : Colors.mainPurple)};
+    $active ? Colors.secondPurple : "rgba(141, 132, 255, 0.18)"};
+  color: ${({ $active }) => ($active ? Colors.white : Colors.secondPurple)};
 
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
   pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};

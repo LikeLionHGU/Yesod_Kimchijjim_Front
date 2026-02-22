@@ -146,7 +146,7 @@ function FinalResultPage() {
         </RuleList>
       </CaptureCard>
 
-      {/* ✅ 오른쪽 정렬 + HomeBtn만 */}
+      
       <BottomArea>
         <HomeBtn
           type="button"
