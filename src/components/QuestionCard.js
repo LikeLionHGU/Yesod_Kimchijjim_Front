@@ -17,7 +17,7 @@ function QuestionCard({
         <CategoryPill>{category}</CategoryPill>
       </TopRow>
 
-      <Question>{question}</Question>
+      <Question $isMultiSelect={isMultiSelect}>{question}</Question>
 
       {isMultiSelect && <Notice>※ 복수 선택 가능해요</Notice>}
 
@@ -87,14 +87,12 @@ const Question = styled.h2`
 
   font-size: 22px;
   font-weight: 600;
-  margin: 7px 0 34px;
-  color: ${Colors.black};
+  margin: 7px 0 ${(props) => (props.$isMultiSelect ? "18px" : "34px")};  color: ${Colors.black};
   text-align: center;
 
   @media (max-width: 480px) {
     font-size: 18px;
-    margin: 7px 0 24px;
-  }
+    margin: 7px 0 ${(props) => (props.$isMultiSelect ? "13px" : "24px")};  }
 `;
 
 const Notice = styled.div`

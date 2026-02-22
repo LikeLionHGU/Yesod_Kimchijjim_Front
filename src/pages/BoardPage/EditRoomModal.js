@@ -275,7 +275,7 @@ const SaveButton = styled.button`
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  margin-bottom: 9px;
+  margin-bottom: 16px;
 
   &:hover {
     background: ${Colors.hoverPurple};

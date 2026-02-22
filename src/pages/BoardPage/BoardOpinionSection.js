@@ -308,7 +308,7 @@ const Empty = styled.div`
   place-items: center;
   color: ${Colors.fixGray};
   font-size: 14px;
-  padding: 18px 0;
+  padding: 25px 0 18px;
 `;
 
 const List = styled.div`
@@ -325,7 +325,7 @@ const List = styled.div`
     width: 8px;
   }
   &::-webkit-scrollbar-thumb {
-    background: ${Colors.borderLine};
+    background: #E4E1FF;
     border-radius: 999px;
   }
   &::-webkit-scrollbar-track {

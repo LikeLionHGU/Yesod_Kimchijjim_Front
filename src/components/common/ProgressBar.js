@@ -25,7 +25,7 @@ const ProgressContainer = styled.div`
 `;
 
 const Bar = styled.div`
-  height: 7px;
+  height: 5px;
   border-radius: 999px;
   background-color: ${({ $active }) =>
     $active ? Colors.secondPurple : Colors.fixWhite};

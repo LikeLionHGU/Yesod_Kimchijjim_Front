@@ -363,14 +363,14 @@ const Header = styled.div`
 
 const IconWrap = styled.div`
   width: 56px;
-  height: 56px;
+  height: auto;
   display: grid;
   place-items: center;
   margin-bottom: 10px;
 
   img {
     width: 60px;
-    height: 60px;
+    height: auto;
     display: block;
   }
 `;
