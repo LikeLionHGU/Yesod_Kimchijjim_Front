@@ -77,7 +77,7 @@ function MatchPage() {
         return;
       }
       // WAITING이면 폴링 시작
-      setWaitingMsg("다른 사람도 확인 중이에요... 모두 누르면 넘어가요.");
+      setWaitingMsg("모두가 누를 때까지 기다려 주세요!");
       pollUntilPass();
     } catch (e) {
       setHasPressed(false);
@@ -92,7 +92,7 @@ function MatchPage() {
       <ProgressBar total={totalQuestions} current={nextIndex} />
       <TopIcon src={check} alt="check" />
       <Title>모두의 답변이 일치해요</Title>
-      <SubTitle>{questionMeta?.question ?? "규칙을 확인해요"}</SubTitle>
+      <SubTitle>규칙은 모든 단계가 끝난 후 수정할 수 있어요</SubTitle>
 
       <RuleList>
         {rulesText.length === 0 ? (
@@ -119,15 +119,6 @@ function MatchPage() {
 
 export default MatchPage;
 
-// const Wrapper = styled.div`
-//   min-height: 100vh;
-//   background: ${Colors.backgroundColor};
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   padding-top: 120px;
-//   padding-bottom: 80px;
-// `;
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -153,12 +144,6 @@ const Title = styled.h1`
   font-weight: 800;
 `;
 
-// const SubTitle = styled.p`
-//   margin: 12px 0 44px;
-//   color: ${Colors.fixGray};
-//   text-align: center;
-//   font-size: 14px;
-// `;
 
 const SubTitle = styled.p`
   margin: 10px 0 36px;
@@ -174,18 +159,6 @@ const RuleList = styled.div`
   gap: 14px;
 `;
 
-// const RuleCard = styled.div`
-//   width: 746px;
-//   height: 101px;
-//   border-radius: 15px;
-//   background: ${Colors.white};
-//   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
-//   display: flex;
-//   align-items: center;
-//   gap: 16px;
-//   padding: 0 24px;
-//   box-sizing: border-box;
-// `;
 
 const RuleCard = styled.div`
   width: 100%;
@@ -200,14 +173,7 @@ const RuleCard = styled.div`
   box-sizing: border-box;
 `;
 
-// const Tag = styled.div`
-//   padding: 6px 12px;
-//   border-radius: 999px;
-//   font-size: 12px;
-//   color: ${Colors.white};
-//   background: ${Colors.secondPurple};
-//   white-space: nowrap;
-// `;
+
 
 const Tag = styled.div`
   padding: 6px 12px;
@@ -218,11 +184,7 @@ const Tag = styled.div`
   display: inline-flex;
 `;
 
-// const RuleText = styled.div`
-//   flex: 1;
-//   font-size: 16px;
-//   color: ${Colors.black};
-// `;
+
 
 const RuleText = styled.div`
   width: 100%;
@@ -232,14 +194,7 @@ const RuleText = styled.div`
   word-break: keep-all;
 `;
 
-// const ButtonWrap = styled.div`
-//   width: 746px;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-end;
-//   gap: 8px;
-//   margin-top: 20px;
-// `;
+
 
 const ButtonWrap = styled.div`
   width: min(746px, calc(100% - 40px));

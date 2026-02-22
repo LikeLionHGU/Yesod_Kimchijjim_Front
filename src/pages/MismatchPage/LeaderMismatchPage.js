@@ -148,15 +148,6 @@ export default LeaderMismatchPage;
 
 
 
-// const Wrapper = styled.div`
-//   min-height: 100vh;
-//   background: ${Colors.backgroundColor};
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   padding-top: 120px;
-//   padding-bottom: 80px;
-// `;
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -189,15 +180,6 @@ const SubTitle = styled.p`
   color: ${Colors.fixGray};
   text-align: center;
 `;
-
-// const MainCard = styled.div`
-//   width: 746px;
-//   border-radius: 15px;
-//   background: ${Colors.white};
-//   box-shadow: 0 0 15px rgba(163, 163, 253, 0.3);
-//   padding: 28px;
-//   box-sizing: border-box;
-// `;
 
 const MainCard = styled.div`
   width: min(746px, calc(100% - 40px));
@@ -267,10 +249,6 @@ const AnswerBox = styled.div`
   box-sizing: border-box;
 `;
 
-// const GuideWrap = styled.div`
-//   width: 746px;
-//   margin-top: 24px;
-// `;
 
 
 const GuideWrap = styled.div`
@@ -292,19 +270,7 @@ const GuideList = styled.ul`
   line-height: 22px;
 `;
 
-// const InputCard = styled.div`
-//   width: 746px;
-//   height: 101px;
-//   margin-top: 24px;
-//   border-radius: 15px;
-//   background: ${Colors.white};
-//   box-shadow: 0 0 15px rgba(163, 163, 253, 0.3);
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   padding: 0 28px;
-//   box-sizing: border-box;
-// `;
+
 
 const InputCard = styled.div`
   width: min(746px, calc(100% - 40px));
@@ -325,35 +291,7 @@ const InputCard = styled.div`
   }
 `;
 
-// const RuleInput = styled.input`
-//   flex: 1;
-//   border: none;
-//   outline: none;
-//   font-size: 14px;
-//   color: ${Colors.black};
-//   background: transparent;
-//   padding-right: 16px;
 
-//   &::placeholder {
-//     color: ${Colors.fixGray};
-//   }
-// `;
-
-// const RuleInput = styled.input`
-//   flex: 1;
-//   border: none;
-//   outline: none;
-//   font-size: 16px;
-//   font-weight: 500;
-//   color: ${Colors.black};
-//   background: transparent;
-//   padding-right: 16px;
-
-//   &::placeholder {
-//     color: ${Colors.fixGray};
-//     font-weight: 500;
-//   }
-// `;
 
 const RuleInput = styled.input`
   width: 100%;
@@ -373,47 +311,15 @@ const RuleInput = styled.input`
   }
 `;
 
-// const DoneButton = styled.button`
-//   display: flex;
-//   min-width: 175px;
-//   height: 55px;
-//   padding: 12px 24px;
-//   justify-content: center;
-//   align-items: center;
-//   border: none;
-//   border-radius: 12px;
-//   background: ${Colors.mainPurple};
-//   color: ${Colors.white};
-//   font-weight: 800;
-//   cursor: pointer;
-//   white-space: nowrap;
-
-//   opacity: ${({ disabled }) => (disabled ? 0.3 : 1)};
-//   pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
-// `;
-
-// const DoneButton = styled.button`
-//   min-width: 175px;
-//   height: 55px;
-//   padding: 12px 24px;
-//   border: none;
-//   border-radius: 12px;
-
-//   background: ${({ disabled }) =>
-//     disabled ? Colors.detailWhite : Colors.mainPurple};
-
-//   color: ${({ disabled }) =>
-//     disabled ? Colors.fixGray : Colors.white}; 
-
-//   font-weight: 800;
-//   cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
-//   white-space: nowrap;
-// `;
 
 const DoneButton = styled.button`
-  min-width: 175px;
+  display: flex;                 
+  justify-content: center;       
+  align-items: center;           
+  gap: 10px;                     
+  width: 175px;                
   height: 55px;
-  padding: 12px 24px;
+  padding: 12px 62px;          
   border: none;
   border-radius: 12px;
 
@@ -428,6 +334,6 @@ const DoneButton = styled.button`
 
   @media (max-width: 520px) {
     width: 100%;
-    margin-left: 0; 
+    margin-left: 0;
   }
 `;

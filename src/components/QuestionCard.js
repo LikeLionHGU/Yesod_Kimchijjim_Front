@@ -38,22 +38,6 @@ function QuestionCard({
 
 export default QuestionCard;
 
-/* styled */
-
-// const Card = styled.div`
-//   width: 936px;
-//   min-height: 588px;
-//   background: ${Colors.white};
-//   border-radius: 15px;
-//   padding: 48px;
-//   margin-top: 32px;
-//   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
-
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center; /* 카드 내부 가운데 정렬 */
-//   box-sizing: border-box;
-// `;
 
 const Card = styled.div`
   width: min(936px, calc(100% - 40px));
@@ -61,7 +45,7 @@ const Card = styled.div`
   background: ${Colors.white};
   border-radius: 15px;
   padding: 48px;
-  margin-top: 28px;
+  margin-top: 0;
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
 
   display: flex;
@@ -86,25 +70,20 @@ const CategoryPill = styled.div`
   text-align: center;
   font-family: ${Colors.font};
   font-size: 13px;
+  font-style: normal;
   font-weight: 700;
   line-height: 14px;
-
+  box-sizing: border-box;
+  gap: 10px;
   display: flex;
   width: 80px;
   height: 30px;
   padding: 8px 14px;
   justify-content: center;
   align-items: center;
-  border-radius: 30px;
+  border-radius: 15px;
   background: ${Colors.secondPurple};
 `;
-
-// const Question = styled.h2`
-//   font-size: 22px;
-//   margin: 24px 0 40px;
-//   color: ${Colors.black};
-//   text-align: center;
-// `;
 
 
 const Question = styled.h2`
@@ -122,19 +101,12 @@ const Question = styled.h2`
 
 const Notice = styled.div`
   font-size: 13px;
-  color: ${Colors.fixGray};
+  color: ${Colors.mainPurple};
   margin-bottom: 12px;
   width: 100%;
   text-align: center;
 `;
 
-// const OptionList = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   gap: 14px;
-//   width: 100%;
-// `;
 
 const OptionList = styled.div`
   display: flex;

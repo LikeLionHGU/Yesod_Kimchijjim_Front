@@ -18,35 +18,7 @@ function AnswerOption({ text, selected, onClick, isMultiSelect }) {
 
 export default AnswerOption;
 
-// const Option = styled.div`
-//   display: flex;
-//   width: 556px;
-//   height: 61px;
-//   padding: 17px 28px;
-//   align-items: center;
-//   gap: 10px;
-//   border-radius: 15px;
-//   cursor: pointer;
 
-//   background: ${Colors.fixWhite};
-//   border: 2px solid transparent;
-
-//   &:hover {
-//     border: 2px solid ${Colors.mainPurple};
-//     opacity: 0.7;
-//     background: ${Colors.backgroundColor};
-//     box-shadow: 0 0 15px 0 ${Colors.boxShadowPurple};
-//   }
-
-//   ${({ $selected }) =>
-//     $selected &&
-//     `
-//       border: 2px solid ${Colors.mainPurple};
-//       background: ${Colors.backgroundColor};
-//       box-shadow: 0 0 15px 0 ${Colors.boxShadowPurple};
-//       opacity: 1;
-//     `}
-// `;
 
 
 const Option = styled.div`
@@ -118,24 +90,14 @@ const Circle = styled.div`
     `}
 `;
 
-// const Text = styled.div`
-//   font-family: ${Colors.font};
-//   font-size: 17px;
-//   color: ${Colors.black};
-
-//   ${({ $selected }) =>
-//     $selected &&
-//     `
-//       color: ${Colors.secondPurple};
-//       font-weight: 600;
-//     `}
-// `;
 
 const Text = styled.div`
   font-family: ${Colors.font};
   font-size: 17px;
+  font-style: normal;
+  font-weight: 500;
   color: ${Colors.black};
-  line-height: 1.2;
+  line-height: 17px;
 
   /*모바일에셔 깨짐 방지*/
   word-break: keep-all;
@@ -143,8 +105,7 @@ const Text = styled.div`
   ${({ $selected }) =>
     $selected &&
     `
-      color: ${Colors.secondPurple};
-      font-weight: 600;
+      color: ${Colors.mainPurple};
     `}
 
   @media (max-width: 480px) {
@@ -152,42 +113,16 @@ const Text = styled.div`
   }
 `;
 
-// const Square = styled.div`
-//   width: 22px;
-//   height: 22px;
-//   border-radius: 6px;
-//   box-sizing: border-box;
-//   flex-shrink: 0;
 
-//   border: 2px solid ${({ $selected }) =>
-//     $selected ? Colors.mainPurple : Colors.borderLine};
-//   background: ${({ $selected }) =>
-//     $selected ? Colors.backgroundColor : Colors.fixWhite};
-
-//   position: relative;
-
-//   &::after {
-//     content: "";
-//     position: absolute;
-//     top: 50%;
-//     left: 50%;
-//     width: 12px;
-//     height: 12px;
-//     transform: translate(-50%, -50%);
-//     border-radius: 3px;
-//     background: ${Colors.mainPurple};
-//     opacity: ${({ $selected }) => ($selected ? 1 : 0)};
-//   }
-// `;
 
 const Square = styled.div`
   width: 22px;
   height: 22px;
-  border-radius: 6px;
+  border-radius: 0;
   box-sizing: border-box;
   flex-shrink: 0;
   position: relative;
-  border: 2px solid ${({ $selected }) =>
+  border: 1px solid ${({ $selected }) =>
     $selected ? Colors.mainPurple : Colors.borderLine};
   background: ${Colors.fixWhite};
 
@@ -201,8 +136,8 @@ const Square = styled.div`
     width: 10px;
     height: 6px;
 
-    border-left: 3px solid ${Colors.mainPurple};
-    border-bottom: 3px solid ${Colors.mainPurple};
+    border-left: 2px solid ${Colors.mainPurple};
+    border-bottom: 2px solid ${Colors.mainPurple};
 
     transform: translate(-50%, -58%) rotate(-45deg);
     opacity: ${({ $selected }) => ($selected ? 1 : 0)};
