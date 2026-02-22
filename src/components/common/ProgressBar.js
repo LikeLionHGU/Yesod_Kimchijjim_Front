@@ -21,7 +21,6 @@ const ProgressContainer = styled.div`
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-bottom: 71px;
   box-sizing: border-box;
 `;
 
@@ -29,7 +28,7 @@ const Bar = styled.div`
   height: 7px;
   border-radius: 999px;
   background-color: ${({ $active }) =>
-    $active ? Colors.secondPurplePurple : Colors.White};
+    $active ? Colors.secondPurple : Colors.White};
   transition: background-color 0.2s;
   flex: 1;            
   max-width: 175px;   

@@ -181,10 +181,9 @@ function TestPage() {
 
   return (
     <Wrapper>
+      <HeaderToProgressSpacer />
       <ProgressBar total={totalQuestions} current={currentIndex + 1} />
-
-      <TopSpacer />
-
+      <ProgressToCardSpacer /> 
       <QuestionCard
         category={currentQuestion.category}
         question={currentQuestion.question}
@@ -233,7 +232,7 @@ export default TestPage;
 const Wrapper = styled.div`
   width: 100%;
   min-height: 100vh;
-  padding: 80px 0 170px;
+  padding: 82px 0 170px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -241,8 +240,12 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const TopSpacer = styled.div`
-  height: 148px;
+const HeaderToProgressSpacer = styled.div`
+  height: 31px;
+`;
+
+const ProgressToCardSpacer = styled.div`
+  height: 71px;
 `;
 
 
