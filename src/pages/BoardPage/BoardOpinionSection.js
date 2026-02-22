@@ -1,10 +1,9 @@
-
 import { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import { api } from "../../utils/api";
 
-const CARD_HEIGHT = 520;
+const CARD_HEIGHT = 640;
 
 const TABS = {
   RECOMMEND: "RECOMMEND",
@@ -151,18 +150,10 @@ function BoardOpinionSection() {
         <WriteTitle>의견 남기기</WriteTitle>
 
         <Tabs>
-          <TabBtn
-            type="button"
-            $active={tab === TABS.RECOMMEND}
-            onClick={() => setTab(TABS.RECOMMEND)}
-          >
+          <TabBtn type="button" $active={tab === TABS.RECOMMEND} onClick={() => setTab(TABS.RECOMMEND)}>
             문구 추천받기
           </TabBtn>
-          <TabBtn
-            type="button"
-            $active={tab === TABS.DIRECT}
-            onClick={() => setTab(TABS.DIRECT)}
-          >
+          <TabBtn type="button" $active={tab === TABS.DIRECT} onClick={() => setTab(TABS.DIRECT)}>
             직접 입력하기
           </TabBtn>
         </Tabs>
@@ -189,9 +180,7 @@ function BoardOpinionSection() {
                 ))}
               </TopicGrid>
 
-              <BlockTitle style={{ marginTop: 24 }}>
-                아래 추천 문구 중 하나를 선택해주세요
-              </BlockTitle>
+              <BlockTitle style={{ marginTop: 24 }}>아래 추천 문구 중 하나를 선택해주세요</BlockTitle>
 
               <RecommendList>
                 {recommendList.map((txt) => (
@@ -220,11 +209,7 @@ function BoardOpinionSection() {
         </WriteBody>
 
         <SendWrap>
-          <SendBtn
-            type="button"
-            onClick={handleSend}
-            disabled={!canSend || isSending || !roomCode}
-          >
+          <SendBtn type="button" onClick={handleSend} disabled={!canSend || isSending || !roomCode}>
             {isSending ? "전송 중..." : "전송하기"}
           </SendBtn>
         </SendWrap>
@@ -280,7 +265,7 @@ const BoardCard = styled.div`
 
   @media (max-width: 900px) {
     padding: 18px 18px;
-    height: 380px;
+    height: 520px;
   }
 `;
 
@@ -299,7 +284,7 @@ const WriteCard = styled.div`
 
   @media (max-width: 900px) {
     padding: 18px 18px;
-    height: 420px;
+    height: 640px;
   }
 `;
 
@@ -414,8 +399,7 @@ const TabBtn = styled.button`
   padding: 8px 0;
   font-weight: 900;
   color: ${({ $active }) => ($active ? Colors.mainPurple : Colors.fixGray)};
-  border-bottom: ${({ $active }) =>
-    $active ? `2px solid ${Colors.mainPurple}` : "2px solid transparent"};
+  border-bottom: ${({ $active }) => ($active ? `2px solid ${Colors.mainPurple}` : "2px solid transparent")};
 
   &:hover {
     color: ${Colors.mainPurple};
@@ -433,7 +417,6 @@ const WriteBody = styled.div`
   flex-direction: column;
   flex: 1;
   min-height: 0;
-  overflow: hidden;
 `;
 
 const BlockTitle = styled.div`
@@ -516,7 +499,7 @@ const RecommendBtn = styled.button`
 `;
 
 const DirectInput = styled.textarea`
-  margin-top: 10px;
+  margin-top: 12px;
   flex: 1;
   min-height: 0;
 
@@ -524,7 +507,7 @@ const DirectInput = styled.textarea`
   border: 2px solid transparent;
   outline: none;
 
-  padding: 12px 12px;
+  padding: 14px 14px;
   font-size: 14px;
   resize: none;
 
@@ -542,6 +525,7 @@ const DirectInput = styled.textarea`
 
 const SendWrap = styled.div`
   margin-top: auto;
+  padding-top: 18px;
   display: flex;
   justify-content: flex-end;
 
