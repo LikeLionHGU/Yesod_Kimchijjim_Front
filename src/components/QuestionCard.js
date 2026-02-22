@@ -53,8 +53,7 @@ const Card = styled.div`
   box-sizing: border-box;
 
   @media (max-width: 480px) {
-    padding: 28px 20px;
-    min-height: auto;
+    padding: 28px 20px 24px;
   }
 `;
 
