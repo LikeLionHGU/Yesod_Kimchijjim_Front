@@ -107,7 +107,7 @@ function AfterMismatchPage() {
           pollRef.current = null;
           goNext();
         } else {
-          setWaitingMsg("다른 사람도 확인 중이에요... 모두 누르면 넘어가요.");
+          setWaitingMsg("모두가 누를 때까지 기다려주세요!");
         }
       } catch (e) {
         clearInterval(pollRef.current);
@@ -142,7 +142,7 @@ function AfterMismatchPage() {
         return;
       }
 
-      setWaitingMsg("다른 사람도 확인 중이에요... 모두 누르면 넘어가요.");
+      setWaitingMsg("모두가 누를 때까지 기다려주세요!");
       startPollingPass();
     } catch (e) {
       setHasPressed(false);
@@ -165,10 +165,14 @@ function AfterMismatchPage() {
       </RuleCard>
 
       <ButtonWrap>
-        <Button onClick={handleConfirm} disabled={!ruleText || isLoading || hasPressed}>
+        <ConfirmButton
+          onClick={handleConfirm}
+          disabled={!ruleText || isLoading}
+          $pressed={hasPressed}
+        >
           {hasPressed ? "확인 완료!" : "확인했어요"}
-        </Button>
-        {hasPressed && <Hint>{waitingMsg || "확인했어요!"}</Hint>}
+        </ConfirmButton>
+        {hasPressed && <Hint>{waitingMsg || "모두가 누를 때까지 기다려주세요!"}</Hint>}
       </ButtonWrap>
     </Wrapper>
   );
@@ -176,15 +180,6 @@ function AfterMismatchPage() {
 
 export default AfterMismatchPage;
 
-// const Wrapper = styled.div`
-//   min-height: 100vh;
-//   background: ${Colors.backgroundColor};
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   padding-top: 120px;
-//   padding-bottom: 80px;
-// `;
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -217,17 +212,6 @@ const SubTitle = styled.p`
   font-size: 14px;
 `;
 
-// const RuleCard = styled.div`
-//   width: 746px;
-//   border-radius: 15px;
-//   background: ${Colors.white};
-//   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
-//   display: flex;
-//   align-items: center;
-//   gap: 16px;
-//   padding: 24px;
-//   box-sizing: border-box;
-// `;
 
 const RuleCard = styled.div`
   width: 746px;
@@ -257,14 +241,6 @@ const RuleText = styled.div`
   color: ${Colors.black};
 `;
 
-// const ButtonWrap = styled.div`
-//   width: 746px;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-end;
-//   gap: 8px;
-//   margin-top: 20px;
-// `;
 
 const ButtonWrap = styled.div`
   width: 746px;
@@ -280,4 +256,23 @@ const Hint = styled.div`
   font-size: 12px;
   color: ${Colors.mainPurple};
   text-align: right;
+`;
+
+
+const ConfirmButton = styled(Button)`
+  display: flex;
+  width: 175px;
+  height: 55px;
+  padding: 12px 62px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 11px;
+
+  background: ${({ $pressed }) =>
+    $pressed ? "#4A1FC6" : Colors.mainPurple};
+
+  &:hover:not(:disabled) {
+    background: #4A1FC6;
+  }
 `;
