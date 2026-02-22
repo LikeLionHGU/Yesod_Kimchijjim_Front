@@ -188,7 +188,7 @@ function BoardOpinionSection() {
                 ))}
               </TopicGrid>
 
-              <BlockTitle style={{ marginTop: 14 }}>
+              <BlockTitle style={{ marginTop: 24 }}>
                 아래 추천 문구 중 하나를 선택해주세요
               </BlockTitle>
 
@@ -270,7 +270,7 @@ const BoardCard = styled.div`
   background: ${Colors.white};
   border-radius: 18px;
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
-  padding: 26px 26px;
+  padding: 50px 26px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -287,7 +287,7 @@ const WriteCard = styled.div`
   background: ${Colors.white};
   border-radius: 18px;
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
-  padding: 50px 48px;
+  padding: 26px 26px;
   box-sizing: border-box;
   border: 1px solid ${Colors.mainPurple};
   display: flex;
@@ -398,9 +398,8 @@ const WriteTitle = styled.h3`
 const Tabs = styled.div`
   display: flex;
   gap: 16px;
-  margin-bottom: 10px;
-  border-bottom: none;
-  padding-bottom: 0;
+  border-bottom: 1px solid ${Colors.borderLine};
+  padding-bottom: 10px;
 `;
 
 
@@ -408,9 +407,8 @@ const TabBtn = styled.button`
   border: none;
   background: transparent;
   cursor: pointer;
-  padding: 6px 0;
-  font-weight: 700;
-  font-size: 13px;
+  padding: 8px 0;
+  font-weight: 900;
   color: ${({ $active }) => ($active ? Colors.mainPurple : Colors.fixGray)};
   border-bottom: ${({ $active }) =>
     $active ? `2px solid ${Colors.mainPurple}` : "2px solid transparent"};
@@ -430,7 +428,6 @@ const TabBtn = styled.button`
 `;
 
 const WriteBody = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
 `;
@@ -444,11 +441,6 @@ const BlockTitle = styled.div`
 
 const TopicGrid = styled.div`
   margin-top: 10px;
-  width: 100%;
-  max-width: 520px;        
-  margin-left: auto;       
-  margin-right: auto;
-
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -460,35 +452,43 @@ const TopicIcon = styled.span`
 
 
 const TopicBtn = styled.button`
-  height: 56px;               
+  height: 56px;
   border-radius: 14px;
-  border: none;
-  background: ${({ $active }) => ($active ? "rgba(101, 63, 210, 0.10)" : Colors.fixwhite)};
+
+
+  border: 2px solid
+    ${({ $active }) => ($active ? Colors.mainPurple : "transparent")};
+
+  background: ${({ $active }) =>
+    $active ? "rgba(101, 63, 210, 0.10)" : Colors.fixWhite};
+
   cursor: pointer;
   font-weight: 500;
   font-size: 15px;
   color: ${({ $active }) => ($active ? Colors.mainPurple : Colors.fixGray)};
+
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
 
+
+  box-sizing: border-box;
+
   &:hover {
-    opacity: 0.7;              
+    opacity: 0.7;
+  }
+  &:active {
+    opacity: 0.7;
   }
 
-  &:active {
-    opacity: 0.7;              
+  &:focus-visible {
+    outline: none;
+    border-color: ${Colors.mainPurple};
   }
 `;
-
 const RecommendList = styled.div`
   margin-top: 10px;
-  width: 100%;
-  max-width: 520px;   
-  margin-left: auto;
-  margin-right: auto;
-
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -496,37 +496,60 @@ const RecommendList = styled.div`
 
 
 const RecommendBtn = styled.button`
-  height: 56px;                
+  height: 56px;
   border-radius: 14px;
-  border: none;
-  background: ${({ $active }) => ($active ? "rgba(101, 63, 210, 0.10)" : Colors.fixwhite)};
+
+
+  border: 2px solid
+    ${({ $active }) => ($active ? Colors.mainPurple : "transparent")};
+
+  background: ${({ $active }) =>
+    $active ? "rgba(101, 63, 210, 0.10)" : Colors.fixWhite};
+
   cursor: pointer;
   font-weight: 500;
   font-size: 15px;
   color: ${({ $active }) => ($active ? Colors.mainPurple : Colors.fixGray)};
+
   text-align: left;
   padding: 0 18px;
 
-  &:hover {
-    opacity: 0.7;          
-  }
+  box-sizing: border-box;
 
+  &:hover {
+    opacity: 0.7;
+  }
   &:active {
     opacity: 0.7;
+  }
+
+
+  &:focus-visible {
+    outline: none;
+    border-color: ${Colors.mainPurple};
   }
 `;
 
 const DirectInput = styled.textarea`
   margin-top: 10px;
   min-height: 120px;
+
   border-radius: 12px;
-  border: 1px solid ${Colors.borderLine};
+  border: 1px solid transparent;  
+  outline: none;
+
   padding: 12px 12px;
   font-size: 14px;
-  outline: none;
   resize: none;
+
   background: ${Colors.fixWhite};
   line-height: 1.5;
+
+
+  &:hover {
+    border: 1px solid ${Colors.mainPurple};
+  }
+
 
   &:focus {
     border: 1px solid ${Colors.mainPurple};
@@ -545,19 +568,19 @@ const SendWrap = styled.div`
 
 
 const SendBtn = styled.button`
-  height: 64px;             
-  min-width: 175px;
+  height: 56px;                
+  width: 175px;
   padding: 0 28px;
-  border-radius: 16px;
+  border-radius: 14px;
   border: none;
   cursor: pointer;
-  font-weight: 900;
-  font-size: 16px;
+  font-weight: 800;
+  font-size: 15px;
   color: ${Colors.white};
   background: ${Colors.mainPurple}; 
 
   &:hover:not(:disabled) {
-    background: #4A1FC6;    
+    background: #4A1FC6;        
   }
 
   &:active:not(:disabled) {
@@ -565,7 +588,7 @@ const SendBtn = styled.button`
   }
 
   &:disabled {
-    background: rgba(101, 63, 210, 0.3);
+    background: rgba(101, 63, 210, 0.3); 
     cursor: not-allowed;
   }
 

@@ -127,12 +127,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 0 170px;
+  padding: 49px 0 170px;
   box-sizing: border-box;
 `;
 
 const TopSpacer = styled.div`
-  height: 80px;
+  height: 42px;
 `;
 
 const TopIcon = styled.img`
