@@ -352,9 +352,11 @@ function TestPage() {
         return;
       }
 
+      const serverData = Array.isArray(res) ? res : (res?.data || []);
+
       const nextPayload = {
         ...payload,
-        data: res?.data || [],
+        data: serverData,
         amIHost: res?.amIHost,
       };
 
