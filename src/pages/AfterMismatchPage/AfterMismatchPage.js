@@ -154,7 +154,9 @@ function AfterMismatchPage() {
 
   return (
     <Wrapper>
+      <HeaderToProgressSpacer /> 
       <ProgressBar total={totalQuestions} current={progressCurrent} />
+      <ProgressToIconSpacer /> 
       <TopIcon src={check} alt="check" />
       <Title>규칙을 합의했어요</Title>
       <SubTitle>규칙은 테스트가 끝난 뒤에도 수정할 수 있어요</SubTitle>
@@ -187,8 +189,16 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 98px;
-  padding-bottom: 80px;
+  padding: 0 0 80px;
+  box-sizing: border-box;
+`;
+
+const HeaderToProgressSpacer = styled.div`
+  height: 49px; /* A */
+`;
+
+const ProgressToIconSpacer = styled.div`
+  height: 49px; /* B */
 `;
 
 const TopIcon = styled.img`

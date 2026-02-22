@@ -63,7 +63,9 @@ function MemberMismatchPage() {
 
   return (
     <Wrapper>
+      <HeaderToProgressSpacer />
       <ProgressBar total={totalQuestions} current={questionIndex + 1} />
+      <ProgressToIconSpacer />
       <TopIcon src={exclamation_mark} alt="!" />
       <Title>의견 차이가 있어요</Title>
       <SubTitle>방장이 규칙을 정리하고 있어요</SubTitle>
@@ -105,9 +107,16 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 98px 0 120px;
+  padding: 0 0 120px;
   box-sizing: border-box;
-  gap: 16px;
+`;
+
+const HeaderToProgressSpacer = styled.div`
+  height: 49px; /* A */
+`;
+
+const ProgressToIconSpacer = styled.div`
+  height: 49px; /* B */
 `;
 
 const TopIcon = styled.img`
