@@ -7,6 +7,8 @@ import Style from "./styles/style";
 
 import axios from "axios";
 
+import ScrollTop from "./components/common/ScrollTop";
+
 //헤더 푸터
 import Header from "./pages/HeaderPage/HeaderPage";
 import Footer from "./pages/FooterPage/FooterPage";
@@ -45,6 +47,7 @@ function App() {
     <RoomProvider>
       <Style/>
       <BrowserRouter>
+        <ScrollTop/>
         <Header />
 
         <Routes>

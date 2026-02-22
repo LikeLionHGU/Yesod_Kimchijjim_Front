@@ -241,11 +241,11 @@ const Wrapper = styled.div`
 `;
 
 const HeaderToProgressSpacer = styled.div`
-  height: 49px;
+  height: 30px;
 `;
 
 const ProgressToCardSpacer = styled.div`
-  height: 49px;
+  height: 30px;
 `;
 
 

@@ -164,11 +164,11 @@ const Wrapper = styled.div`
 `;
 
 const HeaderToProgressSpacer = styled.div`
-  height: 49px; /* A */
+  height: 30px; /* A */
 `;
 
 const ProgressToIconSpacer = styled.div`
-  height: 49px; /* B */
+  height: 30px; /* B */
 `;
 
 const TopIcon = styled.img`
@@ -179,15 +179,15 @@ const TopIcon = styled.img`
 
 const Title = styled.h1`
   margin: 0;
-  font-size: 28px;
-  font-weight: 800;
+  font-size: 25px;
+  font-weight: 700;
   color: ${Colors.black};
   text-align: center;
 `;
 
 const SubTitle = styled.p`
-  margin: 0 0 16px;
-  font-size: 14px;
+  margin: 10px 0 36px;
+  font-size: 16px;
   color: ${Colors.fixGray};
   text-align: center;
 `;
@@ -199,6 +199,10 @@ const MainCard = styled.div`
   box-shadow: 0 0 15px rgba(163, 163, 253, 0.3);
   padding: 28px;
   box-sizing: border-box;
+
+  @media (max-width: 520px) {
+    padding: 20px;
+  }
 `;
 
 const SmallLabel = styled.div`
