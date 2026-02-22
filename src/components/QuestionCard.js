@@ -86,6 +86,7 @@ const CategoryPill = styled.div`
 const Question = styled.h2`
 
   font-size: 22px;
+  font-weight: 600;
   margin: 7px 0 34px;
   color: ${Colors.black};
   text-align: center;
@@ -97,7 +98,8 @@ const Question = styled.h2`
 `;
 
 const Notice = styled.div`
-  font-size: 13px;
+  font-size: 15px;
+  font-weight: 400;
   color: ${Colors.mainPurple};
   margin-bottom: 12px;
   width: 100%;

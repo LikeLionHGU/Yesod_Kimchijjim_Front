@@ -194,11 +194,11 @@ const Wrapper = styled.div`
 `;
 
 const HeaderToProgressSpacer = styled.div`
-  height: 49px; /* A */
+  height: 30px; /* A */
 `;
 
 const ProgressToIconSpacer = styled.div`
-  height: 49px; /* B */
+  height: 30px; /* B */
 `;
 
 const TopIcon = styled.img`
@@ -209,17 +209,17 @@ const TopIcon = styled.img`
 
 const Title = styled.h1`
   margin: 0;
-  font-size: 28px;
+  font-size: 25px;
+  font-weight: 700;
   color: ${Colors.black};
   text-align: center;
-  font-weight: 800;
 `;
 
 const SubTitle = styled.p`
-  margin: 12px 0 44px;
+  margin: 10px 0 36px;
+  font-size: 16px;
   color: ${Colors.fixGray};
   text-align: center;
-  font-size: 14px;
 `;
 
 
@@ -228,11 +228,11 @@ const RuleCard = styled.div`
   max-width: calc(100% - 40px);
   border-radius: 15px;
   background: ${Colors.white};
-  box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
+  box-shadow: 0 0 20px ${Colors.boxShadowPurple};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: 5px;
   padding: 24px;
   box-sizing: border-box;
 `;

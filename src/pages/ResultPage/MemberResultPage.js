@@ -152,24 +152,17 @@ const IconWrap = styled.div`
 
 const Title = styled.h1`
   margin: 0;
-  font-size: 28px;
+  font-size: 25px;
   color: ${Colors.black};
-  font-weight: 800;
-
-  @media (max-width: 780px) {
-    font-size: 24px;
-  }
+  font-weight: 700;
+  text-align: center;
 `;
 
 const SubTitle = styled.p`
-  margin: 12px 0 24px;
+  margin: 10px 0 36px;
   color: ${Colors.fixGray};
-  font-size: 20px;
-
-  @media (max-width: 780px) {
-    margin: 10px 0 20px;
-    font-size: 15px;
-  }
+  font-size: 16px;
+  text-align: center;
 `;
 
 const Card = styled.div`
@@ -222,7 +215,7 @@ const RuleItem = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 
   @media (max-width: 780px) {
     padding: 14px 14px;

@@ -24,7 +24,7 @@ const StyledButton = styled.button`
   background-color: ${Colors.mainPurple};
   opacity: ${({ disabled }) => (disabled ? 0.3 : 1)};
 
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
 
   transition: background-color 0.15s ease, opacity 0.15s ease;
 
