@@ -232,7 +232,7 @@ export default TestPage;
 const Wrapper = styled.div`
   width: 100%;
   min-height: 100vh;
-  padding: 82px 0 170px;
+  padding: 0 0 170px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -241,11 +241,11 @@ const Wrapper = styled.div`
 `;
 
 const HeaderToProgressSpacer = styled.div`
-  height: 31px;
+  height: 49px;
 `;
 
 const ProgressToCardSpacer = styled.div`
-  height: 71px;
+  height: 49px;
 `;
 
 
