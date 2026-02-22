@@ -256,7 +256,7 @@ const BoardCard = styled.div`
   background: ${Colors.white};
   border-radius: 18px;
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
-  padding: 50px 26px;
+  padding: 26px 26px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
