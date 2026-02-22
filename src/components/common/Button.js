@@ -12,23 +12,6 @@ function Button({ children, onClick, disabled }) {
 
 export default Button;
 
-// const StyledButton = styled.button`
-//   padding: 12px 32px;
-//   border-radius: 12px;
-//   border: none;
-//   font-size: 16px;
-//   font-weight: 600;
-//   cursor: pointer;
-
-//   background-color: ${({ disabled }) =>
-//     disabled ? Colors.borderLine : Colors.mainPurple};
-//   color: ${Colors.white};
-
-//   &:hover {
-//     background-color: ${({ disabled }) =>
-//       disabled ? Colors.borderLine : Colors.secondPurple};
-//   }
-// `;
 
 const StyledButton = styled.button`
   width: 166px;

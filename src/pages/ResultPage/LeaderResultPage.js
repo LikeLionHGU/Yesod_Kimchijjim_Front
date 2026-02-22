@@ -1001,6 +1001,7 @@ const RuleInput = styled.input`
   padding: 0 14px;
   box-shadow: inset 0 0 0 1px ${Colors.inputColor};
   font-size: 15px;
+  box-sizing: border-box;
 `;
 
 const IconBtn = styled.button`
@@ -1074,8 +1075,10 @@ const CategoryPillBtn = styled.button`
   cursor: pointer;
   padding: 8px 14px;
   border-radius: 999px;
-  font-weight: 800;
+  font-weight: 500;
   font-size: 12px;
+  background: ${Colors.secondPurple};
+  color: ${Colors.white}; 
 
   background: ${({ $active }) =>
     $active ? Colors.mainPurple : "rgba(141, 132, 255, 0.18)"};
