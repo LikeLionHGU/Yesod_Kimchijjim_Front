@@ -8,7 +8,7 @@ import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 //메인 보라색 
 import purplefront from "../../assets/landingpurplefront.svg";
 import purpleback from "../../assets/landingpurpleback.svg";
-import talkIcon from "../../assets/landingTalk.svg";
+import talkIcon from "../../assets/landingTal.svg";
 import downIcon from "../../assets/landingdoubledown.svg";
 
 //주요기능
@@ -76,7 +76,8 @@ const LandingPage = () => {
 
                     <ContentContainer>
                         <FirstTextGroup>
-                            <FirstTitle>서로 다른 수면 성향 간 합의를<br />돕는 룸메이트 수면 소통 플랫폼</FirstTitle>
+                            <FirstTitle><BigFirstTitle>잠깐만!</BigFirstTitle> <br/>우리 잠 이야기부터 해볼까?</FirstTitle>
+                            <SecondTitle>서로 다른 수면 성향 간 합의를 돕는<br /><SecondTitleHighlight>룸메이트 수면 소통 플랫폼</SecondTitleHighlight></SecondTitle>
                             <LoginButtonWrapper>
                                 {!token && (
                                     <GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginError} />
@@ -164,7 +165,7 @@ const LandingPage = () => {
                             <StepTextGroup>
                                 <StepNumber>4</StepNumber>
                                 <StepTitle>알림 활용</StepTitle>
-                                <StepDesc>생활 중 불편한 점은<br />잠깐만이 대신 전해줘요</StepDesc>
+                                <StepDesc>생활 중 불편한 점은<br /><Highlight>잠깐만</Highlight>이 대신 전해줘요</StepDesc>
                             </StepTextGroup>
                             <StepImgWrapper $paddingTop="94px">
                                 <ExImg src={exampleImg4} alt="" />
@@ -284,28 +285,26 @@ const FirstTextGroup = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 150px;
-    margin-left: 97px;
-    gap: 249px;
+    margin-left: 0px;
+    gap: 0;
     
     @media (max-width: 1210px) {
         align-items: center;
-        gap: 150px;
     }
 
     @media (max-width: 950px) {
         margin-top: 80px;
-        margin-left: 0;
-        gap: 60px;
     }
 `;
 
 const FirstTitle = styled.h1`
     color: ${Colors.white};
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 700;
     font-style: normal;
-    line-height: 53px;
+    line-height: 55px;
     margin: 0;
+    margin-bottom: 49px;
 
     @media (max-width: 1210px) {
         font-size: 26px;
@@ -313,24 +312,52 @@ const FirstTitle = styled.h1`
     }
 `;
 
+const BigFirstTitle = styled.span`
+    font-size: 60px;
+
+    @media (max-width: 1210px){
+        font-size: 32px;
+    }
+`;
+
+const SecondTitle = styled.h2`
+    color: #E4E1FF;
+    font-size: 24px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 37px;
+    margin: 0;
+    margin-bottom: 146px;
+
+    @media (max-width: 1210px) {
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 60px;
+    }
+`;
+
+const SecondTitleHighlight = styled.span`
+    color: ${Colors.white};
+`;
+
 const LoginButtonWrapper = styled.div`
     width: fit-content;
 
     @media (max-width: 1210px) {
         margin: 0 auto;
+        align-self: center;
         display: flex;
         justify-content: center;
-
     }
 `;
 
 const FirstTalkIcon = styled.div`
     width: 600px;
     height: auto;
-    margin-top: 45px;
+    margin-top: 100px;
     align-self: flex-start;
 
-    margin-right: 30px;
+    margin-right: 0px;
 
     img {
         width: 100%;
@@ -345,8 +372,8 @@ const FirstTalkIcon = styled.div`
 
     @media (max-width: 950px) {
         width: 80%;
-        max-width: 400px;
-        margin-top: 20px;
+        max-width: 300px;
+        margin-top: 0px;
         align-self: center;
     }
 `;
@@ -563,14 +590,16 @@ const StepImgWrapper = styled.div`
     width: 55%;
     display: flex;
     justify-content: flex-end;
-    align-items: flex-start;
+    align-items: flex-end;
     padding-right: 16px;
     padding-top: ${props => props.$paddingTop || "0"};
+    padding-bottom: 0;
     
     @media (max-width: 768px) {
         width: 90%;
         justify-content: center;
         padding-top: 10px;
+        padding-right: 0;
     }
 `;
 
@@ -578,10 +607,12 @@ const ExImg = styled.img`
     width: 100%;
     height: auto;
     object-fit: cover;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    display: block;
 `;
 
+const Highlight = styled.span`
+    color: ${Colors.mainPurple};
+`;
 
 /* 4. 핵심 가치 구역 */
 const FourthSection = styled.div`
