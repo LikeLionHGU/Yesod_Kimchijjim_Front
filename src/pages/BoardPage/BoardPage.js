@@ -191,6 +191,7 @@ const BoardPage = () => {
       setRoomInfo(infoRes.data);
     } catch (error) {
       console.log("방 정보 로딩 실패:", error);
+      
     }
 
     try {

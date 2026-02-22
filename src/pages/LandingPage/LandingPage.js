@@ -126,46 +126,53 @@ const LandingPage = () => {
                     <SectionTitle>사용 방법</SectionTitle>
                     <SectionSubTitle>4단계로 만드는 우리방의 수면 규칙</SectionSubTitle>
 
-                    <StepBlock>
-                        <TextColumn>
-                            <StepText>
+                    <StepsGrid>
+                        <StepCard>
+                            <StepTextGroup>
                                 <StepNumber>1</StepNumber>
                                 <StepTitle>방 만들기</StepTitle>
                                 <StepDesc>룸메이트와 함께 사용할<br />방을 만드세요</StepDesc>
-                            </StepText>
-                            <StepText>
+                            </StepTextGroup>
+                            <StepImgWrapper $paddingTop="94px">
+                                <ExImg src={exampleImg1} alt="" />
+                            </StepImgWrapper>
+                        </StepCard>
+
+                        <StepCard>
+                            <StepTextGroup>
                                 <StepNumber>2</StepNumber>
                                 <StepTitle>테스트 진행</StepTitle>
                                 <StepDesc>룸메이트와 동시에 접속하여<br /> 실시간으로 기준을 맞춰가요</StepDesc>
-                            </StepText>
-                        </TextColumn>
-                        <ImageColumn>
-                            <ExImg1 src={exampleImg1} alt=""/>
-                            <ExImg2 src={exampleImg2} alt=""/>
-                        </ImageColumn>
-                    </StepBlock>
+                            </StepTextGroup>
+                            <StepImgWrapper $paddingTop="94px">
+                                <ExImg src={exampleImg2} alt="" />
+                            </StepImgWrapper>
+                        </StepCard>
 
-                    <StepBlock $reverse>
-                        <TextColumn>
-                            <StepText>
+                        <StepCard>
+                            <StepTextGroup>
                                 <StepNumber>3</StepNumber>
                                 <StepTitle>규칙 확정하기</StepTitle>
-                                <StepDesc>우리방의 성향을 통합한 <br />규칙을 확정한 후 리마인드해줘요</StepDesc>
-                            </StepText>
-                            <StepText>
+                                <StepDesc>우리방의 성향을 통합한 <br />규칙을 확정해요</StepDesc>
+                            </StepTextGroup>
+                            <StepImgWrapper $paddingTop="94px">
+                                <ExImg src={exampleImg3} alt="" />
+                            </StepImgWrapper>
+                        </StepCard>
+
+                        <StepCard>
+                            <StepTextGroup>
                                 <StepNumber>4</StepNumber>
                                 <StepTitle>알림 활용</StepTitle>
-                                <StepDesc>생활 중 이야기 하고 싶은 것이<br />있다면 잠깐만이 대신 전해줘요</StepDesc>
-                            </StepText>
-                        </TextColumn>
-                        <ImageColumn>
-                            <ExImg3 src={exampleImg3} alt=""/>
-                            <ExImg4 src={exampleImg4} alt=""/>
-                        </ImageColumn>
-                    </StepBlock>
+                                <StepDesc>생활 중 불편한 점은<br />잠깐만이 대신 전해줘요</StepDesc>
+                            </StepTextGroup>
+                            <StepImgWrapper $paddingTop="94px">
+                                <ExImg src={exampleImg4} alt="" />
+                            </StepImgWrapper>
+                        </StepCard>
+                    </StepsGrid>
                 </ThirdSection>
 
-                {/* 4️ 핵심 가치 구역*/}
                 <FourthSection>
                     <SectionTitle>핵심 가치</SectionTitle>
                     <SectionSubTitle>우리 서비스의 가치는 이러해요</SectionSubTitle>
@@ -476,130 +483,44 @@ const ThirdSection = styled.div`
     @media (max-width: 768px) { padding: 60px 20px; }
 `;
 
-const StepBlock = styled.div`
-    display: flex;
+const StepsGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 12px 16px;
+    margin-top: 64px;
 
-    flex-direction: ${props => props.$reverse ? 'row-reverse' : 'row'};
+    @media (max-width: 950px) {
+        grid-template-columns: 1fr; 
+    }
+`;
+
+const StepCard = styled.div`
+    background-color: #F8F8F8;
+    border-radius: 15px;
+    display: flex;
     justify-content: space-between;
-    
-    margin-top: 87px;
-    margin-bottom: 150px; 
-    gap: 52px;
-
-    @media (max-width: 950px) {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        margin-bottom: 80px;
-    }
-`;
-
-const TextColumn = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 115px;
-    width: 300px;
-
-    @media (max-width: 950px) {
-        gap: 50px;
-        width: 100%;
-        align-items: center;
-        margin-bottom: 40px;
-    }
-`;
-
-const ImageColumn = styled.div`
-    flex: 1;
-    position: relative; 
-    width: 100%;
-    min-height: 500px; 
-
-    @media (max-width: 1024px) {
-        transform: scale(0.8);
-        transform-origin: top center;
-        min-height: 400px;
-    }
-
-    @media (max-width: 950px) {
-        transform: scale(0.6);
-        min-height: 350px;
-        display: flex;
-        justify-content: center;
-    }
+    overflow: hidden;
+    min-height: 299px;
 
     @media (max-width: 768px) {
-        transform: scale(0.5); 
-        min-height: 250px;
+        flex-direction: column;
+        align-items: center;
     }
 `;
 
-const ExImg1 = styled.img`
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    width: 350px;
-    height: auto;
-    border-radius: 11px;
-
-    @media (max-width: 950px) { 
-        left: 50%; 
-        transform: translateX(-292px); 
-    }
-`;
-
-const ExImg2 = styled.img`
-    position: absolute;
-    top: 144px;
-    left: 312px;
-    z-index: 2;
-    width: 435px;
-    height: auto;
-    border-radius: 11px;
-
-    @media (max-width: 950px) { 
-        left: 50%; 
-        transform: translateX(-142px); 
-    }
-`;
-
-const ExImg3 = styled.img`
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    width: 290px;
-    height: auto;
-    border-radius: 11px;
-
-    @media (max-width: 950px) { 
-        left: 50%; 
-        transform: translateX(-291px); 
-    }
-`;
-
-const ExImg4 = styled.img`
-    position: absolute;
-    top: 176px;
-    left: 171px;
-    z-index: 2;
-    width: 482px;
-    height: auto;
-    border-radius: 11px;
-
-    @media (max-width: 950px) { 
-        left: 50%; 
-        transform: translateX(-191px); 
-    }
-`;
-
-const StepText = styled.div`
-    flex: 1;
+const StepTextGroup = styled.div`
     display: flex;
     flex-direction: column;
+    width: 45%;
+    padding-top: 27px;  
+    padding-left: 27px; 
 
-    @media (max-width: 950px) {
+    @media (max-width: 768px) {
+        width: 100%;
+        padding: 30px;
+        margin-right: 0;
         align-items: center;
+        text-align: center;
     }
 `;
 
@@ -636,6 +557,29 @@ const StepDesc = styled.p`
     line-height: 26px
     margin: 0;
     margin-top: 19px;
+`;
+
+const StepImgWrapper = styled.div`
+    width: 55%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding-right: 16px;
+    padding-top: ${props => props.$paddingTop || "0"};
+    
+    @media (max-width: 768px) {
+        width: 90%;
+        justify-content: center;
+        padding-top: 10px;
+    }
+`;
+
+const ExImg = styled.img`
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 `;
 
 
