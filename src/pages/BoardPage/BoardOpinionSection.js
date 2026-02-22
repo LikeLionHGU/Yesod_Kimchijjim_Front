@@ -274,7 +274,8 @@ const BoardCard = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  min-height: 520px;
+  height: 520px;
+  overflow: hidden;
 
   @media (max-width: 900px) {
     padding: 18px 18px;
@@ -329,7 +330,8 @@ const List = styled.div`
   flex-direction: column;
   gap: 12px;
   flex: 1;
-  overflow: auto;
+  overflow-y: auto; 
+  overflow-x: hidden;
   padding-right: 8px;
 
   &::-webkit-scrollbar {
@@ -398,8 +400,9 @@ const WriteTitle = styled.h3`
 const Tabs = styled.div`
   display: flex;
   gap: 16px;
-  border-bottom: 1px solid ${Colors.borderLine};
-  padding-bottom: 10px;
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 10px;
 `;
 
 
