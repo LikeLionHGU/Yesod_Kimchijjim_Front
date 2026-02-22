@@ -50,7 +50,7 @@ function MatchPage() {
           clearInterval(t);
           goNext();
         } else {
-          setWaitingMsg("다른 사람도 확인 중이에요... 모두 누르면 넘어가요.");
+          setWaitingMsg("모두가 누를 때까지 기다려 주세요!");
         }
       } catch (e) {
         clearInterval(t);

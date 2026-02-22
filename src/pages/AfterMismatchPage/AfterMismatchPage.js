@@ -260,19 +260,13 @@ const Hint = styled.div`
 
 
 const ConfirmButton = styled(Button)`
-  display: flex;
   width: 175px;
   height: 55px;
   padding: 12px 62px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
   border-radius: 11px;
 
-  background: ${({ $pressed }) =>
-    $pressed ? "#4A1FC6" : Colors.mainPurple};
-
-  &:hover:not(:disabled) {
-    background: #4A1FC6;
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 12px 0;
   }
 `;
