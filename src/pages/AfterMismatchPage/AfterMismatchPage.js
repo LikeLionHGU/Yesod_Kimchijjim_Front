@@ -167,7 +167,7 @@ function AfterMismatchPage() {
       <ButtonWrap>
         <ConfirmButton
           onClick={handleConfirm}
-          disabled={!ruleText || isLoading}
+          disabled={!ruleText || isLoading || hasPressed}
           $pressed={hasPressed}
         >
           {hasPressed ? "확인 완료!" : "확인했어요"}

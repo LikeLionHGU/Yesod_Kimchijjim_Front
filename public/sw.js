@@ -8,7 +8,7 @@ self.addEventListener("push", (event) => {
     data = { title: "YESOD", body: event.data.text() };
   }
 
-  const title = data.title || "YESOD";
+  const title = "🔔잠깐만에서 알람이 왔어요!";
   const options = {
     body: data.body || "",
     data: {

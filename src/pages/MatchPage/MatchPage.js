@@ -90,6 +90,7 @@ function MatchPage() {
   return (
     <Wrapper>
       <ProgressBar total={totalQuestions} current={nextIndex} />
+      <TopSpacer />
       <TopIcon src={check} alt="check" />
       <Title>모두의 답변이 일치해요</Title>
       <SubTitle>규칙은 모든 단계가 끝난 후 수정할 수 있어요</SubTitle>
@@ -126,18 +127,22 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 150px 0 170px;
+  padding: 80px 0 170px;
   box-sizing: border-box;
+`;
+
+const TopSpacer = styled.div`
+  height: 148px;
 `;
 
 const TopIcon = styled.img`
   width: 71px;
   height: 71px;
-  margin-bottom: 31px;
+  margin: 0;
 `;
 
 const Title = styled.h1`
-  margin: 0;
+  margin: 16px 0 0;
   font-size: 28px;
   color: ${Colors.black};
   text-align: center;

@@ -7,6 +7,8 @@ import exclamation_mark from "../../assets/exclamation_mark.svg";
 import { api } from "../../utils/api";
 import { QUESTION_DATA } from "../../constants/questions";
 import ProgressBar from "../../components/common/ProgressBar";
+import Button from "../../components/common/Button";
+
 
 function LeaderMismatchPage() {
   const navigate = useNavigate();
@@ -156,14 +158,15 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 
-  padding: 120px 0 170px;
+  padding: 80px 0 120px;
   box-sizing: border-box;
+  gap: 16px;
 `;
 
 const TopIcon = styled.img`
   width: 64px;
   height: 64px;
-  margin-bottom: 20px;
+  margin: 0px;
 `;
 
 const Title = styled.h1`
@@ -175,7 +178,7 @@ const Title = styled.h1`
 `;
 
 const SubTitle = styled.p`
-  margin: 12px 0 64px;
+  margin: 0 0 16px;
   font-size: 14px;
   color: ${Colors.fixGray};
   text-align: center;
@@ -253,7 +256,7 @@ const AnswerBox = styled.div`
 
 const GuideWrap = styled.div`
   width: min(746px, calc(100% - 40px));
-  margin-top: 24px;
+  margin-top: 16px;
 `;
 
 const GuideTitle = styled.div`
@@ -274,7 +277,7 @@ const GuideList = styled.ul`
 
 const InputCard = styled.div`
   width: min(746px, calc(100% - 40px));
-  margin-top: 24px;
+  margin-top: 16px;
   border-radius: 15px;
   background: ${Colors.white};
   box-shadow: 0 0 15px rgba(163, 163, 253, 0.3);
@@ -311,42 +314,17 @@ const RuleInput = styled.input`
   }
 `;
 
-
-const DoneButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+const DoneButton = styled(Button)`
   width: 175px;
   height: 55px;
-  padding: 12px 62px;
-  border: none;
+  padding: 0;
   border-radius: 12px;
-
-  background: ${Colors.mainPurple};
-  opacity: ${({ disabled }) => (disabled ? 0.3 : 1)};
-  color: ${Colors.white};
-
   font-weight: 800;
-  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  white-space: nowrap;
   margin-left: auto;
-
-  transition: background-color 0.15s ease, transform 0.05s ease, opacity 0.15s ease;
-
-  &:hover {
-    background-color: ${({ disabled }) =>
-      disabled ? Colors.mainPurple : Colors.hoverPurple};
-  }
-
-  &:active {
-    background-color: ${({ disabled }) =>
-      disabled ? Colors.mainPurple : Colors.hoverPurple};
-    transform: ${({ disabled }) => (disabled ? "none" : "scale(0.98)")};
-  }
 
   @media (max-width: 520px) {
     width: 100%;
     margin-left: 0;
   }
 `;
+
