@@ -143,10 +143,12 @@ const TopIcon = styled.img`
 
 const Title = styled.h1`
   margin: 16px 0 0;
-  font-size: 28px;
+  font-size: 30px;
   color: ${Colors.black};
   text-align: center;
-  font-weight: 800;
+  font-weight: 700;
+  line-height: 30px;
+  font-style: normal;
 `;
 
 
@@ -154,7 +156,9 @@ const SubTitle = styled.p`
   margin: 10px 0 36px;
   color: ${Colors.fixGray};
   text-align: center;
-  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
 `;
 
 const RuleList = styled.div`

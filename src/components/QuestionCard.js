@@ -41,10 +41,9 @@ export default QuestionCard;
 
 const Card = styled.div`
   width: min(936px, calc(100% - 40px));
-  min-height: 588px;
   background: ${Colors.white};
   border-radius: 15px;
-  padding: 40px 48px 48px;
+  padding: 40px 48px 32px;
   margin-top: 0;
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
 
