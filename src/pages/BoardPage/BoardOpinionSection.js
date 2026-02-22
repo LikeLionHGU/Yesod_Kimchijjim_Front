@@ -1,9 +1,10 @@
 
-
 import { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import { api } from "../../utils/api";
+
+const CARD_HEIGHT = 520;
 
 const TABS = {
   RECOMMEND: "RECOMMEND",
@@ -274,12 +275,12 @@ const BoardCard = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  height: 520px;
+  height: ${CARD_HEIGHT}px;
   overflow: hidden;
 
   @media (max-width: 900px) {
     padding: 18px 18px;
-    min-height: 380px;
+    height: 380px;
   }
 `;
 
@@ -290,14 +291,15 @@ const WriteCard = styled.div`
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
   padding: 26px 26px;
   box-sizing: border-box;
-  border: 1px solid ${Colors.mainPurple};
+  border: 2px solid ${Colors.mainPurple};
   display: flex;
   flex-direction: column;
-  min-height: 520px;
+  height: ${CARD_HEIGHT}px;
+  overflow: hidden;
 
   @media (max-width: 900px) {
     padding: 18px 18px;
-    min-height: 420px;
+    height: 420px;
   }
 `;
 
@@ -330,7 +332,7 @@ const List = styled.div`
   flex-direction: column;
   gap: 12px;
   flex: 1;
-  overflow-y: auto; 
+  overflow-y: auto;
   overflow-x: hidden;
   padding-right: 8px;
 
@@ -405,7 +407,6 @@ const Tabs = styled.div`
   margin-bottom: 10px;
 `;
 
-
 const TabBtn = styled.button`
   border: none;
   background: transparent;
@@ -418,9 +419,6 @@ const TabBtn = styled.button`
 
   &:hover {
     color: ${Colors.mainPurple};
-  }
-
-  &:hover {
     border-bottom: 2px solid ${Colors.mainPurple};
   }
 
@@ -433,6 +431,9 @@ const TabBtn = styled.button`
 const WriteBody = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 `;
 
 const BlockTitle = styled.div`
@@ -453,29 +454,19 @@ const TopicIcon = styled.span`
   font-size: 14px;
 `;
 
-
 const TopicBtn = styled.button`
   height: 56px;
   border-radius: 14px;
-
-
-  border: 2px solid
-    ${({ $active }) => ($active ? Colors.mainPurple : "transparent")};
-
-  background: ${({ $active }) =>
-    $active ? "rgba(101, 63, 210, 0.10)" : Colors.fixWhite};
-
+  border: 2px solid ${({ $active }) => ($active ? Colors.mainPurple : "transparent")};
+  background: ${({ $active }) => ($active ? "rgba(101, 63, 210, 0.10)" : Colors.fixWhite)};
   cursor: pointer;
   font-weight: 500;
   font-size: 15px;
   color: ${({ $active }) => ($active ? Colors.mainPurple : Colors.fixGray)};
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-
-
   box-sizing: border-box;
 
   &:hover {
@@ -490,6 +481,7 @@ const TopicBtn = styled.button`
     border-color: ${Colors.mainPurple};
   }
 `;
+
 const RecommendList = styled.div`
   margin-top: 10px;
   display: flex;
@@ -497,26 +489,17 @@ const RecommendList = styled.div`
   gap: 10px;
 `;
 
-
 const RecommendBtn = styled.button`
   height: 56px;
   border-radius: 14px;
-
-
-  border: 2px solid
-    ${({ $active }) => ($active ? Colors.mainPurple : "transparent")};
-
-  background: ${({ $active }) =>
-    $active ? "rgba(101, 63, 210, 0.10)" : Colors.fixWhite};
-
+  border: 2px solid ${({ $active }) => ($active ? Colors.mainPurple : "transparent")};
+  background: ${({ $active }) => ($active ? "rgba(101, 63, 210, 0.10)" : Colors.fixWhite)};
   cursor: pointer;
   font-weight: 500;
   font-size: 15px;
   color: ${({ $active }) => ($active ? Colors.mainPurple : Colors.fixGray)};
-
   text-align: left;
   padding: 0 18px;
-
   box-sizing: border-box;
 
   &:hover {
@@ -525,7 +508,6 @@ const RecommendBtn = styled.button`
   &:active {
     opacity: 0.7;
   }
-
 
   &:focus-visible {
     outline: none;
@@ -535,10 +517,11 @@ const RecommendBtn = styled.button`
 
 const DirectInput = styled.textarea`
   margin-top: 10px;
-  min-height: 120px;
+  flex: 1;
+  min-height: 0;
 
   border-radius: 12px;
-  border: 1px solid transparent;  
+  border: 2px solid transparent;
   outline: none;
 
   padding: 12px 12px;
@@ -548,19 +531,17 @@ const DirectInput = styled.textarea`
   background: ${Colors.fixWhite};
   line-height: 1.5;
 
-
   &:hover {
-    border: 1px solid ${Colors.mainPurple};
+    border: 2px solid ${Colors.mainPurple};
   }
 
-
   &:focus {
-    border: 1px solid ${Colors.mainPurple};
+    border: 2px solid ${Colors.mainPurple};
   }
 `;
 
 const SendWrap = styled.div`
-  margin-top: 18px;
+  margin-top: auto;
   display: flex;
   justify-content: flex-end;
 
@@ -569,9 +550,8 @@ const SendWrap = styled.div`
   }
 `;
 
-
 const SendBtn = styled.button`
-  height: 56px;                
+  height: 56px;
   width: 175px;
   padding: 0 28px;
   border-radius: 14px;
@@ -580,18 +560,18 @@ const SendBtn = styled.button`
   font-weight: 800;
   font-size: 15px;
   color: ${Colors.white};
-  background: ${Colors.mainPurple}; 
+  background: ${Colors.mainPurple};
 
   &:hover:not(:disabled) {
-    background: #4A1FC6;        
+    background: #4a1fc6;
   }
 
   &:active:not(:disabled) {
-    background: #4A1FC6;        
+    background: #4a1fc6;
   }
 
   &:disabled {
-    background: rgba(101, 63, 210, 0.3); 
+    background: rgba(101, 63, 210, 0.3);
     cursor: not-allowed;
   }
 
