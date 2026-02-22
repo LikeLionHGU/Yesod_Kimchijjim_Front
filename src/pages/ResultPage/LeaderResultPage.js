@@ -342,10 +342,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 90px 0 80px;
+  padding: 50px 0 80px;
 
   @media (max-width: 780px) {
-    padding: 72px 0 64px;
+    padding: 50px 0 64px;
   }
 `;
 
@@ -369,8 +369,8 @@ const IconWrap = styled.div`
   margin-bottom: 10px;
 
   img {
-    width: 52px;
-    height: 52px;
+    width: 60px;
+    height: 60px;
     display: block;
   }
 `;
@@ -398,6 +398,7 @@ const SubTitle = styled.p`
 
   @media (max-width: 780px) {
     margin: 10px 0 20px;
+    font-size: 15px;
   }
 `;
 
@@ -405,8 +406,8 @@ const Card = styled.div`
   width: 746px;
   border-radius: 18px;
   background: ${Colors.white};
-  box-shadow: 0 10px 28px ${Colors.boxShadowPurple};
-  padding: 28px;
+  box-shadow: 0 0 20px ${Colors.boxShadowPurple};
+  padding: 40px 90px;
   box-sizing: border-box;
 
   @media (max-width: 780px) {
@@ -431,7 +432,7 @@ const CardHeaderLeft = styled.div`
 `;
 
 const CardTitle = styled.div`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   color: ${Colors.black};
 `;
@@ -450,8 +451,8 @@ const RuleList = styled.div`
 const RuleItem = styled.div`
   width: 100%;
   border-radius: 16px;
-  background: ${Colors.fixWhite};
-  box-shadow: 0 8px 18px rgba(163, 163, 253, 0.18);
+  background: ${Colors.white};
+  box-shadow: 0 0 10px ${Colors.boxShadowBlack};
   padding: 16px 18px;
   box-sizing: border-box;
   display: flex;
@@ -483,7 +484,7 @@ const Pill = styled.div`
 `;
 
 const RuleText = styled.div`
-  font-size: 20px;
+  font-size: 17px;
   font-style: normal;
   font-weight: 500;
   line-height: 30px;
