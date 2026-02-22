@@ -198,15 +198,20 @@ const StampWrap = styled.div`
 
 const Title = styled.h1`
   margin: 0;
-  font-size: 28px;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px;
   color: ${Colors.black};
-  font-weight: 800;
 `;
 
 const SubTitle = styled.p`
   margin: 12px 0 24px;
   color: ${Colors.fixGray};
-  font-size: 14px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px;
 `;
 
 const CaptureCard = styled.div`
@@ -295,6 +300,8 @@ const Pill = styled.div`
   padding: 6px 12px;
   border-radius: 999px;
   font-size: 12px;
+  font-style: normal;
+  line-height: 12px;
   color: ${Colors.white};
   background: ${Colors.secondPurple};
   white-space: nowrap;
@@ -303,7 +310,10 @@ const Pill = styled.div`
 
 const RuleText = styled.div`
   flex: 1;
-  font-size: 16px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px;
   color: ${Colors.black};
   word-break: break-word;
   line-height: 1.35;

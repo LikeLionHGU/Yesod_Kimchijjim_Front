@@ -188,6 +188,9 @@ const Tag = styled.div`
   padding: 6px 12px;
   border-radius: 999px;
   font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px;
   color: ${Colors.white};
   background: ${Colors.secondPurple};
   display: inline-flex;
@@ -197,9 +200,11 @@ const Tag = styled.div`
 
 const RuleText = styled.div`
   width: 100%;
-  font-size: 16px;
   color: ${Colors.black};
-  line-height: 1.4;
+  line-height: 30px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
   word-break: keep-all;
 `;
 

@@ -230,8 +230,9 @@ const RuleCard = styled.div`
   background: ${Colors.white};
   box-shadow: 0 8px 24px ${Colors.boxShadowPurple};
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
   padding: 24px;
   box-sizing: border-box;
 `;
@@ -240,14 +241,20 @@ const Tag = styled.div`
   padding: 6px 12px;
   border-radius: 999px;
   font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px;
   color: ${Colors.white};
   background: ${Colors.secondPurple};
   white-space: nowrap;
 `;
 
 const RuleText = styled.div`
-  flex: 1;
-  font-size: 16px;
+  width: 100%;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px;
   color: ${Colors.black};
 `;
 

@@ -377,9 +377,11 @@ const IconWrap = styled.div`
 
 const Title = styled.h1`
   margin: 0;
-  font-size: 28px;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px;
   color: ${Colors.black};
-  font-weight: 800;
 
   @media (max-width: 780px) {
     font-size: 24px;
@@ -389,7 +391,10 @@ const Title = styled.h1`
 const SubTitle = styled.p`
   margin: 12px 0 24px;
   color: ${Colors.fixGray};
-  font-size: 14px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px;
 
   @media (max-width: 780px) {
     margin: 10px 0 20px;
@@ -469,13 +474,19 @@ const Pill = styled.div`
   padding: 6px 12px;
   border-radius: 999px;
   font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px;
   color: ${Colors.white};
   background: ${Colors.secondPurple};
   white-space: nowrap;
 `;
 
 const RuleText = styled.div`
-  font-size: 16px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px;
   color: ${Colors.black};
   line-height: 1.35;
 
@@ -594,13 +605,16 @@ const AddInputRow = styled.div`
 
 const AddInput = styled.input`
   flex: 1;
+  width: 100%;
   height: 48px;
+  min-height: 48px;
   border: none;
   outline: none;
   background: ${Colors.white};
   border-radius: 12px;
   padding: 0 14px;
   box-shadow: inset 0 0 0 1px ${Colors.inputColor};
+  box-sizing: border-box;
 
   opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
 `;

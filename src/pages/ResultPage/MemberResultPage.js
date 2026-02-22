@@ -239,13 +239,19 @@ const Pill = styled.div`
   padding: 6px 12px;
   border-radius: 999px;
   font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px;
   color: ${Colors.white};
   background: ${Colors.secondPurple};
   white-space: nowrap;
 `;
 
 const RuleText = styled.div`
-  font-size: 16px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px;
   color: ${Colors.black};
   line-height: 1.35;
 
