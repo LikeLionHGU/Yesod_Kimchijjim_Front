@@ -2,6 +2,7 @@
 import styled from "styled-components";
 import { Colors } from "../../styles/colors";
 import WhiteLogoIcon from "../../assets/whiteLogoIcon.svg";
+import LikelionLogoIcon from "../../assets/RGB_LIKELION_UNIV_KR.svg";
 //로고 아이콘 추가하기
 
 function Footer () {
@@ -9,12 +10,16 @@ function Footer () {
         <FooterContainer>
             <FooterContent>
                 <LeftSection>
-                    <Logo src={WhiteLogoIcon} />
+                    <LogoRow>
+                    <Logo src={WhiteLogoIcon} alt="잠깐만 로고"/>
+                    <LikelionLogo src={LikelionLogoIcon} alt="멋사 한동대 로고" />
+                    </LogoRow>
                     <Slogan>서로 다른 수면 성향 간 합의를 돕는 룸메이트 수면 소통 플랫폼</Slogan>
                     <Description>
                         잠깐만, 우리 잠 얘기부터 해볼까?<br />
                         잠깐만은 말로 꺼내기 어려웠던 수면 기준을 대신 전해주고,<br />
-                        서로 편안한 밤을 보낼 수 있도록 돕는 룸메이트 수면 합의 서비스입니다.
+                        서로 편안한 밤을 보낼 수 있도록 돕는 룸메이트 수면 합의 서비스입니다.<br /><br />
+                        이 프로젝트는 멋쟁이사자처럼 한동대학교 소속 학생들의 아이디어로 시작되었습니다.
                     </Description>
                 </LeftSection>
 
@@ -23,7 +28,7 @@ function Footer () {
                         <tbody>
                             <tr>
                                 <th style={{ fontSize: 11, fontWeight: 700, paddingBottom: 18.5 }}>Team</th>
-                                <td style={{paddingBottom: 18.5}}>예소드김치찜</td>
+                                <td style={{paddingBottom: 18.5}}>예소드김치찜<br />멋쟁이사자처럼 한동대학교</td>
                             </tr>
                             <tr>
                                 <th>Planner</th>
@@ -43,7 +48,13 @@ function Footer () {
                             </tr>
                         </tbody>
                     </TeamTable>
+                    <BottomInfo>
                     <Detail>© 2026 zzamkanman. All rights reserved.</Detail>
+                    <Contact>
+                    CONTACT · 010-9743-4010<br />
+                    EMAIL · 22300811@handong.ac.kr
+                    </Contact>
+                    </BottomInfo>
                 </RightSection>
             </FooterContent>
         </FooterContainer>
@@ -86,8 +97,21 @@ const LeftSection = styled.div`
 `;
 
 const Logo = styled.img`
-    width: 235px;
+    width: 200px;
+    // margin-bottom: 25px;
+`;
+
+const LogoRow = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 30px;
     margin-bottom: 25px;
+    flex-wrap: wrap;
+`;
+
+const LikelionLogo = styled.img`
+    height: 55px;
+    width: auto;
 `;
 
 const Slogan = styled.p`
@@ -109,6 +133,12 @@ const Description = styled.p`
     line-height: 17px;
 `;
 
+const BottomInfo = styled.div`
+  margin-top: 27px;
+  display: inline-block;
+  text-align: left;
+`;
+
 const Detail = styled.p`
     color: ${Colors.borderLine};
     font-family: ${Colors.font};
@@ -116,7 +146,18 @@ const Detail = styled.p`
     font-style: normal;
     font-weight: 500;
     line-height: 17px;
-    margin-top: 27px;
+    margin-top: 15px;
+`;
+
+const Contact = styled.p`
+  color: ${Colors.borderLine};
+  font-family: ${Colors.font};
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 17px;
+  margin-top: 6px;
+
 `;
 
 const RightSection = styled.div`
