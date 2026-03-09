@@ -9,6 +9,9 @@ import axios from "axios";
 
 import ScrollTop from "./components/common/ScrollTop";
 
+// vercel analytics
+import { Analytics } from "@vercel/analytics/react";
+
 //헤더 푸터
 import Header from "./pages/HeaderPage/HeaderPage";
 import Footer from "./pages/FooterPage/FooterPage";
@@ -108,6 +111,7 @@ function App() {
         </Routes>
 
         <Footer/>
+        <Analytics />
         
       </BrowserRouter>
     </RoomProvider>
