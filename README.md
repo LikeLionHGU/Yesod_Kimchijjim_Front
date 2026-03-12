@@ -3,6 +3,7 @@
 <span align="center"> <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white"> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"> <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> </span>
 
 >**서로 다른 수면 성향 간 합의를 돕는 룸메이트 수면 소통 플랫폼**
+>**배포 URL : www.yesodkimchijjim.shop**
 
 
 <img width="2560" height="1440" alt="" src="https://github.com/LikeLionHGU/Yesod_Kimchijjim_Front/blob/main/src/githubImg/img0.svg" />
